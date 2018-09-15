@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRequestExpressAPI", "SignRequestExpressAPI\SignRequestExpressAPI.csproj", "{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignRequestExpressAPI", "SignRequestExpressAPI\SignRequestExpressAPI.csproj", "{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C0886ABE-F67A-4B4B-862B-DD3AD7F283F5}"
+	ProjectSection(SolutionItems) = preProject
+		HeaderComment.txt = HeaderComment.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

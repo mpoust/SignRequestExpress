@@ -1,0 +1,9 @@
+﻿Structure of this project was created using guidance provided from the lynda.com class
+"Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
+ 
+ Other references are cited within the files they are used. 
+
+ -------------------------------------------------------------------------------------------------------------
+
+ SignRequestExpressAPI has HTTPS enforced for transport layer security. HTTP requests will automatically
+ be redirected to HTTPS. This is accomplished in Startup.cs within ConfigureServices.
