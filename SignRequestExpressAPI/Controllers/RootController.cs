@@ -36,7 +36,7 @@ namespace SignRequestExpressAPI.Controllers
             {
                 Self = Link.To(nameof(GetRoot)),
                 Info = Link.To(nameof(InfoController.GetInfo)),
-                Accounts = Link.To(nameof(AccountsController.GetAccounts))           
+                Accounts = Link.To(nameof(AccountsController.GetAccountsAsync))           
             };
 
             return Ok(response);

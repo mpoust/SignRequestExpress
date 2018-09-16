@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Models;
 
@@ -41,6 +42,14 @@ namespace SignRequestExpressAPI.Services
             if (entity == null) return null;
             // if found, map entity properties into the account resource
             return Mapper.Map<Account>(entity);
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsAsync(CancellationToken ct)
+        {
+            var query = _context.Account
+                .ProjectTo<Account>();
+
+            return await query.ToArrayAsync();
         }
     }
 }

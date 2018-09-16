@@ -42,10 +42,20 @@ namespace SignRequestExpressAPI.Controllers
             _accountService = accountService;
         }
 
-        [HttpGet(Name = nameof(GetAccounts))]
-        public IActionResult GetAccounts()
+        [HttpGet(Name = nameof(GetAccountsAsync))]
+        public async Task<IActionResult> GetAccountsAsync(CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var accounts = await _accountService.GetAccountsAsync(ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetAccountsAsync));
+
+            var collection = new Collection<Account>
+            {
+                Self = collectionLink,
+                Value = accounts.ToArray()
+            };
+
+            return Ok(collection);
         }
 
         // /accounts/{accountId}

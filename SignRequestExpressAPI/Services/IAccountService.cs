@@ -31,5 +31,8 @@ namespace SignRequestExpressAPI.Services
         Task<Account> GetAccountAsync(
             Guid id,
             CancellationToken ct);
+
+        Task<IEnumerable<Account>> GetAccountsAsync(
+            CancellationToken ct);
     }
 }
