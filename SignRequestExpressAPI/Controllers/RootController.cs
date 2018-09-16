@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/16/2018
  * Description: Serves as the starting point of the API. Controller uses route attributes to tell the routing system which routes to handle.
  * 
  * References:  
@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using Microsoft.AspNetCore.Mvc;
+using SignRequestExpressAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,11 @@ namespace SignRequestExpressAPI.Controllers
         [HttpGet(Name = nameof(GetRoot))]
         public IActionResult GetRoot()
         {
-            var response = new
+            var response = new RootResponse
             {
-                href = Url.Link(nameof(GetRoot), null),
-                info = new { href = Url.Link(nameof(InfoController.GetInfo), null) },
-                accounts = new { href = Url.Link(nameof(AccountsController.GetAccounts), null) }               
+                Self = Link.To(nameof(GetRoot)),
+                Info = Link.To(nameof(InfoController.GetInfo)),
+                Accounts = Link.To(nameof(AccountsController.GetAccounts))           
             };
 
             return Ok(response);

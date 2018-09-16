@@ -27,8 +27,8 @@ namespace SignRequestExpressAPI.Entities
 {
     public class AccountEntity
     {
-        [Required]
-        public Guid AccountId { get; set; }
+        //[Required]
+        public Guid Id { get; set; }
 
         public string AccountName { get; set; }
 
@@ -40,8 +40,8 @@ namespace SignRequestExpressAPI.Entities
 
         public Guid AssociateFK { get; set; }
 
-        public Guid AccountContactFK { get; set; }
+        public int AccountContactFK { get; set; }
 
-        public DateTime ModifiedDT { get; set; }
+        public DateTime ModifiedDateTime { get; set; }
     }
 }

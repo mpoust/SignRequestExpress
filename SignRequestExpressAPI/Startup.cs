@@ -35,6 +35,8 @@ using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Filters;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Entities;
+using SignRequestExpressAPI.Services;
+using AutoMapper;
 
 namespace SignRequestExpressAPI
 {
@@ -56,13 +58,26 @@ namespace SignRequestExpressAPI
         {
             // Connecting to database.
             // TODO: Figure out how to connect to real database vs. in-memory
-            services.AddDbContext<SignAPIContext>(opt => opt.UseInMemoryDatabase("SRETestDB"));
+            // services.AddDbContext<SignAPIContext>(opt => opt.UseInMemoryDatabase("SRETestDB"));
+
+            // Connecting to database.
+            // TODO: Move connection string to configuration file
+            var connection = @"Server=tcp:sign-request-express.database.windows.net,1433;" +
+                                "Initial Catalog=SRE-DB;Persist Security Info=False;" +
+                                "User ID=mbp3;Password=Mbp934440343;MultipleActiveResultSets=False;" +
+                                "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
+
+            // Set up AutoMapper
+            services.AddAutoMapper();
 
             // Add framework services. 
             services.AddMvc(opt =>
             {
                 // Use created exception filter to serialize unhandled exceptions as JSON objects
                 opt.Filters.Add(typeof(JsonExceptionFilter));
+                // Use created result filter to rewrite links before they are sent as a response
+                opt.Filters.Add(typeof(LinkRewritingFilter));
 
                 // Update the media type to application/ion+json
                 var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single(); // current formatter
@@ -85,6 +100,9 @@ namespace SignRequestExpressAPI
             // Gets static information in appsettings.json for the company and create new instance of CompanyInfo with those values
             //  then wraps in an interface called IOptions and puts that into the service container.
             services.Configure<CompanyInfo>(Configuration.GetSection("Info"));
+
+            // Adding Service Interfaces so Default service is selected
+            services.AddScoped<IAccountService, DefaultAccountService>();
         }
 
         // This method gets called by the runtime. Order matters - Use this method to configure the HTTP request pipeline.
@@ -97,11 +115,13 @@ namespace SignRequestExpressAPI
 
             // Add some test data in development -- goes with services.AddDbContext above
             // TODO: connect to real database and gather data that way
+            /*
             if (env.IsDevelopment())
             {
                 var context = app.ApplicationServices.GetRequiredService<SignAPIContext>();
                 AddTestData(context);
             }
+            */
 
             // New way to require https redirection
             app.UseHttpsRedirection();
@@ -115,36 +135,5 @@ namespace SignRequestExpressAPI
             });
             app.UseMvc();
         }
-
-        // Test data for development
-        private static void AddTestData(SignAPIContext context)
-        {
-            context.Accounts.Add(new AccountEntity
-            {
-                AccountId = Guid.Parse("c529978c-daea-4ed8-a878-d11fda65085a"),
-                AccountName = "Brickyard",
-                AddedDate = new DateTime(2018,09,15),
-                LogoURI = null,
-                WebsiteURL = "http://thebrickyard.net/",
-                AssociateFK = Guid.Parse("0be59332-bd8f-484d-9f35-0dc17850d23b"), // Nick
-                AccountContactFK = Guid.Parse("7689db5d-bfe9-44b6-b39c-c223aeeb15b2"),
-                ModifiedDT = new DateTime(2018,09,15,20,18,00)
-            });
-
-            context.Accounts.Add(new AccountEntity
-            {
-                AccountId = Guid.Parse("739133c4-62f6-4693-ac38-d6de239a3745"),
-                AccountName = "Hotel Harrington",
-                AddedDate = new DateTime(2018, 09, 15),
-                LogoURI = null,
-                WebsiteURL = "http://www.hotelharringtonpa.com/",
-                AssociateFK = Guid.Parse("333e926a-9c93-43f5-a674-fc792de1a499"), // Wyatt
-                AccountContactFK = Guid.Parse("719a33c3-58e8-439b-9d97-52f4775aa14f"),
-                ModifiedDT = new DateTime(2018, 09, 15, 23, 25, 00)
-            });
-
-            context.SaveChanges();
-        }
-
     }
 }

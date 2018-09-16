@@ -17,6 +17,6 @@ namespace SignRequestExpressAPI.Models
 
         public Guid AssociateFK { get; set; }
 
-        public Guid AccountContactFK { get; set; }
+        public int AccountContactFK { get; set; }
     }
 }
