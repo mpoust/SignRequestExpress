@@ -31,14 +31,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Filters;
+using SignRequestExpressAPI.Models;
+using SignRequestExpressAPI.Entities;
 
 namespace SignRequestExpressAPI
 {
     public class Startup
     {
-        private readonly int? _httpsPort; // Development only
-
         /* Configuration changes 
          * in Startup.cs and Program.cs
          * https://joonasw.net/view/aspnet-core-2-configuration-changes
@@ -53,6 +54,10 @@ namespace SignRequestExpressAPI
         // This method gets called by the runtime. Order doesnt matter - Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Connecting to database.
+            // TODO: Figure out how to connect to real database vs. in-memory
+            services.AddDbContext<SignAPIContext>(opt => opt.UseInMemoryDatabase("SRETestDB"));
+
             // Add framework services. 
             services.AddMvc(opt =>
             {
@@ -77,12 +82,9 @@ namespace SignRequestExpressAPI
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt); // will use highest version of route if none is requested
             });
 
-            // HTTPS redirect
-            //services.AddHttpsRedirection(opt =>
-            //{
-            //    opt.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
-            //    opt.HttpsPort = 44355;
-            //});
+            // Gets static information in appsettings.json for the company and create new instance of CompanyInfo with those values
+            //  then wraps in an interface called IOptions and puts that into the service container.
+            services.Configure<CompanyInfo>(Configuration.GetSection("Info"));
         }
 
         // This method gets called by the runtime. Order matters - Use this method to configure the HTTP request pipeline.
@@ -93,10 +95,56 @@ namespace SignRequestExpressAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            // Add some test data in development -- goes with services.AddDbContext above
+            // TODO: connect to real database and gather data that way
+            if (env.IsDevelopment())
+            {
+                var context = app.ApplicationServices.GetRequiredService<SignAPIContext>();
+                AddTestData(context);
+            }
+
             // New way to require https redirection
             app.UseHttpsRedirection();
 
+            // Add the HSTS header - for supported browsers this won't even allow an attempt to connect over plain HTTP
+            app.UseHsts(opt =>
+            {
+                opt.MaxAge(days: 360);
+                opt.IncludeSubdomains();
+                opt.Preload();
+            });
             app.UseMvc();
         }
+
+        // Test data for development
+        private static void AddTestData(SignAPIContext context)
+        {
+            context.Accounts.Add(new AccountEntity
+            {
+                AccountId = Guid.Parse("c529978c-daea-4ed8-a878-d11fda65085a"),
+                AccountName = "Brickyard",
+                AddedDate = new DateTime(2018,09,15),
+                LogoURI = null,
+                WebsiteURL = "http://thebrickyard.net/",
+                AssociateFK = Guid.Parse("0be59332-bd8f-484d-9f35-0dc17850d23b"), // Nick
+                AccountContactFK = Guid.Parse("7689db5d-bfe9-44b6-b39c-c223aeeb15b2"),
+                ModifiedDT = new DateTime(2018,09,15,20,18,00)
+            });
+
+            context.Accounts.Add(new AccountEntity
+            {
+                AccountId = Guid.Parse("739133c4-62f6-4693-ac38-d6de239a3745"),
+                AccountName = "Hotel Harrington",
+                AddedDate = new DateTime(2018, 09, 15),
+                LogoURI = null,
+                WebsiteURL = "http://www.hotelharringtonpa.com/",
+                AssociateFK = Guid.Parse("333e926a-9c93-43f5-a674-fc792de1a499"), // Wyatt
+                AccountContactFK = Guid.Parse("719a33c3-58e8-439b-9d97-52f4775aa14f"),
+                ModifiedDT = new DateTime(2018, 09, 15, 23, 25, 00)
+            });
+
+            context.SaveChanges();
+        }
+
     }
 }

@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: AccountsController.cs
+ * FileName: UserEntity.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 
- * Description: 
+ * Last Modified:
+ * Description: This is an entity that models an object from the User table from the database.
  * 
  * References:
  *   
@@ -15,23 +15,27 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Controllers
+namespace SignRequestExpressAPI.Entities
 {
-    // "/accounts"
-    [Route("/[controller]")]
-    [ApiVersion("1.0")]
-    public class AccountsController : Controller
+    public class UserEntity
     {
-        [HttpGet(Name = nameof(GetAccounts))]
-        public IActionResult GetAccounts()
-        {
-            throw new NotImplementedException();
-        }
+        public Guid Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string PhoneNum { get; set; }
+
+        public string Email { get; set; }
+
+        public bool IsEmailPreferred { get; set; }
+
+        public DateTime ModifiedDT { get; set; }
     }
 }

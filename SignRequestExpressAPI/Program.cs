@@ -46,7 +46,6 @@ namespace SignRequestExpressAPI
          */
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseSetting("https_port", "44355")
                 .UseStartup<Startup>();
     }
 }

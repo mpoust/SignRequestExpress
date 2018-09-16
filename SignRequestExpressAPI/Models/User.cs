@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: AccountsController.cs
+ * FileName: User.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 
- * Description: 
+ * Last Modified:
+ * Description: Resource the API will return to the client - corresponding with UserEntity.cs
  * 
  * References:
  *   
@@ -15,23 +15,22 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Controllers
+namespace SignRequestExpressAPI.Models
 {
-    // "/accounts"
-    [Route("/[controller]")]
-    [ApiVersion("1.0")]
-    public class AccountsController : Controller
+    public class User : Resource
     {
-        [HttpGet(Name = nameof(GetAccounts))]
-        public IActionResult GetAccounts()
-        {
-            throw new NotImplementedException();
-        }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string PhoneNum { get; set; }
+
+        public string Email { get; set; }
+
     }
 }

@@ -34,9 +34,9 @@ namespace SignRequestExpressAPI.Controllers
             var response = new
             {
                 href = Url.Link(nameof(GetRoot), null),
-                accounts = new { href = Url.Link(nameof(AccountsController.GetAccounts), null) }
+                info = new { href = Url.Link(nameof(InfoController.GetInfo), null) },
+                accounts = new { href = Url.Link(nameof(AccountsController.GetAccounts), null) }               
             };
-
 
             return Ok(response);
         }
