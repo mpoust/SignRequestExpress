@@ -40,7 +40,7 @@ namespace SignRequestExpressAPI.Controllers
             _accountContactService = accountContactService;
         }
 
-        [HttpGet(Name =nameof(GetAccountContactsAsync))]
+        [HttpGet(Name = nameof(GetAccountContactsAsync))]
         public async Task<IActionResult> GetAccountContactsAsync(CancellationToken ct)
         {
             var accountContacts = await _accountContactService.GetAccountContactsAsync(ct);
@@ -56,7 +56,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(collection);
         }
 
-        [HttpGet]
+        [HttpGet("{accountContactId}", Name = nameof(GetAccountContactByIdAsync))]
         public async Task<IActionResult> GetAccountContactByIdAsync(int accountContactId, CancellationToken ct)
         {
             var accountContact = await _accountContactService.GetAccountContactAsync(accountContactId, ct);

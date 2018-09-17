@@ -34,6 +34,7 @@ namespace SignRequestExpressAPI.Infrastructure
             Mapper.Initialize(cfg => {
                 cfg.CreateMap<AccountEntity, Account>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.AccountsController.GetAccountByIdAsync), new { accountId = src.Id })));
+
                 cfg.CreateMap<AccountContactEntity, AccountContact>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.AccountContactsController.GetAccountContactByIdAsync), new { accountContactId = src.Id })));
             });
