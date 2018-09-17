@@ -2,13 +2,13 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: AccountEntity.cs
+ * FileName: AccountContactEntity.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/15/2018
+ * Created On: 9/16/2018
  * Last Modified:
- * Description: This is an entity that models an object from the Account table from the database. Account here is the bars/taverns/distributors
- *  that Sales sells the beer to. UserAccount is the model for usernames/logins/etc.
+ * Description: This is an entity that models an object from the AccountContact table from the database. Account here is the 
+ *  bars/taverns/distributors that Sales sells the beer to. UserAccount is the model for usernames/logins/etc.
  * 
  * References:
  *   
@@ -16,31 +16,26 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Entities
 {
-    public class AccountEntity
+    public class AccountContactEntity
     {
-        [Required]
-        public Guid Id { get; set; }
-
-        public string AccountName { get; set; }
+        public int Id { get; set; }
 
         public DateTime AddedDate { get; set; }
 
-        public string LogoURI { get; set; }
+        public string FirstName { get; set; }
 
-        public string WebsiteURL { get; set; }
+        public string LastName { get; set; }
 
-        public Guid AssociateFK { get; set; }
+        public string PhoneNum { get; set; }
 
-        public int AccountContactFK { get; set; }
+        public string Email { get; set; }
 
         public DateTime ModifiedDateTime { get; set; }
     }

@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: Account.cs
+ * FileName: AccountContact.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/15/2018
+ * Created On: 9/16/2018
  * Last Modified:
- * Description: This the Account resource that maps to the AccountEntity.
+ * Description: This the AccountContact resource that maps to the AccountEntity.
  * 
  * References:
  *   
@@ -22,18 +22,16 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Models
 {
-    public class Account : Resource
+    public class AccountContact : Resource
     {
-        public string AccountName { get; set; }
-
         public DateTime AddedDate { get; set; }
 
-        public string LogoURI { get; set; }
+        public string FirstName { get; set; }
 
-        public string WebsiteURL { get; set; }
+        public string LastName { get; set; }
 
-        public Guid AssociateFK { get; set; }
+        public string PhoneNum { get; set; }
 
-        public int AccountContactFK { get; set; }
+        public string Email { get; set; }
     }
 }

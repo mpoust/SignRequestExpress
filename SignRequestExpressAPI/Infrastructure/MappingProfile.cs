@@ -31,9 +31,12 @@ namespace SignRequestExpressAPI.Infrastructure
         // In constructor we define which properties get mapped over between entity objects and resource objects
         public MappingProfile()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<AccountEntity, Account>()
-                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
-                    Link.To(nameof(Controllers.AccountsController.GetAccountByIdAsync), new { accountId = src.Id }))));
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<AccountEntity, Account>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.AccountsController.GetAccountByIdAsync), new { accountId = src.Id })));
+                cfg.CreateMap<AccountContactEntity, AccountContact>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.AccountContactsController.GetAccountContactByIdAsync), new { accountContactId = src.Id })));
+            });
         }
     }
 }

@@ -35,5 +35,7 @@ namespace SignRequestExpressAPI
         //public DbSet<TemplateEntity> Templates { get; set; }
 
         public DbSet<AccountEntity> Account { get; set; }
+
+        public DbSet<AccountContactEntity> AccountContact { get; set; }
     }
 }
