@@ -2,14 +2,14 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: RootResponse.cs
+ * FileName: BrandStandards.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/16/2018
+ * Created On: 9/18/2018
  * Last Modified:
- * Description: The root controller not returns a this response model. Contains Links from the Link model.
+ * Description: This is the BrandStandards resource that maps to the BrandStandardsEntity.
  * 
- * References:  
+ * References:
  *   
  * (c) Michael Poust, 2018
  */
@@ -22,20 +22,10 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Models
 {
-    public class RootResponse : Resource
+    public class BrandStandards : Resource
     {
-        public Link Info { get; set; }
+        public Guid BrandFK { get; set; }
 
-        public Link Accounts { get; set; }
-
-        public Link AccountContacts { get; set; }
-
-        public Link Templates { get; set; }
-
-        public Link Users { get; set; }
-
-        public Link Brands { get; set; }
-
-        public Link BrandStandards { get; set; }
+        public string StandardURI { get; set; }
     }
 }

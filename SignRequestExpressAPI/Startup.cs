@@ -106,6 +106,8 @@ namespace SignRequestExpressAPI
             services.AddScoped<IAccountContactService, DefaultAccountContactService>();
             services.AddScoped<ITemplateService, DefaultTemplateService>();
             services.AddScoped<IUserService, DefaultUserService>();
+            services.AddScoped<IBrandService, DefaultBrandService>();
+            services.AddScoped<IBrandStandardsService, DefaultBrandStandardsService>();
         }
 
         // This method gets called by the runtime. Order matters - Use this method to configure the HTTP request pipeline.
