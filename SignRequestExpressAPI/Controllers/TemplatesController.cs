@@ -20,6 +20,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
 using System;
@@ -56,6 +57,7 @@ namespace SignRequestExpressAPI.Controllers
         [HttpGet(Name = nameof(GetTemplatesAsync))]
         public async Task<IActionResult> GetTemplatesAsync(
             [FromQuery] PagingOptions pagingOptions,
+            [FromQuery] SortOptions<Template, TemplateEntity> sortOptions,
             CancellationToken ct)
         {
             // Verify model state valid - based off of properties in PagingOptions
@@ -65,7 +67,7 @@ namespace SignRequestExpressAPI.Controllers
             pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
             pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            var templates = await _templateService.GetTemplatesAsync(pagingOptions, ct);
+            var templates = await _templateService.GetTemplatesAsync(pagingOptions, sortOptions, ct);
 
             var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
 

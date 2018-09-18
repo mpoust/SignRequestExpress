@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: Template.cs
+ * FileName: SortableAttribute.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/15/2018
- * Last Modified: 9/17/2018
- * Description: Resource the API will return to the client - corresponding with TemplateEntity.cs
+ * Created On: 9/18/2018
+ * Last Modified: 
+ * Description: Attribute to apply to resources allowing them to be sorted within their collections.
  * 
  * References:
  *   
@@ -15,23 +15,16 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-using SignRequestExpressAPI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Models
+namespace SignRequestExpressAPI.Infrastructure
 {
-    public class Template : Resource
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class SortableAttribute : Attribute
     {
-        public Guid BrandFK { get; set; }
-
-        public bool IsVertical { get; set; }
-
-        [Sortable(Default = true)]
-        public string Element { get; set; }
-
-        public string ImageURI { get; set; }
+        public bool Default { get; set; }
     }
 }

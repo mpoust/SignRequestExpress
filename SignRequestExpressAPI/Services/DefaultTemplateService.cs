@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
 
 namespace SignRequestExpressAPI.Services
@@ -46,9 +47,13 @@ namespace SignRequestExpressAPI.Services
 
         public async Task<PagedResults<Template>> GetTemplatesAsync(
             PagingOptions pagingOptions, 
+            SortOptions<Template, TemplateEntity> sortOptions,
             CancellationToken ct)
         {
-            var allTemplates = await _context.Template
+            IQueryable<TemplateEntity> query = _context.Template;
+            query = sortOptions.Apply(query);
+
+            var allTemplates = await query
                 .ProjectTo<Template>()
                 .ToListAsync();
 

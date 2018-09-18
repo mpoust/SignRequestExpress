@@ -17,6 +17,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace SignRequestExpressAPI.Services
 
         Task<PagedResults<Template>> GetTemplatesAsync(
             PagingOptions pagingOptions,
+            SortOptions<Template, TemplateEntity> sortOptions,
             CancellationToken ct);
     }
 }
