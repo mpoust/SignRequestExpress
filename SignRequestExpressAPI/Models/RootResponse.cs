@@ -31,5 +31,7 @@ namespace SignRequestExpressAPI.Models
         public Link AccountContacts { get; set; }
 
         public Link Templates { get; set; }
+
+        public Link Users { get; set; }
     }
 }
