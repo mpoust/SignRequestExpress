@@ -45,7 +45,7 @@ namespace SignRequestExpressAPI.Services
 
         public async Task<IEnumerable<User>> GetUsersAsync(CancellationToken ct)
         {
-            var query = _context.Account
+            var query = _context.User
                 .ProjectTo<User>();
 
             return await query.ToArrayAsync();
