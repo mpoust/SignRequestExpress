@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
 using System;
@@ -34,26 +35,14 @@ namespace SignRequestExpressAPI.Controllers
     public class TemplatesController : Controller
     {
         private readonly ITemplateService _templateService;
+        private readonly PagingOptions _defaultPagingOptions;
 
-        public TemplatesController(ITemplateService templateService)
+        public TemplatesController(
+            ITemplateService templateService,
+            IOptions<PagingOptions> defaultPagingOptions)
         {
             _templateService = templateService;
-        }
-
-        [HttpGet(Name = nameof(GetTemplatesAsync))]
-        public async Task<IActionResult> GetTemplatesAsync(CancellationToken ct)
-        {
-            var templates = await _templateService.GetTemplatesAsync(ct);
-
-            var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
-
-            var collection = new Collection<Template>
-            {
-                Self = collectionLink,
-                Value = templates.ToArray()
-            };
-
-            return Ok(collection);
+            _defaultPagingOptions = defaultPagingOptions.Value;
         }
 
         [HttpGet("{templateId}", Name = nameof(GetTemplateByIdAsync))]
@@ -64,24 +53,29 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(template);
         }
 
-        /*
-        // Paginated Templates
+        [HttpGet(Name = nameof(GetTemplatesAsync))]
         public async Task<IActionResult> GetTemplatesAsync(
             [FromQuery] PagingOptions pagingOptions,
             CancellationToken ct)
         {
+            // Verify model state valid - based off of properties in PagingOptions
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+
+            // Handling case if PagingOptions are omitted and null
+            pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
+            pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
+
             var templates = await _templateService.GetTemplatesAsync(pagingOptions, ct);
 
             var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
 
-            var collection = new Collection<Template>
-            {
-                Self = collectionLink,
-                Value = templates.ToArray()
-            };
+            var collection = PagedCollection<Template>.Create(
+                Link.ToCollection(nameof(GetTemplatesAsync)),
+                templates.Items.ToArray(),
+                templates.TotalSize,
+                pagingOptions);
 
             return Ok(collection);
         }
-        */
     }
 }

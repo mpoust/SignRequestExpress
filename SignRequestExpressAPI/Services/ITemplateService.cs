@@ -32,7 +32,8 @@ namespace SignRequestExpressAPI.Services
             Guid id,
             CancellationToken ct);
 
-        Task<IEnumerable<Template>> GetTemplatesAsync(
+        Task<PagedResults<Template>> GetTemplatesAsync(
+            PagingOptions pagingOptions,
             CancellationToken ct);
     }
 }

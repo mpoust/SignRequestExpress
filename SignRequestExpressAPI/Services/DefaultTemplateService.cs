@@ -36,6 +36,7 @@ namespace SignRequestExpressAPI.Services
             _context = context;
         }
 
+        
         public async Task<Template> GetTemplateAsync(Guid id, CancellationToken ct)
         {
             var entity = await _context.Account.SingleOrDefaultAsync(t => t.Id == id, ct);
@@ -43,12 +44,23 @@ namespace SignRequestExpressAPI.Services
             return Mapper.Map<Template>(entity);
         }
 
-        public async Task<IEnumerable<Template>> GetTemplatesAsync(CancellationToken ct)
+        public async Task<PagedResults<Template>> GetTemplatesAsync(
+            PagingOptions pagingOptions, 
+            CancellationToken ct)
         {
-            var query = _context.Template
-                .ProjectTo<Template>();
+            var allTemplates = await _context.Template
+                .ProjectTo<Template>()
+                .ToListAsync();
 
-            return await query.ToArrayAsync();
+            var pagedTemplates = allTemplates
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value);
+
+            return new PagedResults<Template>
+            {
+                Items = pagedTemplates,
+                TotalSize = allTemplates.Count
+            };
         }
     }
 }
