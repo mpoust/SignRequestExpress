@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/17/2018
  * Description: This is an entity that models an object from the Template table from the database.
  * 
  * References:

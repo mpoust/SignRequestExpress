@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/17/2018
  * Description: Resource the API will return to the client - corresponding with TemplateEntity.cs
  * 
  * References:

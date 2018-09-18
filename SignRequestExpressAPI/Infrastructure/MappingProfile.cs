@@ -37,6 +37,9 @@ namespace SignRequestExpressAPI.Infrastructure
 
                 cfg.CreateMap<AccountContactEntity, AccountContact>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.AccountContactsController.GetAccountContactByIdAsync), new { accountContactId = src.Id })));
+
+                cfg.CreateMap<TemplateEntity, Template>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.TemplatesController.GetTemplateByIdAsync), new { templateId = src.Id })));
             });
         }
     }
