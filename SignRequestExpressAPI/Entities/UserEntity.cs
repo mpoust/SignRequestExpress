@@ -36,6 +36,6 @@ namespace SignRequestExpressAPI.Entities
 
         public bool IsEmailPreferred { get; set; }
 
-        public DateTime ModifiedDT { get; set; }
+        public DateTime ModifiedDateTime { get; set; }
     }
 }
