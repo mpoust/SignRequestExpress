@@ -63,5 +63,25 @@ namespace SignRequestExpressAPI.Controllers
             if (template == null) return NotFound();
             return Ok(template);
         }
+
+        /*
+        // Paginated Templates
+        public async Task<IActionResult> GetTemplatesAsync(
+            [FromQuery] PagingOptions pagingOptions,
+            CancellationToken ct)
+        {
+            var templates = await _templateService.GetTemplatesAsync(pagingOptions, ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
+
+            var collection = new Collection<Template>
+            {
+                Self = collectionLink,
+                Value = templates.ToArray()
+            };
+
+            return Ok(collection);
+        }
+        */
     }
 }
