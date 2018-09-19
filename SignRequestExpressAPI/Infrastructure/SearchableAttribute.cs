@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: SortTerm.cs
+ * FileName: SearchableAttribute.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
  * Last Modified: 
- * Description: Holds the sort term that is validated within SortOptionsProcessor{T, TEntity}
+ * Description: Attribute to apply to resources allowing them to be searched for within their collections.
  * 
  * References:
  *   
@@ -22,14 +22,8 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Infrastructure
 {
-    public class SortTerm
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class SearchableAttribute : Attribute
     {
-        public string Name { get; set; }
-
-        public string EntityName { get; set; }
-
-        public bool Descending { get; set; }
-
-        public bool Default { get; set; }
     }
 }

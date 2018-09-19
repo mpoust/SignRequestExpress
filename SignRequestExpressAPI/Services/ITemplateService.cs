@@ -36,6 +36,7 @@ namespace SignRequestExpressAPI.Services
         Task<PagedResults<Template>> GetTemplatesAsync(
             PagingOptions pagingOptions,
             SortOptions<Template, TemplateEntity> sortOptions,
+            SearchOptions<Template, TemplateEntity> searchOptions,
             CancellationToken ct);
     }
 }

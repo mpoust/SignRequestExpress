@@ -48,9 +48,11 @@ namespace SignRequestExpressAPI.Services
         public async Task<PagedResults<Template>> GetTemplatesAsync(
             PagingOptions pagingOptions, 
             SortOptions<Template, TemplateEntity> sortOptions,
+            SearchOptions<Template, TemplateEntity> searchOptions,
             CancellationToken ct)
         {
             IQueryable<TemplateEntity> query = _context.Template;
+            query = searchOptions.Apply(query);
             query = sortOptions.Apply(query);
 
             var allTemplates = await query

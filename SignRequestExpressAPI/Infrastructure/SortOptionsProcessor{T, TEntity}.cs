@@ -76,6 +76,7 @@ namespace SignRequestExpressAPI.Infrastructure
                 yield return new SortTerm
                 {
                     Name = declaredTerm.Name,
+                    EntityName = declaredTerm.EntityName,
                     Descending = term.Descending,
                     Default = declaredTerm.Default
                 };
@@ -90,6 +91,7 @@ namespace SignRequestExpressAPI.Infrastructure
             .Select(p => new SortTerm
             {
                 Name = p.Name,
+                EntityName = p.GetCustomAttribute<SortableAttribute>().EntityProperty,
                 Default = p.GetCustomAttribute<SortableAttribute>().Default
             });
 

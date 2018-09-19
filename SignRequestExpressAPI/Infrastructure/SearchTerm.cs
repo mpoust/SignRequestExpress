@@ -2,12 +2,13 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: SortTerm.cs
+ * FileName: SearchTerm.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
  * Last Modified: 
- * Description: Holds the sort term that is validated within SortOptionsProcessor{T, TEntity}
+ * Description: Holds the search term that is validated within SearchOptionsProcessor{T, TEntity}
+ *  Represents a deconstructed search term
  * 
  * References:
  *   
@@ -22,14 +23,14 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Infrastructure
 {
-    public class SortTerm
+    public class SearchTerm
     {
         public string Name { get; set; }
 
-        public string EntityName { get; set; }
+        public string Operator { get; set; }
 
-        public bool Descending { get; set; }
+        public string Value { get; set; }
 
-        public bool Default { get; set; }
+        public bool ValidSyntax { get; set; }
     }
 }

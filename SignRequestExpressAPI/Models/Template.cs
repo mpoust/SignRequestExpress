@@ -30,6 +30,7 @@ namespace SignRequestExpressAPI.Models
         public bool IsVertical { get; set; }
 
         [Sortable(Default = true)]
+        [Searchable]
         public string Element { get; set; }
 
         public string ImageURI { get; set; }
