@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified: 
+ * Last Modified: 9/19/2018
  * Description: Model that holds the search query string arguments that get passed into the controller. Attributes are set as arrays allowing
  *  for multiple parameters being pased in the query string. Inherits from IValidatableObject, allowing ASP.NET Core to validate parameters
  *  passed into the controller automatically.
@@ -48,7 +48,8 @@ namespace SignRequestExpressAPI.Models
 
         public IQueryable<TEntity> Apply(IQueryable<TEntity> query)
         {
-            throw new NotImplementedException();
+            var processor = new SearchOptionsProcessor<T, TEntity>(Search);
+            return processor.Apply(query);
         }
     }
 }

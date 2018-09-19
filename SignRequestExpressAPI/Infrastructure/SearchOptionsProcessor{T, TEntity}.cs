@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified: 
+ * Last Modified: 9/19/2018
  * Description: Validates the search terms within SearchOptions{T, TEntity}
  * 
  * References:
@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -93,16 +94,46 @@ namespace SignRequestExpressAPI.Infrastructure
                     ValidSyntax = term.ValidSyntax,
                     Name = declaredTerm.Name,
                     Operator = term.Operator,
-                    Value = term.Value
+                    Value = term.Value,
+                    ExpressionProvider = declaredTerm.ExpressionProvider
                 };
             }
+        }
+
+        public IQueryable<TEntity> Apply(IQueryable<TEntity> query)
+        {
+            var terms = GetValidTerms().ToArray();
+            if (!terms.Any()) return query;
+
+            var modifiedQuery = query;
+
+            foreach(var term in terms)
+            {
+                var propertyInfo = ExpressionHelper
+                    .GetPropertyInfo<TEntity>(term.Name);
+                var obj = ExpressionHelper.Parameter<TEntity>();
+
+                // Build up the LINQ expression backwards:
+                var left = ExpressionHelper.GetPropertyExpression(obj, propertyInfo);
+                var right = term.ExpressionProvider.GetValue(term.Value);
+                var comparisonExpression = term.ExpressionProvider
+                    .GetComparison(left, term.Operator, right);
+                var lambdaExpression = ExpressionHelper
+                    .GetLambda<TEntity, bool>(obj, comparisonExpression);
+                modifiedQuery = ExpressionHelper.CallWhere(modifiedQuery, lambdaExpression);
+            }
+            return modifiedQuery;
         }
 
         private static IEnumerable<SearchTerm> GetTermsFromModel()
             => typeof(T).GetTypeInfo()
             .DeclaredProperties
             .Where(p => p.GetCustomAttributes<SearchableAttribute>().Any())
-            .Select(p => new SearchTerm { Name = p.Name });
+            .Select(p => new SearchTerm
+            {
+                Name = p.Name,
+                ExpressionProvider = p.GetCustomAttribute<SearchableAttribute>().ExpressionProvider
+            });
 
     }
 }

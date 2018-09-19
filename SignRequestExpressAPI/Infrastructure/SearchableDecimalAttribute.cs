@@ -2,12 +2,14 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: SearchableAttribute.cs
+ * FileName: SearchableDecimalAttribute.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/18/2018
- * Last Modified: 9/19/2018
- * Description: Attribute to apply to resources allowing them to be searched for within their collections.
+ * Created On: 9/19/2018
+ * Last Modified: 
+ * Description: Extending the base searchable attribute. 
+ * 
+ * Not used but kept to show how to implement a search against another type outside of string. 
  * 
  * References:
  *   
@@ -23,9 +25,11 @@ using System.Threading.Tasks;
 namespace SignRequestExpressAPI.Infrastructure
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class SearchableAttribute : Attribute
+    public class SearchableDecimalAttribute : SearchableAttribute
     {
-        public ISearchExpressionProvider ExpressionProvider { get; set; }
-            = new DefaultSearchExpressionProvider();
+        public SearchableDecimalAttribute()
+        {
+            ExpressionProvider = new DecimalToIntSearchExpressionProvider();
+        }
     }
 }

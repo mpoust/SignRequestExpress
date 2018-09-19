@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified: 
+ * Last Modified: 9/19/2018
  * Description: Holds the search term that is validated within SearchOptionsProcessor{T, TEntity}
  *  Represents a deconstructed search term
  * 
@@ -32,5 +32,7 @@ namespace SignRequestExpressAPI.Infrastructure
         public string Value { get; set; }
 
         public bool ValidSyntax { get; set; }
+
+        public ISearchExpressionProvider ExpressionProvider { get; set; }
     }
 }
