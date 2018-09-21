@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/16/2018
+ * Last Modified: 9/20/2018
  * Description: Serves as the starting point of the API. Controller uses route attributes to tell the routing system which routes to handle.
  * 
  * References:  
@@ -41,7 +41,8 @@ namespace SignRequestExpressAPI.Controllers
                 Templates = Link.To(nameof(TemplatesController.GetTemplatesAsync)),
                 Users = Link.To(nameof(UsersController.GetUsersAsync)),
                 Brands = Link.To(nameof(BrandsController.GetBrandsAsync)),
-                BrandStandards = Link.To(nameof(BrandStandardsController.GetBrandStandardsAsync))
+                BrandStandards = Link.To(nameof(BrandStandardsController.GetBrandStandardsAsync)),
+                Requests = Link.To(nameof(RequestsController.GetRequestsAsync))
             };
 
             return Ok(response);

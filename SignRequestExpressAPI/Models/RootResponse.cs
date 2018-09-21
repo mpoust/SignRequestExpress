@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/16/2018
- * Last Modified:
+ * Last Modified: 9/20/2018
  * Description: The root controller not returns a this response model. Contains Links from the Link model.
  * 
  * References:  
@@ -37,5 +37,7 @@ namespace SignRequestExpressAPI.Models
         public Link Brands { get; set; }
 
         public Link BrandStandards { get; set; }
+
+        public Link Requests { get; set; }
     }
 }

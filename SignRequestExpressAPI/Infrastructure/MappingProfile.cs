@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/16/2018
- * Last Modified:
+ * Last Modified: 9/20/2018
  * Description: This class inherits from AutoMapper and defines how database entity objects are mapped to their corresponding resource objects.
  *  This boilerplate mapping of all resource objects is reduced through the use of this AutoMapper package.
  * 
@@ -49,6 +49,9 @@ namespace SignRequestExpressAPI.Infrastructure
 
                 cfg.CreateMap<BrandStandardsEntity, BrandStandards>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandStandardsController.GetBrandStandardbyIdAsync), new { brandStandardId = src.Id })));
+
+                cfg.CreateMap<RequestEntity, Request>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                  Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })));
             });
         }
     }
