@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified: 
+ * Last Modified: 9/21/2018
  * Description: This controller will return data requested for Requests within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -46,6 +46,7 @@ namespace SignRequestExpressAPI.Controllers
             _defaultPagingOptions = defaultPagingOptions.Value;
         }
 
+        // GET /requests/{requestId}
         [HttpGet("{requestId}", Name =(nameof(GetRequestByIdAsync)))]
         public async Task<IActionResult> GetRequestByIdAsync(Guid requestId, CancellationToken ct)
         {
@@ -54,6 +55,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(request);
         }
 
+        // GET /requests
         [HttpGet(Name = nameof(GetRequestsAsync))]
         public async Task<IActionResult> GetRequestsAsync(
             [FromQuery] PagingOptions pagingOptions,
@@ -81,6 +83,15 @@ namespace SignRequestExpressAPI.Controllers
                 pagingOptions);
 
             return Ok(collection);
+        }
+
+        // POST /requests/{requestNumber}
+        [HttpPost("{requestNumber}", Name =nameof(CreateRequestAsync))]
+        public async Task<IActionResult> CreateRequestAsync(
+            string requestNumber,
+            CancellationToken ct)
+        {
+            throw new NotImplementedException();
         }
     }
 }
