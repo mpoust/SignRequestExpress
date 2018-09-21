@@ -54,13 +54,33 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(request);
         }
 
+        [HttpGet(Name = nameof(GetRequestsAsync))]
         public async Task<IActionResult> GetRequestsAsync(
             [FromQuery] PagingOptions pagingOptions,
             [FromQuery] SortOptions<Request, RequestEntity> sortOptions,
             [FromQuery] SearchOptions<Request, RequestEntity> searchOptions,
             CancellationToken ct)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+
+            pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
+            pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
+
+            var requests = await _requestService.GetRequestsAsync(
+                pagingOptions,
+                sortOptions,
+                searchOptions,
+                ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetRequestsAsync));
+
+            var collection = PagedCollection<Request>.Create(
+                Link.ToCollection(nameof(GetRequestsAsync)),
+                requests.Items.ToArray(),
+                requests.TotalSize,
+                pagingOptions);
+
+            return Ok(collection);
         }
     }
 }

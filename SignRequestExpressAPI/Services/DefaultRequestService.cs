@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified:
+ * Last Modified: 9/21/2018
  * Description: This class implements IRequestService
  *  
  * References:
@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
@@ -43,13 +44,29 @@ namespace SignRequestExpressAPI.Services
             return Mapper.Map<Request>(entity);
         }
 
-        public Task<PagedResults<Request>> GetRequestsAsync(
+        public async Task<PagedResults<Request>> GetRequestsAsync(
             PagingOptions pagingOptions,
             SortOptions<Request, RequestEntity> sortOptions,
             SearchOptions<Request, RequestEntity> searchOptions,
             CancellationToken ct)
         {
-            throw new NotImplementedException();
+            IQueryable<RequestEntity> query = _context.Request;
+            query = searchOptions.Apply(query);
+            query = sortOptions.Apply(query);
+
+            var allRequests = await query
+                .ProjectTo<Request>()
+                .ToListAsync();
+
+            var pagedRequests = allRequests
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value);
+
+            return new PagedResults<Request>
+            {
+                Items = pagedRequests,
+                TotalSize = allRequests.Count
+            };
         }
     }
 }

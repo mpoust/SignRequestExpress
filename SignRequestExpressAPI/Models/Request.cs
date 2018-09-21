@@ -35,21 +35,21 @@ namespace SignRequestExpressAPI.Models
 
         public bool IsProofNeeded { get; set; }
 
-        public UInt16 MediaFK { get; set; }
+        public byte MediaFK { get; set; }
 
-        public UInt16 Quantity { get; set; }
+        public byte Quantity { get; set; }
 
         public bool IsVertical { get; set; }
 
-        public UInt32 HeightInch { get; set; }
+        public Int16 HeightInch { get; set; }
 
-        public UInt32 WidthInch { get; set; }
+        public Int16 WidthInch { get; set; }
 
-        public Guid TemplateFK { get; set; }
+        public Guid? TemplateFK { get; set; }
 
         public string Information { get; set; }
 
-        public string DataURI { get; set; }
+        public string DataFileURI { get; set; }
 
         public string ImageURI { get; set; }
 
