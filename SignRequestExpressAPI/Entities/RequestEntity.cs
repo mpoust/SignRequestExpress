@@ -43,9 +43,9 @@ namespace SignRequestExpressAPI.Entities
 
         public bool IsVertical { get; set; }
 
-        public Int16 HeightInch { get; set; }
+        public short HeightInch { get; set; }
 
-        public Int16 WidthInch { get; set; }
+        public short WidthInch { get; set; }
 
         public Guid? TemplateFK { get; set; }
 

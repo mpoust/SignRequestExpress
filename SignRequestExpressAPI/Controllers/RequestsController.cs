@@ -47,7 +47,7 @@ namespace SignRequestExpressAPI.Controllers
         }
 
         // GET /requests/{requestId}
-        [HttpGet("{requestId}", Name =(nameof(GetRequestByIdAsync)))]
+        [HttpGet("{requestId}", Name = (nameof(GetRequestByIdAsync)))]
         public async Task<IActionResult> GetRequestByIdAsync(Guid requestId, CancellationToken ct)
         {
             var request = await _requestService.GetRequestAsync(requestId, ct);
@@ -85,13 +85,33 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(collection);
         }
 
+
+        // TODO add authentication
         // POST /requests/{requestNumber}
-        [HttpPost("{requestNumber}", Name =nameof(CreateRequestAsync))]
-        public async Task<IActionResult> CreateRequestAsync(
+        //[HttpPost("{requestNumber}", Name = nameof(SubmitRequestAsync))]
+        [HttpPost(Name = nameof(SubmitRequestAsync))]
+        public async Task<IActionResult> SubmitRequestAsync(
             string requestNumber,
+            [FromBody] RequestForm requestForm,
             CancellationToken ct)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+
+            // Business logic for creating a sign request
+            // Get current user ID (TODO)
+            var userId = Guid.NewGuid();
+            if (!requestForm.NeededDate.HasValue) requestForm.NeededDate = DateTime.Now.AddDays(6);
+
+            var requestId = await _requestService.CreateRequestAsync(
+                    userId, requestForm.Reason, 0, requestForm.NeededDate.Value, requestForm.IsProofNeeded.Value, 
+                    requestForm.MediaFK.Value, requestForm.Quantity.Value, requestForm.IsVertical.Value,
+                    requestForm.HeightInch.Value, requestForm.WidthInch.Value, requestForm.Template.Value,
+                    requestForm.Information, requestForm.DataFileURI, requestForm.ImageURI, ct);
+
+            return Created(
+                Url.Link(nameof(RequestsController.GetRequestByIdAsync),
+                new { requestId }),
+                null);
         }
     }
 }

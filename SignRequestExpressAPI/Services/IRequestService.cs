@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified:
+ * Last Modified: 9/21/2018
  * Description: This service wraps Request data access to keep the RequestController as thin as possible. This way we rely on a service to 
  *  interact with the DB context and separate the data access concerns from the controller. This has the added benefit of making the controller
  *  easier to test because we can inject a mock service instead of having to mock the entire database context. 
@@ -38,5 +38,28 @@ namespace SignRequestExpressAPI.Services
             SortOptions<Request, RequestEntity> sortOptions,
             SearchOptions<Request, RequestEntity> searchOptions,
             CancellationToken ct);
+
+
+        Task<Guid> CreateRequestAsync(
+            Guid userId,
+            string reason,
+            byte status,
+            //DateTime requestedDate,
+            DateTime neededDate,
+            //Guid approval,
+            bool isProofNeeded,
+            byte mediaFK,
+            byte quantity,
+            bool isVertical,
+            short heightInch,
+            short widthInch,
+            Guid template,
+            string information,
+            string dataFileURI,
+            string imageURI,
+            //DateTime ModifiedDateTime,
+            CancellationToken ct
+            );
+            
     }
 }

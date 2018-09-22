@@ -68,5 +68,62 @@ namespace SignRequestExpressAPI.Services
                 TotalSize = allRequests.Count
             };
         }
+
+        public async Task<Guid> CreateRequestAsync(
+            Guid userId, // Will use for validation later
+            string reason,
+            byte status,
+            //DateTime requestedDate, // Can probably remove
+            DateTime neededDate,
+            //Guid approval,
+            bool isProofNeeded,
+            byte mediaFK,
+            byte quantity,
+            bool isVertical,
+            short heightInch,
+            short widthInch,
+            Guid template,
+            string information,
+            string dataFileURI,
+            string imageURI,
+            //DateTime ModifiedDateTime,
+            CancellationToken ct
+            )
+        {
+            // TODO - probably create the logic of adding entities to other tables here too
+            // calling services from those ones
+
+            // Create the RequestEntity and add to context
+            var id = Guid.NewGuid();
+
+            var newRequest = _context.Request.Add(new RequestEntity
+            {
+                //TODO generate RequestNumber properly
+                Id = id,
+                RequestNumber = null,
+                RequestedDate = DateTime.Now,
+                NeededDate = neededDate,
+                ApprovalFK = Guid.NewGuid(), // TODO add this ID to the Account table to prepare approval
+                IsProofNeeded = isProofNeeded,
+                MediaFK = mediaFK,
+                Quantity = quantity,
+                IsVertical = isVertical,
+                HeightInch = heightInch,
+                WidthInch = widthInch,
+                TemplateFK = template,
+                Information = information,
+                DataFileURI = dataFileURI,
+                ImageURI = imageURI,
+                // RequestImageURI // TODO add functionality to generate connected to blob
+                ModifiedDateTime = DateTime.Now
+            });
+
+            var created = await _context.SaveChangesAsync(ct);
+            if (created < 1) throw new InvalidOperationException("Could not create the request");
+
+            return id;
+        }
+
+        
     }
 }

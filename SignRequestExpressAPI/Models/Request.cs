@@ -24,7 +24,6 @@ namespace SignRequestExpressAPI.Models
 {
     public class Request : Resource
     {
-        
         public string RequestNumber { get; set; }
 
         public DateTime RequestedDate { get; set; }
@@ -41,9 +40,9 @@ namespace SignRequestExpressAPI.Models
 
         public bool IsVertical { get; set; }
 
-        public Int16 HeightInch { get; set; }
+        public short HeightInch { get; set; }
 
-        public Int16 WidthInch { get; set; }
+        public short WidthInch { get; set; }
 
         public Guid? TemplateFK { get; set; }
 
