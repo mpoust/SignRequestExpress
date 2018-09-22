@@ -125,6 +125,14 @@ namespace SignRequestExpressAPI.Services
             return id;
         }
 
-        
+        public async Task DeleteRequestAsync(Guid requestId, CancellationToken ct)
+        {
+            var request = await _context.Request
+                .SingleOrDefaultAsync(r => r.Id == requestId, ct);
+            if (request == null) return;
+
+            _context.Request.Remove(request);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -60,6 +60,7 @@ namespace SignRequestExpressAPI.Services
             //DateTime ModifiedDateTime,
             CancellationToken ct
             );
-            
+
+        Task DeleteRequestAsync(Guid requestId, CancellationToken ct);
     }
 }

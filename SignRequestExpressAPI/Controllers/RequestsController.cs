@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified: 9/21/2018
+ * Last Modified: 9/22/2018
  * Description: This controller will return data requested for Requests within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -113,5 +113,19 @@ namespace SignRequestExpressAPI.Controllers
                 new { requestId }),
                 null);
         }
+
+
+        // Delete Request by ID
+        [HttpDelete("{requestId}", Name = nameof(DeleteRequestByIdAsync))]
+        public async Task<IActionResult> DeleteRequestByIdAsync(
+            Guid requestId,
+            CancellationToken ct)
+        {
+            // TODO: Authorize user is allowed to delete Request
+            await _requestService.DeleteRequestAsync(requestId, ct);
+            return NoContent();
+        }
+
+        // Delete Request by RequestNum??
     }
 }

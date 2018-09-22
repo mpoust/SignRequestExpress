@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 09/16/2018
- * Last Modified:
+ * Last Modified: 09/22/2018
  * Description: This model represents a link that can be used outside of a controller to represent links between resources.
  *  This link will follow the Ion specification.
  *  
@@ -30,6 +30,8 @@ namespace SignRequestExpressAPI.Models
     public class Link
     {
         public const string GetMethod = "GET";
+        public const string PostMethod = "POST";
+        public const string DeleteMethod = "DELETE";
 
         // Static helper method that returns a link with some default values
         public static Link To(string routeName, object routeValues = null)
@@ -48,6 +50,19 @@ namespace SignRequestExpressAPI.Models
                 RouteValues = routeValues,
                 Method = GetMethod,
                 Relations = new string[] {"collection"}
+            };
+
+        public static Link ToForm(
+            string routeName,
+            object routeValues = null,
+            string method = PostMethod,
+            params string[] relations)
+            => new Link
+            {
+                RouteName = routeName,
+                RouteValues = routeValues,
+                Method = method,
+                Relations = relations
             };
 
         [JsonProperty(Order = -4)]

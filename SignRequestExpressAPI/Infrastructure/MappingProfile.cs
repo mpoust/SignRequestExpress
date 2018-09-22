@@ -50,8 +50,18 @@ namespace SignRequestExpressAPI.Infrastructure
                 cfg.CreateMap<BrandStandardsEntity, BrandStandards>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandStandardsController.GetBrandStandardbyIdAsync), new { brandStandardId = src.Id })));
 
-                cfg.CreateMap<RequestEntity, Request>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
-                  Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })));
+                cfg.CreateMap<RequestEntity, Request>()
+                    .ForMember(dest => dest.Self, opt => opt.MapFrom(src => 
+                        Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })))
+                    .ForMember(dest => dest.Submit, opt => opt.MapFrom(src =>
+                        FormMetadata.FromModel(
+                            new RequestForm(),
+                            Link.ToForm(
+                                nameof(Controllers.RequestsController.SubmitRequestAsync),
+                                new { requestId = src.Id },
+                                Link.PostMethod,
+                                Form.CreateRelation))));
+
             });
         }
     }

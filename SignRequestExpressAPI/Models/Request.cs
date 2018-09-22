@@ -55,5 +55,7 @@ namespace SignRequestExpressAPI.Models
         public string ImageURI { get; set; }
 
         public string RequestImageURI { get; set; }
+
+        public Form Submit { get; set; }
     }
 }

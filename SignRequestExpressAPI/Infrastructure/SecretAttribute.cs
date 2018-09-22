@@ -2,36 +2,28 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: ISearchExpressionProvider.cs
+ * FileName: SecretAttribute.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/19/2018
+ * Created On: 9/22/2018
  * Last Modified: 
- * Description: Interface to assist in converting a search value into a linq expression.
+ * Description:
  * 
  * References:
  *   
  * (c) Michael Poust, 2018
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Infrastructure
 {
-    public interface ISearchExpressionProvider
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    public class SecretAttribute : Attribute
     {
-        IEnumerable<string> GetOperators();
-
-        ConstantExpression GetValue(string input);
-
-        Expression GetComparison(
-            MemberExpression left,
-            string op,
-            ConstantExpression right);
     }
 }

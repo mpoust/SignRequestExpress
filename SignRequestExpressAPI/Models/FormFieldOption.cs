@@ -2,36 +2,32 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: ISearchExpressionProvider.cs
+ * FileName: FormFildOption.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/19/2018
+ * Created On: 9/22/2018
  * Last Modified: 
- * Description: Interface to assist in converting a search value into a linq expression.
+ * Description:
  * 
  * References:
  *   
  * (c) Michael Poust, 2018
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
+
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Infrastructure
+namespace SignRequestExpressAPI.Models
 {
-    public interface ISearchExpressionProvider
+    public class FormFieldOption
     {
-        IEnumerable<string> GetOperators();
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Label { get; set; }
 
-        ConstantExpression GetValue(string input);
-
-        Expression GetComparison(
-            MemberExpression left,
-            string op,
-            ConstantExpression right);
+        public object Value { get; set; }
     }
 }
