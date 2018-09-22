@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/20/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -109,6 +109,7 @@ namespace SignRequestExpressAPI
             services.AddScoped<IUserService, DefaultUserService>();
             services.AddScoped<IBrandService, DefaultBrandService>();
             services.AddScoped<IBrandStandardsService, DefaultBrandStandardsService>();
+            services.AddScoped<IRequestService, DefaultRequestService>();
         }
 
         // This method gets called by the runtime. Order matters - Use this method to configure the HTTP request pipeline.

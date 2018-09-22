@@ -24,6 +24,8 @@ namespace SignRequestExpressAPI.Models
 {
     public class User : Resource
     {
+        public Int16 UserNumber { get;  set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
