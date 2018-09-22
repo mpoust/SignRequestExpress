@@ -29,6 +29,8 @@ namespace SignRequestExpressAPI.Entities
 
         public string RequestNumber { get; set; }
 
+        public byte Status { get; set; }
+
         public DateTime RequestedDate { get; set; }
 
         public DateTime NeededDate { get; set; }

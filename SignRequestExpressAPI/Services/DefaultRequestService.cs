@@ -101,6 +101,7 @@ namespace SignRequestExpressAPI.Services
                 //TODO generate RequestNumber properly
                 Id = id,
                 RequestNumber = null,
+                Status = 0,
                 RequestedDate = DateTime.Now,
                 NeededDate = neededDate,
                 ApprovalFK = Guid.NewGuid(), // TODO add this ID to the Account table to prepare approval
