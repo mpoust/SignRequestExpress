@@ -58,6 +58,7 @@ namespace SignRequestExpressAPI.Controllers
 
         // GET /requests
         [HttpGet(Name = nameof(GetRequestsAsync))]
+        [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "offset", "limit", "orderBy", "search" })]
         public async Task<IActionResult> GetRequestsAsync(
             [FromQuery] PagingOptions pagingOptions,
             [FromQuery] SortOptions<Request, RequestEntity> sortOptions,

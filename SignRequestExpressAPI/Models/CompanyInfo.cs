@@ -16,6 +16,8 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Newtonsoft.Json;
+using SignRequestExpressAPI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Models
 {
-    public class CompanyInfo : Resource
+    public class CompanyInfo : Resource, IEtaggable
     {
         public string Name { get; set; }
 
@@ -36,6 +38,13 @@ namespace SignRequestExpressAPI.Models
         public string Phone { get; set; }
 
         public Address Location { get; set; }
+
+        public string GetEtag()
+        {
+            // Serialize entire object to JSON then hash that resulting string
+            var serialized = JsonConvert.SerializeObject(this);
+            return Md5Hash.ForString(serialized);
+        }
     }
 
     public class Address

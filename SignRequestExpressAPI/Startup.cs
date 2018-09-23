@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/20/2018
+ * Last Modified: 9/23/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -71,6 +71,9 @@ namespace SignRequestExpressAPI
             // Set up AutoMapper
             services.AddAutoMapper();
 
+            // Add Server Side Caching
+            services.AddResponseCaching();
+
             // Add framework services. 
             services.AddMvc(opt =>
             {
@@ -83,6 +86,12 @@ namespace SignRequestExpressAPI
                 var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single(); // current formatter
                 opt.OutputFormatters.Remove(jsonFormatter);
                 opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter)); // add new formatter supplied with removed
+
+                // Add cache profile
+                opt.CacheProfiles.Add("Static", new CacheProfile
+                {
+                    Duration = 86400
+                });
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -140,6 +149,7 @@ namespace SignRequestExpressAPI
                 opt.IncludeSubdomains();
                 opt.Preload();
             });
+            app.UseResponseCaching();
             app.UseMvc();
         }
     }
