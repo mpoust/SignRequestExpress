@@ -21,6 +21,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Entities;
+using SignRequestExpressAPI.Infrastructure;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
 using System;
@@ -74,13 +75,20 @@ namespace SignRequestExpressAPI.Controllers
                 searchOptions,
                 ct);
 
-            var collectionLink = Link.ToCollection(nameof(GetRequestsAsync));
+          //  var collectionLink = Link.ToCollection(nameof(GetRequestsAsync));
 
-            var collection = PagedCollection<Request>.Create(
+            var collection = PagedCollection<Request>.Create<RequestResponse>(
                 Link.ToCollection(nameof(GetRequestsAsync)),
                 requests.Items.ToArray(),
                 requests.TotalSize,
                 pagingOptions);
+
+            collection.RequestsQuery = FormMetadata.FromResource<Request>(
+                Link.ToForm(
+                    nameof(GetRequestsAsync),
+                    null,
+                    Link.GetMethod,
+                    Form.QueryRelation));
 
             return Ok(collection);
         }

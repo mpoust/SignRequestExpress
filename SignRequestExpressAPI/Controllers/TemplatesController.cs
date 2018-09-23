@@ -74,7 +74,7 @@ namespace SignRequestExpressAPI.Controllers
                 searchOptions,
                 ct);
 
-            var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
+           // var collectionLink = Link.ToCollection(nameof(GetTemplatesAsync));
 
             var collection = PagedCollection<Template>.Create(
                 Link.ToCollection(nameof(GetTemplatesAsync)),

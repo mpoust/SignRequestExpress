@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified:
+ * Last Modified: 9/22/2018
  * Description: Extending the base Collection model to return a collection of resources with the specified number per page of in the response
  * 
  * References:
@@ -47,13 +47,13 @@ namespace SignRequestExpressAPI.Models
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Link Last { get; set; }
 
+        public static PagedCollection<T> Create(Link self, T[] items, int size, PagingOptions pagingOptions)
+            => Create<PagedCollection<T>>(self, items, size, pagingOptions);
+
         // To include links to pages within the paginated results
-        public static PagedCollection<T> Create(
-            Link self,
-            T[] items,
-            int size,
-            PagingOptions pagingOptions)
-            => new PagedCollection<T>
+        public static TResponse Create<TResponse>(Link self, T[] items, int size, PagingOptions pagingOptions)
+            where TResponse : PagedCollection<T>, new()
+            => new TResponse
             {
                 Self = self,
                 Value = items,
