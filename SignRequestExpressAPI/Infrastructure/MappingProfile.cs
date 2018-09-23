@@ -55,7 +55,10 @@ namespace SignRequestExpressAPI.Infrastructure
                         Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })))
                     .ForMember(dest => dest.Submit, opt => opt.MapFrom(src =>
                         FormMetadata.FromModel(
-                            new RequestForm(),
+                            new RequestForm
+                            {
+                                NeededDate = src.NeededDate
+                            },
                             Link.ToForm(
                                 nameof(Controllers.RequestsController.SubmitRequestAsync),
                                 new { requestId = src.Id },

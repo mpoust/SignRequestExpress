@@ -15,6 +15,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using SignRequestExpressAPI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,11 @@ namespace SignRequestExpressAPI.Models
     {
         public string RequestNumber { get; set; }
 
+        public string Reason { get; set; }
+
         public byte Status { get; set; }
 
+        [Sortable(Default = true)]
         public DateTime RequestedDate { get; set; }
 
         public DateTime NeededDate { get; set; }

@@ -27,6 +27,8 @@ namespace SignRequestExpressAPI.Entities
     {
         public Guid Id { get; set; }
 
+        public string Reason { get; set; }
+
         public string RequestNumber { get; set; }
 
         public byte Status { get; set; }
