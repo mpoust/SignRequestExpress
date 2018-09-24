@@ -15,6 +15,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Entities;
 using System;
@@ -24,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI
 {
-    public class SignAPIContext : DbContext
+    public class SignAPIContext : IdentityDbContext<UserAccountEntity, UserAccountRoleEntity, Guid>
     {
         public SignAPIContext(DbContextOptions options)
             : base(options) { }

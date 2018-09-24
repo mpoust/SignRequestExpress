@@ -37,6 +37,7 @@ using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 namespace SignRequestExpressAPI
 {
@@ -67,6 +68,11 @@ namespace SignRequestExpressAPI
                                 "User ID=mbp3;Password=Mbp934440343;MultipleActiveResultSets=False;" +
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
+
+            // Add ASP.NET Core Identity
+            services.AddIdentity<UserAccountEntity, UserAccountRoleEntity>()
+                .AddEntityFrameworkStores<SignAPIContext>() // Guid not passed here??
+                .AddDefaultTokenProviders();
 
             // Set up AutoMapper
             services.AddAutoMapper();
