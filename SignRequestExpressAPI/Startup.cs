@@ -65,7 +65,7 @@ namespace SignRequestExpressAPI
             // TODO: Move connection string to configuration file
             var connection = @"Server=tcp:sign-request-express.database.windows.net,1433;" +
                                 "Initial Catalog=SRE-DB;Persist Security Info=False;" +
-                                "User ID=mbp3;Password=Mbp934440343;MultipleActiveResultSets=False;" +
+                                "User ID=mbp3;Password=CIT498-01;MultipleActiveResultSets=False;" +
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
 
