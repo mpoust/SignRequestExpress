@@ -52,6 +52,7 @@ namespace SignRequestExpress
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            // Format for URL routing logic --> Defaults to HomeController - Index method
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

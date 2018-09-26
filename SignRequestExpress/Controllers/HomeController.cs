@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpress.Models;
 
+/*
+ * Will probably end up turning this into the default landing page, then once you login have the organization specific 
+ *  and role specific pages displayed
+ * 
+ */
+
+
 namespace SignRequestExpress.Controllers
 {
     public class HomeController : Controller

@@ -1,9 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<!--
+ Shared layout file for the menu items    
+-->
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SignRequestExpress</title>
+    <title>@ViewData["Title"] - SRE</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,7 +30,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SignRequestExpress</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -41,10 +45,10 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
-        @RenderBody()
+        @RenderBody() <!-- This is where all the view-specific pages show up -->
         <hr />
         <footer>
-            <p>&copy; 2018 - SignRequestExpress</p>
+            <p>&copy; 2018 - Michael Poust</p>
         </footer>
     </div>
 
