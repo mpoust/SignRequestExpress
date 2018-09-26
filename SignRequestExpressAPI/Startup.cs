@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/23/2018
+ * Last Modified: 9/25/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -38,6 +38,7 @@ using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace SignRequestExpressAPI
 {
@@ -65,7 +66,7 @@ namespace SignRequestExpressAPI
             // TODO: Move connection string to configuration file
             var connection = @"Server=tcp:sign-request-express.database.windows.net,1433;" +
                                 "Initial Catalog=SRE-DB;Persist Security Info=False;" +
-                                "User ID=mbp3;Password=Mbp934440343;MultipleActiveResultSets=False;" +
+                                "User ID=mbp3;Password=CIT498-01;MultipleActiveResultSets=False;" +
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
 
@@ -134,16 +135,15 @@ namespace SignRequestExpressAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // Add some test data in development -- goes with services.AddDbContext above
-            // TODO: connect to real database and gather data that way
-            /*
-            if (env.IsDevelopment())
+            else
             {
-                var context = app.ApplicationServices.GetRequiredService<SignAPIContext>();
-                AddTestData(context);
+
             }
-            */
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // New way to require https redirection
             app.UseHttpsRedirection();
