@@ -22,7 +22,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
 
 namespace SignRequestExpressAPI.Services
@@ -30,25 +32,58 @@ namespace SignRequestExpressAPI.Services
     public class DefaultUserService : IUserService
     {
         private readonly SignAPIContext _context;
+        private readonly UserManager<UserEntity> _userManager;
+        private readonly IConfigurationProvider _mappingConfiguration;
 
-        public DefaultUserService(SignAPIContext context)
+        public DefaultUserService(
+            UserManager<UserEntity> userManager,
+            IConfigurationProvider mappingConfiguration)
         {
-            _context = context;
+            _userManager = userManager;
+            _mappingConfiguration = mappingConfiguration;
         }
 
+        public Task<(bool Succeeded, string ErrorMessage)> CreateUserAsync(RegisterForm form)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserByIdAsync(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*
         public async Task<User> GetUserAsync(Guid id, CancellationToken ct)
         {
             var entity = await _context.User.SingleOrDefaultAsync(u => u.Id == id, ct);
             if (entity == null) return null;
             return Mapper.Map<User>(entity);
         }
+        */
 
-        public async Task<IEnumerable<User>> GetUsersAsync(CancellationToken ct)
+        public async Task<PagedResults<User>> GetUsersAsync(
+            PagingOptions pagingOptions,
+            SortOptions<User, UserEntity> sortOptions,
+            SearchOptions<User, UserEntity> searchOptions)
         {
-            var query = _context.User
-                .ProjectTo<User>();
+            IQueryable<UserEntity> query = _userManager.Users;
+            query = searchOptions.Apply(query);
+            query = sortOptions.Apply(query);
 
-            return await query.ToArrayAsync();
+            var size = await query.CountAsync();
+
+            var items = await query
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value)
+                .ProjectTo<User>(_mappingConfiguration)
+                .ToArrayAsync();
+
+            return new PagedResults<User>
+            {
+                Items = items,
+                TotalSize = size
+            };
         }
     }
 }

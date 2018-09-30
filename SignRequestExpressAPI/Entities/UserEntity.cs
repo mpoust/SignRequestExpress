@@ -6,8 +6,9 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/30/2018
  * Description: This is an entity that models an object from the User table from the database.
+ *  Extends IdentityUser from Microsoft Identity
  * 
  * References:
  *   
@@ -15,6 +16,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +24,19 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Entities
 {
-    public class UserEntity
+    public class UserEntity : IdentityUser<Guid>
     {
-        public Guid Id { get; set; }
-
         public Int16 UserNumber { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public string PhoneNum { get; set; }
-
-        public string Email { get; set; }
+        public byte RoleFK { get; set; }
 
         public bool IsEmailPreferred { get; set; }
+
+        public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedDateTime { get; set; }
     }

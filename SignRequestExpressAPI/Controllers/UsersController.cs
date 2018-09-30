@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/17/2018
- * Last Modified:
+ * Last Modified: 9/30/2018
  * Description: This controller will return data requested for Users within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -18,50 +18,81 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Models;
+using SignRequestExpressAPI.Infrastructure;
 using SignRequestExpressAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SignRequestExpressAPI.Entities;
 
 namespace SignRequestExpressAPI.Controllers
 {
     [Route("/[controller]")]
     [ApiVersion("1.0")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly PagingOptions _defaultPagingOptions;
+        //private readonly IAuthorizationService _authzService;
 
-        public UsersController(IUserService userService)
+        public UsersController(
+            IUserService userService,
+            IOptions<PagingOptions> defaultPagingOptions)
         {
             _userService = userService;
+            _defaultPagingOptions = defaultPagingOptions.Value;
+           // _authzService = AuthorizationService;
         }
 
-        [HttpGet(Name = nameof(GetUsersAsync))]
-        public async Task<IActionResult> GetUsersAsync(CancellationToken ct)
+        [HttpGet(Name = nameof(GetVisibleUsers))]
+        public async Task<ActionResult<PagedCollection<User>>> GetVisibleUsers(
+            [FromQuery] PagingOptions pagingOptions,
+            [FromQuery] SortOptions<User, UserEntity> sortOptions,
+            [FromQuery] SearchOptions<User, UserEntity> searchOptions)
         {
-            var users = await _userService.GetUsersAsync(ct);
+            pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
+            pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            var collectionLink = Link.ToCollection(nameof(GetUsersAsync));
+            // TODO: Authorization check. Is the user an executive or admin?
 
-            var collection = new Collection<User>
-            {
-                Self = collectionLink,
-                Value = users.ToArray()
-            };
+            // TODO: return a collection of visible users
+            var users = await _userService.GetUsersAsync(
+                pagingOptions, sortOptions, searchOptions);
 
-            return Ok(collection);
+            var collection = PagedCollection<User>.Create(
+                Link.ToCollection(nameof(GetVisibleUsers)),
+                users.Items.ToArray(),
+                users.TotalSize,
+                pagingOptions);
+
+            return collection;
         }
 
-        [HttpGet("{userId}", Name = nameof(GetUserByIdAsync))]
-        public async Task<IActionResult> GetUserByIdAsync(Guid userId, CancellationToken ct)
+        //[Authorize]
+        [HttpGet("{userId}", Name = nameof(GetUserById))]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetUserById(Guid userId)
         {
-            var user = await _userService.GetUserAsync(userId, ct);
-            if (user == null) return NotFound();
-            return Ok(user);
+            throw new NotImplementedException();
         }
+
+        /*
+        // POST /users
+        [HttpPost(Name = nameof(RegisterUser))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(201)]
+        public async Task<IActionResult> RegisterUser(
+            [FromBody] RegisterForm form)
+        {
+            throw new NotImplementedException();
+        }
+        */
     }
 }

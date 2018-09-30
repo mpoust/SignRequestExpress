@@ -25,11 +25,14 @@ using System.Threading.Tasks;
 namespace SignRequestExpressAPI.Controllers
 {
     [Route("/")]
+    [ApiController]
     [ApiVersion("1.0")]
-    public class RootController : Controller
+    public class RootController : ControllerBase
     {
         // IActionResult gives flexibility to return HTTP status codes, JSON responses, or both.
         [HttpGet(Name = nameof(GetRoot))]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(304)]
         public IActionResult GetRoot()
         {
             var response = new RootResponse
@@ -39,7 +42,7 @@ namespace SignRequestExpressAPI.Controllers
                 Accounts = Link.To(nameof(AccountsController.GetAccountsAsync)),
                 AccountContacts = Link.To(nameof(AccountContactsController.GetAccountContactsAsync)),
                 Templates = Link.To(nameof(TemplatesController.GetTemplatesAsync)),
-                Users = Link.To(nameof(UsersController.GetUsersAsync)),
+                Users = Link.To(nameof(UsersController.GetVisibleUsers)),
                 Brands = Link.To(nameof(BrandsController.GetBrandsAsync)),
                 BrandStandards = Link.To(nameof(BrandStandardsController.GetBrandStandardsAsync)),
                 Requests = Link.To(nameof(RequestsController.GetRequestsAsync))

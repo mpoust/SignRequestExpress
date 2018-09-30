@@ -70,10 +70,8 @@ namespace SignRequestExpressAPI
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
 
-            // Add ASP.NET Core Identity
-            services.AddIdentity<UserAccountEntity, UserAccountRoleEntity>()
-                .AddEntityFrameworkStores<SignAPIContext>() // Guid not passed here??
-                .AddDefaultTokenProviders();
+            // Add ASP.NET Core Identity  
+            AddIdentityCoreServices(services);
 
             // Set up AutoMapper
             services.AddAutoMapper();
@@ -157,6 +155,20 @@ namespace SignRequestExpressAPI
             });
             app.UseResponseCaching();
             app.UseMvc();
+        }
+
+        private static void AddIdentityCoreServices(IServiceCollection services)
+        {
+            var builder = services.AddIdentityCore<UserEntity>();
+            builder = new IdentityBuilder(
+                builder.UserType,
+                typeof(UserRoleEntity),
+                builder.Services);
+
+            builder.AddRoles<UserRoleEntity>()
+                .AddEntityFrameworkStores<SignAPIContext>()
+                .AddDefaultTokenProviders()
+                .AddSignInManager<SignInManager<UserEntity>>();
         }
     }
 }

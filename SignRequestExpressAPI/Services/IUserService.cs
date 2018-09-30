@@ -17,22 +17,27 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Services
 {
     public interface IUserService
     {
-        Task<User> GetUserAsync(
-            Guid id,
-            CancellationToken ct);
+        Task<PagedResults<User>> GetUsersAsync(
+            PagingOptions pagingOptions,
+            SortOptions<User, UserEntity> sortOptions,
+            SearchOptions<User, UserEntity> searchOptions);
 
-        Task<IEnumerable<User>> GetUsersAsync(
-            CancellationToken ct);
+        Task<(bool Succeeded, string ErrorMessage)> CreatUserAsync(RegisterForm form);
+
+        //Task<Guid?> GetUserIdAsync(ClaimsPrincipal principal);
+
+        Task<User> GetUserByIdAsync(Guid userId);
+
+        //Task<User> GetUserAsync(ClaimsPrincipal user);
     }
 }

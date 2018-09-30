@@ -34,6 +34,6 @@ namespace SignRequestExpressAPI.Entities
 
         public string ImageURI { get; set; }
 
-        public DateTime ModifiedDT { get; set; }
+        public DateTime ModifiedDateTime { get; set; }
     }
 }

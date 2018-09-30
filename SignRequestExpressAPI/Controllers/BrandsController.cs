@@ -30,8 +30,9 @@ using System.Threading.Tasks;
 namespace SignRequestExpressAPI.Controllers
 {
     [Route("/[controller]")]
+    [ApiController]
     [ApiVersion("1.0")]
-    public class BrandsController : Controller
+    public class BrandsController : ControllerBase
     {
         private readonly IBrandService _brandService;
 

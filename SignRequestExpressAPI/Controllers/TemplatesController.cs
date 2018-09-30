@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 namespace SignRequestExpressAPI.Controllers
 {
     [Route("/[controller]")]
+    [ApiController]
     [ApiVersion("1.0")]
     public class TemplatesController : Controller
     {

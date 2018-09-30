@@ -2,13 +2,13 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: UserAccountRoleEntity.cs
+ * FileName: UserRoleEntity.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/24/2018
- * Last Modified:
- * Description: This entity gives roles to the UserAccountEntity (Admin, Sales, Sign Shop)
- *  
+ * Created On: 9/30/2018
+ * Last Modified: 
+ * Description: This entity models a role a user can be in. 
+ *  Extends from IdentityRole
  * 
  * References:
  *   
@@ -24,14 +24,16 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI.Entities
 {
-    public class UserAccountRoleEntity : IdentityRole<Guid>
+    public class UserRoleEntity : IdentityRole<Guid>
     {
-        public UserAccountRoleEntity()
+        public UserRoleEntity()
             : base()
-        { }
+        {
+        }
 
-        public UserAccountRoleEntity(string roleName)
+        public UserRoleEntity(string roleName)
             : base(roleName)
-        { }
+        {
+        }
     }
 }
