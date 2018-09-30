@@ -43,9 +43,31 @@ namespace SignRequestExpressAPI.Services
             _mappingConfiguration = mappingConfiguration;
         }
 
-        public Task<(bool Succeeded, string ErrorMessage)> CreateUserAsync(RegisterForm form)
+        public async Task<(bool Succeeded, string ErrorMessage)> CreateUserAsync(
+            RegisterForm form)
         {
-            throw new NotImplementedException();
+            var id = Guid.NewGuid();
+
+            var user = new UserEntity
+            {
+                Id = id,
+                UserName = form.UserName,
+                FirstName = form.FirstName,
+                LastName = form.LastName,
+                PhoneNumber = form.PhoneNumber,
+                Email = form.Email,
+                ModifiedDateTime = DateTime.Now
+            };
+
+            // Validates password here
+            var result = await _userManager.CreateAsync(user, form.Password);
+            if (!result.Succeeded)
+            {
+                var firstError = result.Errors.FirstOrDefault()?.Description;
+                return (false, firstError);
+            }
+
+            return (true, null);
         }
 
         public Task<User> GetUserByIdAsync(Guid userId)

@@ -2,7 +2,8 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: FormField.cs
+ * FileName: 
+ * Field.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/22/2018

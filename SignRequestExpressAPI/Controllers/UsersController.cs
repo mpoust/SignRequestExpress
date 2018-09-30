@@ -83,7 +83,7 @@ namespace SignRequestExpressAPI.Controllers
             throw new NotImplementedException();
         }
 
-        /*
+        
         // POST /users
         [HttpPost(Name = nameof(RegisterUser))]
         [ProducesResponseType(400)]
@@ -91,8 +91,16 @@ namespace SignRequestExpressAPI.Controllers
         public async Task<IActionResult> RegisterUser(
             [FromBody] RegisterForm form)
         {
-            throw new NotImplementedException();
+            var (succeeded, message) = await _userService.CreateUserAsync(form);
+            if (succeeded) return Created("todo", null);
+            // TODO: link(no userinfo route yet)
+
+            return BadRequest(new ApiError
+            {
+                Message = "Registration failed.",
+                Detail = message
+            });
         }
-        */
+        
     }
 }

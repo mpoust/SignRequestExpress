@@ -23,7 +23,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Models.Form
+namespace SignRequestExpressAPI.Models
 {
     public class RegisterForm
     {
@@ -59,5 +59,9 @@ namespace SignRequestExpressAPI.Models.Form
         [Display(Name = "email", Description = "Email address")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "modifiedDateTime", Description = "Timestamp of most recent modification to user")]
+        public DateTime ModifiedDateTime { get; set; }
     }
 }

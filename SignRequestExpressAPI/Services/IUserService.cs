@@ -32,7 +32,7 @@ namespace SignRequestExpressAPI.Services
             SortOptions<User, UserEntity> sortOptions,
             SearchOptions<User, UserEntity> searchOptions);
 
-        Task<(bool Succeeded, string ErrorMessage)> CreatUserAsync(RegisterForm form);
+        Task<(bool Succeeded, string ErrorMessage)> CreateUserAsync(RegisterForm form);
 
         //Task<Guid?> GetUserIdAsync(ClaimsPrincipal principal);
 
