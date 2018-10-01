@@ -48,7 +48,7 @@ namespace SignRequestExpressAPI.Services
         {
             var id = Guid.NewGuid();
 
-            var user = new UserEntity
+            var entity = new UserEntity
             {
                 Id = id,
                 UserName = form.UserName,
@@ -60,7 +60,7 @@ namespace SignRequestExpressAPI.Services
             };
 
             // Validates password here
-            var result = await _userManager.CreateAsync(user, form.Password);
+            var result = await _userManager.CreateAsync(entity, form.Password);
             if (!result.Succeeded)
             {
                 var firstError = result.Errors.FirstOrDefault()?.Description;

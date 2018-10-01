@@ -60,8 +60,10 @@ namespace SignRequestExpressAPI.Models
         [EmailAddress]
         public string Email { get; set; }
 
+        /*
         [Required]
         [Display(Name = "modifiedDateTime", Description = "Timestamp of most recent modification to user")]
         public DateTime ModifiedDateTime { get; set; }
+        */
     }
 }

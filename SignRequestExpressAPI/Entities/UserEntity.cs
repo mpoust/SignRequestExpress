@@ -26,17 +26,17 @@ namespace SignRequestExpressAPI.Entities
 {
     public class UserEntity : IdentityUser<Guid>
     {
-        public Int16 UserNumber { get; set; }
+        public short UserNumber { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public byte RoleFK { get; set; }
+        //public byte RoleFK { get; set; }
 
         public bool IsEmailPreferred { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+      //  public DateTime CreatedAt { get; set; }
 
         public DateTime ModifiedDateTime { get; set; }
     }

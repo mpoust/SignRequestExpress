@@ -26,19 +26,19 @@ namespace SignRequestExpressAPI.Models
     public class User : Resource
     {
         [Sortable(Default = true)]
-        public Int16 UserNumber { get;  set; }
+        public short UserNumber { get;  set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public byte RoleFK { get; set; }
+       // public byte RoleFK { get; set; }
 
         public bool IsEmailPreferred { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+       // public DateTime CreatedAt { get; set; }
 
-        public DateTime ModifiedDateTime { get; set; }
+       public DateTime ModifiedDateTime { get; set; }
 
     }
 }
