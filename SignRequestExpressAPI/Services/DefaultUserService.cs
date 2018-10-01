@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -56,6 +57,7 @@ namespace SignRequestExpressAPI.Services
                 LastName = form.LastName,
                 PhoneNumber = form.PhoneNumber,
                 Email = form.Email,
+                CreatedAt = DateTime.Now,
                 ModifiedDateTime = DateTime.Now
             };
 
@@ -70,19 +72,21 @@ namespace SignRequestExpressAPI.Services
             return (true, null);
         }
 
-        public Task<User> GetUserByIdAsync(Guid userId)
+        public async Task<User> GetUserAsync(ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            var entity = await _userManager.GetUserAsync(user);
+            var mapper = _mappingConfiguration.CreateMapper();
+
+            return mapper.Map<User>(entity);
         }
 
-        /*
-        public async Task<User> GetUserAsync(Guid id, CancellationToken ct)
+        public async Task<Guid?> GetUserIdAsync(ClaimsPrincipal principal)
         {
-            var entity = await _context.User.SingleOrDefaultAsync(u => u.Id == id, ct);
+            var entity = await _userManager.GetUserAsync(principal);
             if (entity == null) return null;
-            return Mapper.Map<User>(entity);
+
+            return entity.Id;
         }
-        */
 
         public async Task<PagedResults<User>> GetUsersAsync(
             PagingOptions pagingOptions,
@@ -106,6 +110,15 @@ namespace SignRequestExpressAPI.Services
                 Items = items,
                 TotalSize = size
             };
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid userId)
+        {
+            var entity = await _userManager.Users
+                .SingleOrDefaultAsync(x => x.Id == userId);
+            var mapper = _mappingConfiguration.CreateMapper();
+
+            return mapper.Map<User>(entity);
         }
     }
 }

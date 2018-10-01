@@ -45,9 +45,11 @@ namespace SignRequestExpressAPI.Infrastructure
                     Link.To(nameof(Controllers.UsersController.GetUserByIdAsync), new { userId = src.Id })));
                 */
 
+                /*
                 cfg.CreateMap<UserEntity, User>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                    Link.To(nameof(Controllers.UsersController.GetUserById),
                    new { userId = src.Id })));
+                */
 
                 cfg.CreateMap<BrandEntity, Brand>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandsController.GetBrandByIdAsync), new { brandId = src.Id })));
@@ -70,7 +72,13 @@ namespace SignRequestExpressAPI.Infrastructure
                                 Link.PostMethod,
                                 Form.CreateRelation))));
 
-            });            
+            });
+
+            CreateMap<UserEntity, User>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.UsersController.GetUserById),
+                    new { userId = src.Id })));
+
         }
     }
 }

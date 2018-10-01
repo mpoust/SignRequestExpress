@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/25/2018
+ * Last Modified: 10/01/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -39,6 +39,8 @@ using SignRequestExpressAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.HttpOverrides;
+using AspNet.Security.OpenIdConnect.Primitives;
+using OpenIddict.Validation;
 
 namespace SignRequestExpressAPI
 {
@@ -68,10 +70,53 @@ namespace SignRequestExpressAPI
                                 "Initial Catalog=SRE-DB;Persist Security Info=False;" +
                                 "User ID=mbp3;Password=CIT498-01;MultipleActiveResultSets=False;" +
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
+
+            services.AddDbContext<SignAPIContext>(opt =>
+                {
+                    opt.UseSqlServer(connection);
+                    opt.UseOpenIddict<Guid>();
+                });
+
+            // Add OpenIddict services
+            services.AddOpenIddict()
+                .AddCore(opt =>
+                {
+                    opt.UseEntityFrameworkCore()
+                    .UseDbContext<SignAPIContext>()
+                    .ReplaceDefaultEntities<Guid>();
+                })
+                .AddServer(opt =>
+                {
+                    opt.UseMvc();
+                    opt.EnableTokenEndpoint("/token");
+                    opt.AllowPasswordFlow();
+                    opt.AcceptAnonymousClients();
+                })
+                .AddValidation();
+
+            // ASP.NET Core Identity should use the same claim names as OpenIddict
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                opt.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                opt.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            // Add Authentication and set some defaults
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultScheme = OpenIddictValidationDefaults.AuthenticationScheme;
+            });
 
             // Add ASP.NET Core Identity  
             AddIdentityCoreServices(services);
+
+            // Authorization Policies
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("ViewAllUsersPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+            });
 
             // Set up AutoMapper
             services.AddAutoMapper();
@@ -153,6 +198,8 @@ namespace SignRequestExpressAPI
                 opt.IncludeSubdomains();
                 opt.Preload();
             });
+
+            app.UseAuthentication();
             app.UseResponseCaching();
             app.UseMvc();
         }

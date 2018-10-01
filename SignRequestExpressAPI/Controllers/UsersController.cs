@@ -39,15 +39,16 @@ namespace SignRequestExpressAPI.Controllers
     {
         private readonly IUserService _userService;
         private readonly PagingOptions _defaultPagingOptions;
-        //private readonly IAuthorizationService _authzService;
+        private readonly IAuthorizationService _authzService;
 
         public UsersController(
             IUserService userService,
-            IOptions<PagingOptions> defaultPagingOptions)
+            IOptions<PagingOptions> defaultPagingOptions,
+            IAuthorizationService authorizationService)
         {
             _userService = userService;
             _defaultPagingOptions = defaultPagingOptions.Value;
-           // _authzService = AuthorizationService;
+            _authzService = authorizationService;
         }
 
         [HttpGet(Name = nameof(GetVisibleUsers))]
@@ -59,11 +60,24 @@ namespace SignRequestExpressAPI.Controllers
             pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
             pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            // TODO: Authorization check. Is the user an executive or admin?
-
-            // TODO: return a collection of visible users
-            var users = await _userService.GetUsersAsync(
-                pagingOptions, sortOptions, searchOptions);
+            var users = new PagedResults<User>();
+            if (User.Identity.IsAuthenticated)
+            {
+                var canSeeEveryone = await _authzService.AuthorizeAsync(
+                    User, "ViewAllUsersPolicy");
+                if (canSeeEveryone.Succeeded)
+                {
+                    // Executive, view everyone                
+                    users = await _userService.GetUsersAsync(
+                        pagingOptions, sortOptions, searchOptions);
+                }
+                else // Only return self
+                {
+                    var myself = await _userService.GetUserAsync(User);
+                    users.Items = new[] { myself };
+                    users.TotalSize = 1;
+                }
+            }
 
             var collection = PagedCollection<User>.Create(
                 Link.ToCollection(nameof(GetVisibleUsers)),
@@ -74,13 +88,29 @@ namespace SignRequestExpressAPI.Controllers
             return collection;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("{userId}", Name = nameof(GetUserById))]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetUserById(Guid userId)
+        public async Task<ActionResult<User>> GetUserById(Guid userId)
         {
-            throw new NotImplementedException();
+            var currentUserId = await _userService.GetUserIdAsync(User);
+            if (currentUserId == null) return NotFound();
+
+            if (currentUserId == userId)
+            {
+                var myself = await _userService.GetUserAsync(User);
+                return myself;
+            }
+
+            var canSeeEveryone = await _authzService.AuthorizeAsync(
+                User, "ViewAllUsersPolicy");
+            if (!canSeeEveryone.Succeeded) return NotFound();
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            return user;
         }
 
         
@@ -92,8 +122,9 @@ namespace SignRequestExpressAPI.Controllers
             [FromBody] RegisterForm form)
         {
             var (succeeded, message) = await _userService.CreateUserAsync(form);
-            if (succeeded) return Created("todo", null);
-            // TODO: link(no userinfo route yet)
+            if (succeeded) return Created(
+                Url.Link(nameof(UserinfoController.Userinfo), null),
+                null);
 
             return BadRequest(new ApiError
             {
