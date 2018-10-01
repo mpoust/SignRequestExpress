@@ -57,6 +57,9 @@ namespace SignRequestExpressAPI.Infrastructure
                 cfg.CreateMap<BrandStandardsEntity, BrandStandards>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandStandardsController.GetBrandStandardbyIdAsync), new { brandStandardId = src.Id })));
 
+
+                
+                /* // Commenting this out makes the return of request not return the form fields underneath each and every request
                 cfg.CreateMap<RequestEntity, Request>()
                     .ForMember(dest => dest.Self, opt => opt.MapFrom(src => 
                         Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })))
@@ -71,6 +74,12 @@ namespace SignRequestExpressAPI.Infrastructure
                                 new { requestId = src.Id },
                                 Link.PostMethod,
                                 Form.CreateRelation))));
+                */
+
+                cfg.CreateMap<RequestEntity, Request>()
+                    .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                        Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })));
+                    
 
             });
 

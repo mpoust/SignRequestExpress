@@ -60,7 +60,11 @@ namespace SignRequestExpressAPI.Controllers
             pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
             pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
-            var users = new PagedResults<User>();
+            var users = new PagedResults<User>()
+            {
+                Items = Enumerable.Empty<User>()
+            };
+
             if (User.Identity.IsAuthenticated)
             {
                 var canSeeEveryone = await _authzService.AuthorizeAsync(
@@ -79,11 +83,16 @@ namespace SignRequestExpressAPI.Controllers
                 }
             }
 
-            var collection = PagedCollection<User>.Create(
+            var collection = PagedCollection<User>.Create<UsersResponse>(
                 Link.ToCollection(nameof(GetVisibleUsers)),
                 users.Items.ToArray(),
                 users.TotalSize,
                 pagingOptions);
+
+            collection.Me = Link.To(nameof(UserinfoController.Userinfo));
+            collection.Register = FormMetadata.FromModel(
+                new RegisterForm(),
+                Link.ToForm(nameof(RegisterUser), relations: Form.CreateRelation));
 
             return collection;
         }
@@ -121,6 +130,7 @@ namespace SignRequestExpressAPI.Controllers
         public async Task<IActionResult> RegisterUser(
             [FromBody] RegisterForm form)
         {
+            // TODO: figure out where to increment userNumber value - stored procedure or here?  Get max and increment by 1
             var (succeeded, message) = await _userService.CreateUserAsync(form);
             if (succeeded) return Created(
                 Url.Link(nameof(UserinfoController.Userinfo), null),
