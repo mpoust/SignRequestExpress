@@ -18,12 +18,22 @@ namespace SignRequestExpress.Controllers
             return View();
         }
 
+        /*
         // numTimes defaults to 1 if no parameter is provided. This method uses ModelBinding
         // GET: /sales
         public string Name(string name, int numTimes = 1)
         {
             // HtmlEncoder.Default.Encode protects the app from malicious input (namely JavaScript)
             return HtmlEncoder.Default.Encode($"Hello {name}, NumTimes is: {numTimes}");
+        }
+        */
+
+        public IActionResult Welcome(string name, int numTimes = 1)
+        {
+            ViewData["Message"] = "Hello " + name;
+            ViewData["NumTimes"] = numTimes;
+
+            return View();
         }
 
         //

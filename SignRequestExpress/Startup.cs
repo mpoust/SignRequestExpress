@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SignRequestExpress.Models;
 
 namespace SignRequestExpress
 {
@@ -30,6 +31,9 @@ namespace SignRequestExpress
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            // Configure base URL for API access
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
