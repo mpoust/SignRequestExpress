@@ -161,7 +161,7 @@ namespace SignRequestExpressAPI
             {
                 opt.AddPolicy("AllowSPA",
                     policy => policy
-                        .WithOrigins("https://signrequestexpress.azurewebsites.net/"));
+                        .WithOrigins("https://signrequestexpress.azurewebsites.net"));
 
                 // During testing
                 /*

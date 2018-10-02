@@ -14,6 +14,7 @@ using SignRequestExpress.Models;
  * Will probably end up turning this into the default landing page, then once you login have the organization specific 
  *  and role specific pages displayed
  * 
+ * why is continous deployment so weird
  */
 
 
@@ -37,7 +38,7 @@ namespace SignRequestExpress.Controllers
         {
             var client = _clientFactory.CreateClient("sreApi");
 
-            ViewData["Message"] = "Pulling contact information from API.";
+            ViewData["Message"] = "Pulling contact information from API. But is it working??";
             ViewData["ApiUrl"] = new Uri(client.BaseAddress.ToString());
 
             HttpResponseMessage message = await client.GetAsync("/info");
