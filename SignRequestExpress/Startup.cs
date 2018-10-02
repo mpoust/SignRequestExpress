@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,9 +33,13 @@ namespace SignRequestExpress
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // Configure base URL for API access
-            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
-
+            // Create HttpClient to be used throughout the application
+            services.AddHttpClient("sreApi", c =>
+            {
+                //c.BaseAddress = new Uri(Configuration.GetSection("ApiSettings").ToString());
+                c.BaseAddress = new Uri(Configuration["ApiSettings:ApiUrl"]);
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/ion+json"));
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

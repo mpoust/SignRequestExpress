@@ -21,11 +21,11 @@ namespace SignRequestExpress.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApiSettings _apiSettings;
+        private readonly IHttpClientFactory _clientFactory; 
 
-        public HomeController(IOptions<ApiSettings> apiSettings)
+        public HomeController(IHttpClientFactory clientFactory)
         {
-            _apiSettings = apiSettings.Value;
+            _clientFactory = clientFactory;
         }
 
         public IActionResult Index()
@@ -35,31 +35,17 @@ namespace SignRequestExpress.Controllers
 
         public async Task<IActionResult> About()
         {
-            CompanyInfo companyInfo;
-            
+            var client = _clientFactory.CreateClient("sreApi");
 
             ViewData["Message"] = "Pulling contact information from API.";
-            ViewData["ApiUrl"] = new Uri(_apiSettings.ApiUrl);
+            ViewData["ApiUrl"] = new Uri(client.BaseAddress.ToString());
 
-            using(var client = new HttpClient())
+            HttpResponseMessage message = await client.GetAsync("/info");
+            if (message.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri(_apiSettings.ApiUrl);
-                client.DefaultRequestHeaders.Clear(); // Can add Bearer token here later?
-                // Define request data format - our API uses application/ion+json
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/ion+json")); // Should I move this connection to someplace else where it applies everywhere?
-                // Sending request to find web API REST service resource info
-                HttpResponseMessage message = await client.GetAsync("/info");
-
-                if (message.IsSuccessStatusCode)
-                {
-                    var infoResponse = message.Content.ReadAsStringAsync().Result;
-                    companyInfo = JsonConvert.DeserializeObject<CompanyInfo>(infoResponse);
-                    ViewData["Name"] = companyInfo.Name;
-                }
-                else
-                {
-                    ViewData["Name"] = "Something went wrong";
-                }
+                var infoResponse = message.Content.ReadAsStringAsync().Result;
+                CompanyInfo companyInfo = JsonConvert.DeserializeObject<CompanyInfo>(infoResponse);
+                ViewData["Name"] = companyInfo.Name;
             }
 
             return View();
