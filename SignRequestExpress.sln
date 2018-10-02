@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		HeaderComment.txt = HeaderComment.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRequestExpress", "SignRequestExpress\SignRequestExpress.csproj", "{CA72A37B-392C-44D6-9B62-EFDE6CE50F04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA72A37B-392C-44D6-9B62-EFDE6CE50F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA72A37B-392C-44D6-9B62-EFDE6CE50F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA72A37B-392C-44D6-9B62-EFDE6CE50F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA72A37B-392C-44D6-9B62-EFDE6CE50F04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

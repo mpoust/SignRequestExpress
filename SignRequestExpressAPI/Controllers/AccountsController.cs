@@ -32,8 +32,9 @@ namespace SignRequestExpressAPI.Controllers
 {
     // "/accounts"
     [Route("/[controller]")]
+    [ApiController]
     [ApiVersion("1.0")]
-    public class AccountsController : Controller
+    public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
 

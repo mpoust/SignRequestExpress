@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpressAPI
 {
-    public class SignAPIContext : IdentityDbContext<UserAccountEntity, UserAccountRoleEntity, Guid>
+    public class SignAPIContext : IdentityDbContext<UserEntity, UserRoleEntity, Guid>
     {
         public SignAPIContext(DbContextOptions options)
             : base(options) { }
@@ -37,7 +37,7 @@ namespace SignRequestExpressAPI
 
         public DbSet<TemplateEntity> Template { get; set; }
 
-        public DbSet<UserEntity> User { get; set; }
+        //public DbSet<UserEntity> User { get; set; } // Provided from IdentityDbContext
 
         public DbSet<BrandEntity> Brand { get; set; }
 

@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified:
+ * Last Modified: 9/30/2018
  * Description: Resource the API will return to the client - corresponding with UserEntity.cs
  * 
  * References:
@@ -15,6 +15,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using SignRequestExpressAPI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +25,20 @@ namespace SignRequestExpressAPI.Models
 {
     public class User : Resource
     {
-        public Int16 UserNumber { get;  set; }
+        [Sortable(Default = true)]
+        public short UserNumber { get;  set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public string PhoneNum { get; set; }
+       // public byte RoleFK { get; set; }
 
-        public string Email { get; set; }
+        public bool IsEmailPreferred { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime ModifiedDateTime { get; set; }
 
     }
 }

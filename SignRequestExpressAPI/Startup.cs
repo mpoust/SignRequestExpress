@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/23/2018
+ * Last Modified: 10/01/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -38,6 +38,9 @@ using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpOverrides;
+using AspNet.Security.OpenIdConnect.Primitives;
+using OpenIddict.Validation;
 
 namespace SignRequestExpressAPI
 {
@@ -67,12 +70,53 @@ namespace SignRequestExpressAPI
                                 "Initial Catalog=SRE-DB;Persist Security Info=False;" +
                                 "User ID=mbp3;Password=CIT498-01;MultipleActiveResultSets=False;" +
                                 "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            services.AddDbContext<SignAPIContext>(opt => opt.UseSqlServer(connection));
 
-            // Add ASP.NET Core Identity
-            services.AddIdentity<UserAccountEntity, UserAccountRoleEntity>()
-                .AddEntityFrameworkStores<SignAPIContext>() // Guid not passed here??
-                .AddDefaultTokenProviders();
+            services.AddDbContext<SignAPIContext>(opt =>
+                {
+                    opt.UseSqlServer(connection);
+                    opt.UseOpenIddict<Guid>();
+                });
+
+            // Add OpenIddict services
+            services.AddOpenIddict()
+                .AddCore(opt =>
+                {
+                    opt.UseEntityFrameworkCore()
+                    .UseDbContext<SignAPIContext>()
+                    .ReplaceDefaultEntities<Guid>();
+                })
+                .AddServer(opt =>
+                {
+                    opt.UseMvc();
+                    opt.EnableTokenEndpoint("/token");
+                    opt.AllowPasswordFlow();
+                    opt.AcceptAnonymousClients();
+                })
+                .AddValidation();
+
+            // ASP.NET Core Identity should use the same claim names as OpenIddict
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                opt.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                opt.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            // Add Authentication and set some defaults
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultScheme = OpenIddictValidationDefaults.AuthenticationScheme;
+            });
+
+            // Add ASP.NET Core Identity  
+            AddIdentityCoreServices(services);
+
+            // Authorization Policies
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("ViewAllUsersPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+            });
 
             // Set up AutoMapper
             services.AddAutoMapper();
@@ -134,16 +178,15 @@ namespace SignRequestExpressAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // Add some test data in development -- goes with services.AddDbContext above
-            // TODO: connect to real database and gather data that way
-            /*
-            if (env.IsDevelopment())
+            else
             {
-                var context = app.ApplicationServices.GetRequiredService<SignAPIContext>();
-                AddTestData(context);
+
             }
-            */
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // New way to require https redirection
             app.UseHttpsRedirection();
@@ -155,8 +198,24 @@ namespace SignRequestExpressAPI
                 opt.IncludeSubdomains();
                 opt.Preload();
             });
+
+            app.UseAuthentication();
             app.UseResponseCaching();
             app.UseMvc();
+        }
+
+        private static void AddIdentityCoreServices(IServiceCollection services)
+        {
+            var builder = services.AddIdentityCore<UserEntity>();
+            builder = new IdentityBuilder(
+                builder.UserType,
+                typeof(UserRoleEntity),
+                builder.Services);
+
+            builder.AddRoles<UserRoleEntity>()
+                .AddEntityFrameworkStores<SignAPIContext>()
+                .AddDefaultTokenProviders()
+                .AddSignInManager<SignInManager<UserEntity>>();
         }
     }
 }

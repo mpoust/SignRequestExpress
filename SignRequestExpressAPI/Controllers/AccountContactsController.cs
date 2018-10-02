@@ -30,8 +30,9 @@ using System.Threading.Tasks;
 namespace SignRequestExpressAPI.Controllers
 {
     [Route("/[controller]")]
+    [ApiController]
     [ApiVersion("1.0")]
-    public class AccountContactsController : Controller
+    public class AccountContactsController : ControllerBase
     {
         private readonly IAccountContactService _accountContactService;
 

@@ -40,9 +40,16 @@ namespace SignRequestExpressAPI.Infrastructure
 
                 cfg.CreateMap<TemplateEntity, Template>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.TemplatesController.GetTemplateByIdAsync), new { templateId = src.Id })));
-
+                /*
                 cfg.CreateMap<UserEntity, User>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.UsersController.GetUserByIdAsync), new { userId = src.Id })));
+                */
+
+                /*
+                cfg.CreateMap<UserEntity, User>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                   Link.To(nameof(Controllers.UsersController.GetUserById),
+                   new { userId = src.Id })));
+                */
 
                 cfg.CreateMap<BrandEntity, Brand>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandsController.GetBrandByIdAsync), new { brandId = src.Id })));
@@ -50,6 +57,9 @@ namespace SignRequestExpressAPI.Infrastructure
                 cfg.CreateMap<BrandStandardsEntity, BrandStandards>().ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.BrandStandardsController.GetBrandStandardbyIdAsync), new { brandStandardId = src.Id })));
 
+
+                
+                /* // Commenting this out makes the return of request not return the form fields underneath each and every request
                 cfg.CreateMap<RequestEntity, Request>()
                     .ForMember(dest => dest.Self, opt => opt.MapFrom(src => 
                         Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })))
@@ -64,8 +74,20 @@ namespace SignRequestExpressAPI.Infrastructure
                                 new { requestId = src.Id },
                                 Link.PostMethod,
                                 Form.CreateRelation))));
+                */
+
+                cfg.CreateMap<RequestEntity, Request>()
+                    .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                        Link.To(nameof(Controllers.RequestsController.GetRequestByIdAsync), new { requestId = src.Id })));
+                    
 
             });
+
+            CreateMap<UserEntity, User>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                    Link.To(nameof(Controllers.UsersController.GetUserById),
+                    new { userId = src.Id })));
+
         }
     }
 }

@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/16/2018
- * Last Modified:
+ * Last Modified: 10/01/2018
  * Description: This ResultFilter runs before and after a result is processed to let us intercept the response before it is sent to the 
  *  client.  This assists LinkRewriter.cs
  * 
@@ -40,7 +40,8 @@ namespace SignRequestExpressAPI.Filters
         }
 
         // Pull result out of context
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        public async Task OnResultExecutionAsync(
+            ResultExecutingContext context, ResultExecutionDelegate next)
         {
             var asObjectResult = context.Result as ObjectResult;
             bool shouldSkip = asObjectResult?.Value == null || asObjectResult?.StatusCode != (int)HttpStatusCode.OK;
@@ -81,13 +82,19 @@ namespace SignRequestExpressAPI.Filters
                 linkProperty.SetValue(model, rewritten);
 
                 // Special handling of the hidden Self property
+                // unwrap into the root object
                 if(linkProperty.Name == nameof(Resource.Self))
                 {
-                    allProperties.SingleOrDefault(p => p.Name == nameof(Resource.Href))
+                    allProperties
+                        .SingleOrDefault(p => p.Name == nameof(Resource.Href))
                         ?.SetValue(model, rewritten.Href);
-                    allProperties.SingleOrDefault(p => p.Name == nameof(Resource.Method))
+
+                    allProperties
+                        .SingleOrDefault(p => p.Name == nameof(Resource.Method))
                         ?.SetValue(model, rewritten.Method);
-                    allProperties.SingleOrDefault(p => p.Name == nameof(Resource.Relations))
+
+                    allProperties
+                        .SingleOrDefault(p => p.Name == nameof(Resource.Relations))
                         ?.SetValue(model, rewritten.Relations);
                 }
             }

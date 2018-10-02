@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>2f69ce0a-2277-46f0-96a9-37c0fdb4b4d7</UserSecretsId>
+    <UserSecretsId>ca791154-69e7-4059-a35b-971e4d1a7b16</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,15 +23,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.3" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-rc3-final" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc3-final" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc3-final" />
   </ItemGroup>
-  
-  <!-- How to include a static file that is not inside of wwwroot -->
-  <!--
-    <ItemGroup>
-    <ResolvedFileToPublish Include="readme">
-        <RelativePath>wwwroot\readme</RelativePath>
-    </ResolvedFileToPublish>
-  </ItemGroup>
-  -->
-  
+
 </Project>
