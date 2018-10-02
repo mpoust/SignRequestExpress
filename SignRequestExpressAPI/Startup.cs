@@ -159,16 +159,17 @@ namespace SignRequestExpressAPI
             // Configure CORS for the SPA domain
             services.AddCors( opt =>
             {
+                /*
                 opt.AddPolicy("AllowSPA",
                     policy => policy
                         .WithOrigins("https://signrequestexpress.azurewebsites.net"));
+                        */
 
-                // During testing
-                /*
+                // During testing                
                 opt.AddPolicy("AllowAny",
                     policy => policy
                         .AllowAnyOrigin());
-                */
+                
             });
 
             // Gets static information in appsettings.json for the company and create new instance of CompanyInfo with those values
@@ -207,8 +208,8 @@ namespace SignRequestExpressAPI
             app.UseHttpsRedirection();
 
             // Add CORS to API
-            app.UseCors("AllowSPA");
-            //app.UseCors("AllowAny"); // Development only
+            //app.UseCors("AllowSPA");
+            app.UseCors("AllowAny"); // Development only
 
             // Add the HSTS header - for supported browsers this won't even allow an attempt to connect over plain HTTP
             app.UseHsts(opt =>
