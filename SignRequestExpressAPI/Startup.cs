@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 10/01/2018
+ * Last Modified: 10/02/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -156,6 +156,21 @@ namespace SignRequestExpressAPI
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt); // will use highest version of route if none is requested
             });
 
+            // Configure CORS for the SPA domain
+            services.AddCors( opt =>
+            {
+                opt.AddPolicy("AllowSPA",
+                    policy => policy
+                        .WithOrigins("https://signrequestexpress.azurewebsites.net/"));
+
+                // During testing
+                /*
+                opt.AddPolicy("AllowAny",
+                    policy => policy
+                        .AllowAnyOrigin());
+                */
+            });
+
             // Gets static information in appsettings.json for the company and create new instance of CompanyInfo with those values
             //  then wraps in an interface called IOptions and puts that into the service container.
             services.Configure<CompanyInfo>(Configuration.GetSection("Info"));            
@@ -190,6 +205,10 @@ namespace SignRequestExpressAPI
 
             // New way to require https redirection
             app.UseHttpsRedirection();
+
+            // Add CORS to API
+            app.UseCors("AllowSPA");
+            //app.UseCors("AllowAny"); // Development only
 
             // Add the HSTS header - for supported browsers this won't even allow an attempt to connect over plain HTTP
             app.UseHsts(opt =>
