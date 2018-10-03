@@ -38,7 +38,7 @@ namespace SignRequestExpress.Controllers
         {
             var client = _clientFactory.CreateClient("sreApi");
 
-            ViewData["Message"] = "Pulling contact information from API. But is it working??";
+            ViewData["Message"] = "Pulling contact information from API";
             ViewData["ApiUrl"] = new Uri(client.BaseAddress.ToString());
 
             HttpResponseMessage message = await client.GetAsync("/info");
