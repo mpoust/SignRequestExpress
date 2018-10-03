@@ -209,7 +209,7 @@ namespace SignRequestExpressAPI
 
             // Add CORS to API
             //app.UseCors("AllowSPA");
-            app.UseCors("AllowAny"); // Development only
+            app.UseCors("AllowAny"); // Development only!
 
             // Add the HSTS header - for supported browsers this won't even allow an attempt to connect over plain HTTP
             app.UseHsts(opt =>
