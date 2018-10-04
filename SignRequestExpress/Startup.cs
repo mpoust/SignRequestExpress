@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -61,12 +62,28 @@ namespace SignRequestExpress
                 
             });
 
-            //services.AddAuthentication();
+            services.AddAuthentication();
 
             // Add ASP.NET Core Identity
             AddIdentityCoreServices(services);
             
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(opt =>
+                {
+                    opt.AllowAreas = true;
+                    opt.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                    opt.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                });
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.LoginPath = $"/Identity/Account/Login";
+                opt.LogoutPath = $"/Identity/Account/Logout";
+                opt.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            // using Microsoft.AspNetCore.Identity.UI.Services
+           // services.AddSingleton<IEmailSender, EmailSender>(); // Need to register IEmailSender implementation (EmailSender)
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,14 +102,22 @@ namespace SignRequestExpress
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
             app.UseAuthentication();
 
             // Format for URL routing logic --> Defaults to HomeController - Index method
             app.UseMvc(routes =>
             {
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                    
+
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
 
@@ -106,7 +131,9 @@ namespace SignRequestExpress
 
             builder.AddRoles<UserRoleEntity>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddSignInManager<SignInManager<UserEntity>>();
+                .AddSignInManager<SignInManager<UserEntity>>()
+                .AddDefaultUI();
+            // AddRoleManager?
         }
     }
 }
