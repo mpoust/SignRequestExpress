@@ -5,10 +5,12 @@
  * FileName: UserEntity.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 9/15/2018
- * Last Modified: 10/03/2018
+ * Created On: 10/03/2018
+ * Last Modified: 
  * Description: This is an entity that models an object from the User table from the database.
  *  Extends IdentityUser from Microsoft Identity
+ *  
+ *  Only used in SPA for Authentication purposes
  * 
  * References:
  *   
@@ -22,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Entities
+namespace SignRequestExpress.Data
 {
     public class UserEntity : IdentityUser<Guid>
     {

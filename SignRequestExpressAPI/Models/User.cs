@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/30/2018
+ * Last Modified: 10/03/2018
  * Description: Resource the API will return to the client - corresponding with UserEntity.cs
  * 
  * References:
@@ -31,8 +31,6 @@ namespace SignRequestExpressAPI.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-       // public byte RoleFK { get; set; }
 
         public bool IsEmailPreferred { get; set; }
 
