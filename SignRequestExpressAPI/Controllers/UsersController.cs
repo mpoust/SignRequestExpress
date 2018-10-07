@@ -90,9 +90,13 @@ namespace SignRequestExpressAPI.Controllers
                 pagingOptions);
 
             collection.Me = Link.To(nameof(UserinfoController.Userinfo));
+
+            // Register user info
+            /*
             collection.Register = FormMetadata.FromModel(
                 new RegisterForm(),
                 Link.ToForm(nameof(RegisterUser), relations: Form.CreateRelation));
+            */
 
             return collection;
         }

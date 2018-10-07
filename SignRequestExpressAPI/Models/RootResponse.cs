@@ -34,10 +34,14 @@ namespace SignRequestExpressAPI.Models
 
         public Link Users { get; set; }
 
+        public Link UserInfo { get; set; }
+
         public Link Brands { get; set; }
 
         public Link BrandStandards { get; set; }
 
         public Link Requests { get; set; }
+
+        public Link Token { get; set; }
     }
 }
