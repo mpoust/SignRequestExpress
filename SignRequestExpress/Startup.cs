@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SignRequestExpress.Data;
-using SignRequestExpress.Models;
 
 namespace SignRequestExpress
 {
@@ -37,53 +31,8 @@ namespace SignRequestExpress
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // Create HttpClient to be used throughout the application
-            services.AddHttpClient("sreApi", c =>
-            {
-                //c.BaseAddress = new Uri(Configuration.GetSection("ApiSettings").ToString());
-                c.BaseAddress = new Uri(Configuration["ApiSettings:ApiUrl"]);
-                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/ion+json"));
-            });
 
-            // TODO: Add connection to database TODO: Separate authentication db from app db
-            // TODO: move string to configuration file
-            var connection = @"Server=tcp:sign-request-express.database.windows.net,1433;" +
-                    "Initial Catalog=SRE-DB;Persist Security Info=False;" +
-                    "User ID=mbp3;Password=CIT498-01;MultipleActiveResultSets=False;" +
-                    "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            /* how to use connection string
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-                    */
-            services.AddDbContext<ApplicationDbContext>(opt =>
-            {
-                opt.UseSqlServer(connection);
-                
-            });
-
-            services.AddAuthentication();
-
-            // Add ASP.NET Core Identity
-            AddIdentityCoreServices(services);
-            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddRazorPagesOptions(opt =>
-                {
-                    opt.AllowAreas = true;
-                    opt.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                    opt.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-                });
-
-            services.ConfigureApplicationCookie(opt =>
-            {
-                opt.LoginPath = $"/Identity/Account/Login";
-                opt.LogoutPath = $"/Identity/Account/Logout";
-                opt.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-            });
-
-            // using Microsoft.AspNetCore.Identity.UI.Services
-           // services.AddSingleton<IEmailSender, EmailSender>(); // Need to register IEmailSender implementation (EmailSender)
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,39 +50,19 @@ namespace SignRequestExpress
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
-
-            // Format for URL routing logic --> Defaults to HomeController - Index method
             app.UseMvc(routes =>
             {
-                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                    
 
                 routes.MapRoute(
                     name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                );
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
-        }
-
-        private static void AddIdentityCoreServices(IServiceCollection services)
-        {
-            var builder = services.AddIdentityCore<UserEntity>();
-            builder = new IdentityBuilder(
-                builder.UserType,
-                typeof(UserRoleEntity),
-                builder.Services);
-
-            builder.AddRoles<UserRoleEntity>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddSignInManager<SignInManager<UserEntity>>()
-                .AddDefaultUI();
-            // AddRoleManager?
         }
     }
 }
