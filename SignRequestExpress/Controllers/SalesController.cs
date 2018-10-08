@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpress.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "SalesPolicy")]
     // [AllowAnonymous] will let unauthorized users access if there is an action within I need to allow
     public class SalesController : Controller
     {

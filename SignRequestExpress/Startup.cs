@@ -47,6 +47,22 @@ namespace SignRequestExpress
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Add Policies
+            // Can do this way, or do claim based -- see tutorial
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("SalesPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Sales"));
+            });
+
+            /* // Alternate authorization policy
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("ClaimPolicy",
+                p => p.RequireClaim("FacultyNumber"));
+            });
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
