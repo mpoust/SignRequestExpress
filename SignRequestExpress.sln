@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		HeaderComment.txt = HeaderComment.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRequestExpress", "SignRequestExpress\SignRequestExpress.csproj", "{B29C8F45-80FF-4DDF-8C62-7E63F6200771}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignRequestExpress", "SignRequestExpress\SignRequestExpress.csproj", "{4364287C-7D05-4292-82F9-52B88F70FCD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51E1E61F-82B9-4E94-9DF6-A7E4F783ABF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B29C8F45-80FF-4DDF-8C62-7E63F6200771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B29C8F45-80FF-4DDF-8C62-7E63F6200771}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B29C8F45-80FF-4DDF-8C62-7E63F6200771}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B29C8F45-80FF-4DDF-8C62-7E63F6200771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4364287C-7D05-4292-82F9-52B88F70FCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4364287C-7D05-4292-82F9-52B88F70FCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4364287C-7D05-4292-82F9-52B88F70FCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4364287C-7D05-4292-82F9-52B88F70FCD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

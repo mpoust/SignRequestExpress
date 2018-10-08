@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SignRequestExpress.Data;
 
 namespace SignRequestExpress
 {
@@ -31,6 +34,17 @@ namespace SignRequestExpress
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<ApplicationDbContext>(opt =>
+            {
+                opt.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+               // .AddSignInManager<SignInManager<IdentityUser>>()
+               // Same for role manager
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -50,18 +64,16 @@ namespace SignRequestExpress
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
+            // Deprecated app.UseIdentity(); //  Cookie based authentication added
+
+            app.UseAuthentication(); // Instead of app.UseIdentity();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

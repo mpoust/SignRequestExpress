@@ -35,3 +35,7 @@ body {
         display: none;
     }
 }
+
+.account-div{
+    max-width: 500px;
+}
