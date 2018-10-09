@@ -42,9 +42,12 @@ namespace SignRequestExpress.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             // TODO: include POST to API to create user here 
+            // TODO: include access code - creates account with proper role established - no code, no role
+            //          create default role that only shows a few sample pages - no functionality
 
             if (ModelState.IsValid)
             {
+                // here is where custom user attributes can be established w/ 
                 IdentityUser user = new IdentityUser()
                 {
                     Email = model.Email,
