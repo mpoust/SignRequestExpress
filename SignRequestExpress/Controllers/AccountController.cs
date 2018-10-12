@@ -117,13 +117,18 @@ namespace SignRequestExpress.Controllers
                         Role = role
                     });
 
-                    var response = _httpClient.PostAsync("/user",
+                    var response = await _httpClient.PostAsync("https://signrequestexpressapi.azurewebsites.net/users",
                                             new StringContent(postUser,
                                                               Encoding.UTF8,
                                                               "application/json"));
-                    if (response.IsCompletedSuccessfully)
+                    if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+                        ViewData["PostError1"] = "ERROR";
+                        ViewData["PostError2"] = response.Content.ToString();
                     }
                     
                 }

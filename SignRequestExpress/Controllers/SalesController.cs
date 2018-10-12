@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SignRequestExpress.Models.AccountViewModels;
+using SignRequestExpress.Models.PostModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SignRequestExpress.Controllers
@@ -35,8 +38,29 @@ namespace SignRequestExpress.Controllers
 
         public async Task<IActionResult> Index()
         {
+            /*
+            var request = new HttpRequestMessage(HttpMethod.Post, "/user");
             
-            
+            var postUser = JsonConvert.SerializeObject(new PostUser
+            {
+                FirstName = "test",
+                LastName = "sales",
+                Username = "testsales",
+                Password = "Password123!",
+                PhoneNumber = null,
+                Email = "test@sales.com",
+                Role = "Sales"
+            });
+
+
+            var response = _httpClient.PostAsync("/user",
+                                    new StringContent(postUser,
+                                                      Encoding.UTF8,
+                                                      "application/json"));
+                                                      */
+
+           // ViewData["Test"] = response.Con
+
             return View();
         }
     }

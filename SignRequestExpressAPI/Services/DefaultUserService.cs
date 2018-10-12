@@ -61,15 +61,23 @@ namespace SignRequestExpressAPI.Services
                 ModifiedDateTime = DateTime.Now
             };
             
-            var result = await _userManager.CreateAsync(entity, form.Password); // Validates password here
-            await _userManager.AddToRoleAsync(entity, form.Role);
+            var result = await _userManager.CreateAsync(entity, form.Password); // Validates password here            
+
             if (!result.Succeeded)
             {
                 var firstError = result.Errors.FirstOrDefault()?.Description;
                 return (false, firstError);
             }
-
-            return (true, null);
+            else // User successfully created
+            {
+                 var result2 = await _userManager.AddToRoleAsync(entity, form.Role); // Add to role
+                if (!result.Succeeded)
+                {
+                    var error = result2.Errors.FirstOrDefault()?.Description;
+                    return (false, error);
+                }
+                return (true, null);
+            }            
         }
 
         public async Task<User> GetUserAsync(ClaimsPrincipal user)
