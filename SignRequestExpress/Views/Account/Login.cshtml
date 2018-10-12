@@ -7,43 +7,49 @@
 
 
 <fieldset>
+    <h1>Login <small>with existing account</small></h1>
 
-    <h1>Login</h1>
-    <br />
-    <div class="account-div">
-        <form asp-controller="Account" role="form" asp-action="Login" class="form-horizontal">
-            <div asp-validation-summary="All" class="input-validation-error"></div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Enter login credentials for access</h3>
+        </div>
+        <div class="panel-body">
+            <div class="account-div">
+                <form asp-controller="Account" role="form" asp-action="Login" class="form-horizontal">
+                    <div asp-validation-summary="All" class="input-validation-error"></div>
 
-            <div class="form-group">
-                <label asp-for="Username" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input type="text" asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class="field-validation-error"></span>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="Username" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input type="text" asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="field-validation-error"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Password" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input type="password" asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="field-validation-error"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="RememberMe" class="col-md-2 control-label"></label>
+                        <input type="checkbox" asp-for="RememberMe" />
+                        <span asp-validation-for="RememberMe" class="field-validation-error"></span>
+                    </div>
+                    <br />
+                    <div>
+                        <label>&nbsp;</label>
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                    <br />
+                    <p>
+                        <a asp-action="Register">Register as a new user?</a>
+                    </p>
+                </form>
             </div>
-            <br />
-            <div class="form-group">
-                <label asp-for="Password" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input type="password" asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="field-validation-error"></span>
-                </div>
-            </div>
-            <br />
-            <div class="form-group">
-                <label asp-for="RememberMe" class="col-md-2 control-label"></label>
-                <input type="checkbox" asp-for="RememberMe" />
-                <span asp-validation-for="RememberMe" class="field-validation-error"></span>
-            </div>
-            <br />
-            <div>
-                <label>&nbsp;</label>
-                <button type="submit" class="btn btn-primary">Log in</button>
-            </div>
-            <br />
-            <p>
-                <a asp-action="Register">Register as a new user?</a>
-            </p>
-        </form>
+        </div>
     </div>
 </fieldset>

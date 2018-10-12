@@ -47,12 +47,20 @@
 
     <partial name="_CookieConsentPartial" />
 
+    @if (IsSectionDefined("Title"))
+    {
+        @RenderSection("Title", required: false)
+    }
+    else
+    {
+          
+    }
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2018 - Michael Poust</p>
-        </footer>
+        <partial name="_Footer"/>
     </div>
 
     <environment include="Development">

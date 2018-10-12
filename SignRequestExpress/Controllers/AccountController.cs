@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SignRequestExpress.Models.AccountViewModels;
+using SignRequestExpress.Models.PostModels;
 using SignRequestExpress.Models.ResponseModels;
 
 namespace SignRequestExpress.Controllers
@@ -31,6 +33,17 @@ namespace SignRequestExpress.Controllers
         public const string UsernameKey = "username";
         public const string PasswordKey = "password";
         public const string ApiClient = "sreApi";
+
+        private const string ExecutiveCase =     "498-01-RK01";
+        private const string AdministratorCase = "498-01-RK02";
+        private const string SalesCase =         "498-01-RK03";
+        private const string SignShopCase =      "498-01-RK04";
+
+        private const string ExecutiveRole =     "Executive";
+        private const string AdministratorRole = "Administrator";
+        private const string SalesRole =         "Sales";
+        private const string SignShopRole =      "SignShop";
+        private const string DefaultRole =       "Default";
 
         public AccountController(
             UserManager<IdentityUser> userManager,
@@ -56,24 +69,63 @@ namespace SignRequestExpress.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            // TODO: include POST to API to create user here 
-            // TODO: include access code - creates account with proper role established - no code, no role
-            //          create default role that only shows a few sample pages - no functionality
-
             if (ModelState.IsValid)
             {
-                // here is where custom user attributes can be established w/ 
                 IdentityUser user = new IdentityUser()
                 {
                     Email = model.Email,
                     UserName = model.Username
                 };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password); // SPA-DB
+
+                string role;
+                // Determine Role from Access Code - No Code put in Default role
+                switch (model.AccessCode)
+                {
+                    case ExecutiveCase:
+                        role = ExecutiveRole;
+                        break;
+                    case AdministratorCase:
+                        role = AdministratorRole;
+                        break;
+                    case SignShopCase:
+                        role = SignShopRole;
+                        break;
+                    case SalesCase:
+                        role = SalesRole;
+                        break;
+                    default:
+                        role = DefaultRole;
+                        break;
+                }
+
+                // Assign user to role - SPA-DB
+                await _userManager.AddToRoleAsync(user, role);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Login", "Account");
+                    // Post to API
+                    var postUser = JsonConvert.SerializeObject( new PostUser
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Username = model.Username,
+                        Password = model.Password,
+                        PhoneNumber = model.PhoneNumber,
+                        Email = model.Email,
+                        Role = role
+                    });
+
+                    var response = _httpClient.PostAsync("/user",
+                                            new StringContent(postUser,
+                                                              Encoding.UTF8,
+                                                              "application/json"));
+                    if (response.IsCompletedSuccessfully)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    
                 }
                 else
                 {
@@ -103,7 +155,12 @@ namespace SignRequestExpress.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    model.Username,
+                    model.Password,
+                    model.RememberMe,
+                    lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     if (Url.IsLocalUrl(returnUrl))
@@ -111,17 +168,16 @@ namespace SignRequestExpress.Controllers
                         return Redirect(returnUrl);
                     }
                     else
-                    {
-                        // TODO: Change return view type based off of account role
-                        // TODO: get token from successful login for API calls
-
+                    {                        
                         // Get API Token with valid credentials
                         var request = new HttpRequestMessage(HttpMethod.Post, "/token");
 
-                        var postData = new List<KeyValuePair<string, string>>();
-                        postData.Add(new KeyValuePair<string, string>(GrantType, GrantTypeValue));
-                        postData.Add(new KeyValuePair<string, string>(UsernameKey, model.Username));
-                        postData.Add(new KeyValuePair<string, string>(PasswordKey, model.Password));
+                        var postData = new List<KeyValuePair<string, string>>
+                        {
+                            new KeyValuePair<string, string>(GrantType, GrantTypeValue),
+                            new KeyValuePair<string, string>(UsernameKey, model.Username),
+                            new KeyValuePair<string, string>(PasswordKey, model.Password)
+                        };
 
                         request.Content = new FormUrlEncodedContent(postData);
                         var response = await _httpClient.SendAsync(request);
@@ -137,12 +193,9 @@ namespace SignRequestExpress.Controllers
                             HttpContext.Session.SetString(SessionKeyName, token);
                         }
 
-                      
-
-                   
+                        // TODO: Change return view type based off of account role
                         return RedirectToAction(nameof(SalesController.Index), "Sales");
                     }
-
                 }
                 else
                 {
@@ -159,6 +212,7 @@ namespace SignRequestExpress.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Clear(); // Remove Session data on logout
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }

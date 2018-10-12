@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/30/2018
- * Last Modified: 
+ * Last Modified: 10/12/2018
  * Description: This class represents the JSON data that a client needs to POST to the /users route.
  *      Contains all relevant user data
  * 
@@ -59,6 +59,10 @@ namespace SignRequestExpressAPI.Models
         [Display(Name = "email", Description = "Email address")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
 
         /*
         [Required]

@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified:
+ * Last Modified: 10/12/2018
  * Description: This class implements IUserService.
  *  
  * References:
@@ -60,9 +60,9 @@ namespace SignRequestExpressAPI.Services
                 CreatedAt = DateTime.Now,
                 ModifiedDateTime = DateTime.Now
             };
-
-            // Validates password here
-            var result = await _userManager.CreateAsync(entity, form.Password);
+            
+            var result = await _userManager.CreateAsync(entity, form.Password); // Validates password here
+            await _userManager.AddToRoleAsync(entity, form.Role);
             if (!result.Succeeded)
             {
                 var firstError = result.Errors.FirstOrDefault()?.Description;

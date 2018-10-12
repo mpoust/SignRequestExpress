@@ -18,6 +18,9 @@
     <Content Update="Views\Administrator\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Default\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\SignShop\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

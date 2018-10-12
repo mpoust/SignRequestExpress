@@ -12,11 +12,15 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                <!-- TODO: implement account management <a asp-area="" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a> -->
-                <a>Hello @UserManager.GetUserName(User)!</a> <!-- TODO: change to first name -->
+                <a>Hello @UserManager.GetUserName(User)!
+                    <span class="glyphicon glyphicon-user"></span>
+                </a> <!-- TODO: change to first name -->
             </li>
             <!-- Check security tutorial -- urlaction to return pages based on login, possible roles as well? -->
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout
+                    <span class="glyphicon glyphicon-log-out"></span>
+                </button>
             </li>
         </ul>
     </form>
@@ -25,6 +29,9 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li><a asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Login
+                <span class="glyphicon glyphicon-log-in"></span>
+            </a>
+        </li>
     </ul>
 }
