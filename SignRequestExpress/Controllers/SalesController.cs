@@ -38,28 +38,7 @@ namespace SignRequestExpress.Controllers
 
         public async Task<IActionResult> Index()
         {
-            /*
-            var request = new HttpRequestMessage(HttpMethod.Post, "/user");
             
-            var postUser = JsonConvert.SerializeObject(new PostUser
-            {
-                FirstName = "test",
-                LastName = "sales",
-                Username = "testsales",
-                Password = "Password123!",
-                PhoneNumber = null,
-                Email = "test@sales.com",
-                Role = "Sales"
-            });
-
-
-            var response = _httpClient.PostAsync("/user",
-                                    new StringContent(postUser,
-                                                      Encoding.UTF8,
-                                                      "application/json"));
-                                                      */
-
-           // ViewData["Test"] = response.Con
 
             return View();
         }

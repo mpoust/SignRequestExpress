@@ -125,12 +125,6 @@ namespace SignRequestExpress.Controllers
                     {
                         return RedirectToAction("Login", "Account");
                     }
-                    else
-                    {
-                        ViewData["PostError1"] = "ERROR";
-                        ViewData["PostError2"] = response.Content.ToString();
-                    }
-                    
                 }
                 else
                 {
