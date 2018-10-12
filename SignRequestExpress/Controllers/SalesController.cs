@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpress.Models.AccountViewModels;
@@ -18,6 +19,8 @@ namespace SignRequestExpress.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpClientFactory _clientFactory;
         private readonly HttpClient _httpClient;
+
+        public const string SessionKeyName = "_APIToken";
 
         public SalesController(
             SignInManager<IdentityUser> signInManager,
@@ -41,6 +44,7 @@ namespace SignRequestExpress.Controllers
             // How the hell do I get data to create the token?
 
             // This will return the token appropriately. Now how do I store the data and use?  Bookmarked page to add item in authorization header.
+            /*
             var request = new HttpRequestMessage(HttpMethod.Post, "/token");
 
             var tokenData = new List<KeyValuePair<string, string>>();
@@ -56,6 +60,11 @@ namespace SignRequestExpress.Controllers
                 var info = response.Content.ReadAsStringAsync().Result;
                 ViewData["apiUrl"] = info.ToString();
             }
+            */
+
+            // Testing sessions
+            var sessionToken = HttpContext.Session.GetString(SessionKeyName);
+            ViewData["sessionTest"] = sessionToken;
 
             // Testing post for retrieving a token
            // var user = _signInManager.

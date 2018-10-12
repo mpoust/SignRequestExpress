@@ -15,9 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Administrator\" />
-    <Folder Include="Views\Executive\" />
-    <Folder Include="Views\SignShop\" />
+    <Content Update="Views\Administrator\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\SignShop\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

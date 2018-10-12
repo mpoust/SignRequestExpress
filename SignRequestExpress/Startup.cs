@@ -43,6 +43,16 @@ namespace SignRequestExpress
                 c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/ion+json"));
             });
 
+            // Add Session services
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
+            {
+                // Short timeout for easy testing
+                opt.IdleTimeout = TimeSpan.FromSeconds(20); // Independent of cookie expiration
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.Name = ".SRE.Session";
+            });
+
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
                 opt.UseSqlServer(
@@ -58,11 +68,16 @@ namespace SignRequestExpress
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Add Policies
-            // Can do this way, or do claim based -- see tutorial
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("SalesPolicy",
                     p => p.RequireAuthenticatedUser().RequireRole("Sales"));
+                opt.AddPolicy("SignShopPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("SignShop"));
+                opt.AddPolicy("AdministratorPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Administrator"));
+                opt.AddPolicy("ExecutivePolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
             });
 
             /* // Alternate authorization policy
@@ -89,11 +104,11 @@ namespace SignRequestExpress
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
-            // Deprecated app.UseIdentity(); //  Cookie based authentication added
+            app.UseCookiePolicy();            
+            // app.UseHttpContextItemsMiddleware(); // what is this?
 
             app.UseAuthentication(); // Instead of app.UseIdentity();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

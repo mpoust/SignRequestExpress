@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SignRequestExpress.Models.AccountViewModels;
-
-
+using SignRequestExpress.Models.ResponseModels;
 
 namespace SignRequestExpress.Controllers
 {
@@ -20,12 +22,25 @@ namespace SignRequestExpress.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly HttpClient _httpClient;
+
+        public const string SessionKeyName = "_APIToken";
+        public const string GrantType = "grant_type";
+        public const string GrantTypeValue = "password";
+        public const string UsernameKey = "username";
+        public const string PasswordKey = "password";
+        public const string ApiClient = "sreApi";
 
         public AccountController(
-            UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            IHttpClientFactory clientFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _clientFactory = clientFactory;
+            _httpClient = _clientFactory.CreateClient(ApiClient);
         }
 
         //
@@ -100,6 +115,31 @@ namespace SignRequestExpress.Controllers
                         // TODO: Change return view type based off of account role
                         // TODO: get token from successful login for API calls
 
+                        // Get API Token with valid credentials
+                        var request = new HttpRequestMessage(HttpMethod.Post, "/token");
+
+                        var postData = new List<KeyValuePair<string, string>>();
+                        postData.Add(new KeyValuePair<string, string>(GrantType, GrantTypeValue));
+                        postData.Add(new KeyValuePair<string, string>(UsernameKey, model.Username));
+                        postData.Add(new KeyValuePair<string, string>(PasswordKey, model.Password));
+
+                        request.Content = new FormUrlEncodedContent(postData);
+                        var response = await _httpClient.SendAsync(request);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var info = response.Content.ReadAsStringAsync().Result;
+                            ApiToken apiToken = JsonConvert.DeserializeObject<ApiToken>(info);
+                            var token = apiToken.Access_Token;
+
+                            // Create Session with API Access Token
+                            HttpContext.Session.Clear(); // Clear any persisting session data
+                            HttpContext.Session.SetString(SessionKeyName, token);
+                        }
+
+                      
+
+                   
                         return RedirectToAction(nameof(SalesController.Index), "Sales");
                     }
 
