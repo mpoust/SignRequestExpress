@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 10/02/2018
+ * Last Modified: 10/09/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -91,6 +91,7 @@ namespace SignRequestExpressAPI
                     opt.EnableTokenEndpoint("/token");
                     opt.AllowPasswordFlow();
                     opt.AcceptAnonymousClients();
+                    opt.SetAccessTokenLifetime(TimeSpan.FromDays(180));
                 })
                 .AddValidation();
 

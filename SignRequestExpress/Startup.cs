@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,14 @@ namespace SignRequestExpress
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            // Create HttpClient to be used throughout the application
+            services.AddHttpClient("sreApi", c =>
+            {
+                //c.BaseAddress = new Uri(Configuration.GetSection("ApiSettings").ToString());
+                c.BaseAddress = new Uri(Configuration["ApiSettings:ApiUrl"]);
+                c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/ion+json"));
             });
 
             services.AddDbContext<ApplicationDbContext>(opt =>

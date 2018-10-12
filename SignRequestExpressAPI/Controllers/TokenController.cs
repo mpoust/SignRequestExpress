@@ -170,7 +170,7 @@ namespace SignRequestExpressAPI.Controllers
                 identity.AddClaims(roles.Select(r => new Claim("role", r)));
             }
 
-            var newPrincipal = new System.Security.Claims.ClaimsPrincipal(identity);
+            var newPrincipal = new ClaimsPrincipal(identity);
         }
     }
 }
