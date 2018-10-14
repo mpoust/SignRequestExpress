@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@using SignRequestExpress.Models.PageViews
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -32,8 +33,16 @@
 @{ 
     if (SignInManager.IsSignedIn(User))
     {
-       // List<IdentityRole> userRole = UserManager.GetRolesAsync(User.Identities);
-    
+        // Not working for some reason
+
+
+        //var testController = new ControllerView();
+
+        if (User.IsInRole("Sales"))
+        {
+            var testController = new ControllerView("Sales", "Dashboard", "None");
+        }
+
     }
 
 }
@@ -70,10 +79,37 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-controller="Sales" asp-action="Index">Dashboard</a></li>
-                    </ul>
+                    @if (User.IsInRole("Sales"))
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-controller="Sales" asp-action="Index">Dashboard</a></li>
+                        </ul>
+                    }
+                    else if (User.IsInRole("Executive"))
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-controller="Sales" asp-action="Index">Executive Dashboard</a></li>
+                        </ul>
+                    }
+                    else if (User.IsInRole("Administrator"))
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-controller="Sales" asp-action="Index">Admin</a></li>
+                        </ul>
+                    }
+                    else if (User.IsInRole("SignShop"))
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-controller="Sales" asp-action="Index">SignShop</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+
+                    }
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
