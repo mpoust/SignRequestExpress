@@ -192,8 +192,28 @@ namespace SignRequestExpress.Controllers
                             HttpContext.Session.SetString(SessionKeyName, token);
                         }
 
-                        // TODO: Change return view type based off of account role
-                        return RedirectToAction(nameof(SalesController.Index), "Sales");
+                        var user = await _userManager.FindByNameAsync(model.Username);
+
+                        if (await _userManager.IsInRoleAsync(user, "Sales"))
+                        {
+                            return RedirectToAction(nameof(SalesController.Index), "Sales");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "Executive"))
+                        {
+                            return RedirectToAction(nameof(ExecutiveController.Index), "Executive");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "Administrator"))
+                        {
+                            return RedirectToAction(nameof(AdministratorController.Index), "Administrator");
+                        }
+                        else if (await _userManager.IsInRoleAsync(user, "SignShop"))
+                        {
+                            return RedirectToAction(nameof(SignShopController.Index), "SignShop");
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(DefaultController.Index), "Default");
+                        }
                     }
                 }
                 else
