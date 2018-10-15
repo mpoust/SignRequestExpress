@@ -84,30 +84,32 @@
                     @if (User.IsInRole("Sales"))
                     {
                         <ul class="nav navbar-nav">
-                            <li><a asp-controller="Sales" asp-action="Index">Dashboard</a></li>
+                            <li><a asp-controller="Sales" asp-action="Index">Your Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("Executive"))
                     {
                         <ul class="nav navbar-nav">
-                            <li><a asp-controller="Sales" asp-action="Index">Executive Dashboard</a></li>
+                            <li><a asp-controller="Executive" asp-action="Index">Executive Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("Administrator"))
                     {
                         <ul class="nav navbar-nav">
-                            <li><a asp-controller="Sales" asp-action="Index">Admin</a></li>
+                            <li><a asp-controller="Administrator" asp-action="Index">Admin Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("SignShop"))
                     {
                         <ul class="nav navbar-nav">
-                            <li><a asp-controller="Sales" asp-action="Index">SignShop</a></li>
+                            <li><a asp-controller="SignShop" asp-action="Index">SignShop Dashboard</a></li>
                         </ul>
                     }
                     else
                     {
-
+                        <ul class="nav navbar-nav">
+                            <li><a asp-controller="Default" asp-action="Index">Access</a></li>
+                        </ul>
                     }
 
                     <partial name="_LoginPartial" />

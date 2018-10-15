@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpress.Controllers
 {
-    [Authorize(Policy = "AdministratorPolicy")]
-    public class AdministratorController : Controller
+    [AllowAnonymous]
+    public class DefaultController : Controller
     {
-
         public async Task<IActionResult> Index()
         {
             return View();
