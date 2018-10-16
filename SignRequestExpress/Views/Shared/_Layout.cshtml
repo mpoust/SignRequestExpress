@@ -16,37 +16,12 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
-    <!--
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-        -->
 
     <environment include="Staging, Production">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
 </head>
-
-@{ 
-    if (SignInManager.IsSignedIn(User))
-    {
-        //  Not working for some reason
-
-
-        //var testController = new ControllerView();
-
-        if (User.IsInRole("Sales"))
-        {
-            var testController = new ControllerView("Sales", "Dashboard", "None");
-        }
-
-    }
-
-}
 
 <body>
     @if (IsSectionDefined("NavBar"))
@@ -60,6 +35,24 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
+
+        <nav class="navbar navbar-inverse fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!--
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -117,6 +110,8 @@
                 </div>
             </div>
         </nav>
+
+        -->
     }
     else
     {
