@@ -35,13 +35,12 @@ body {
         display: none;
     }
 }
-.navbar-brand{
-    padding-left:150px;
-
+.navbar-brand {
+    
 }
 
-.account-div{
-    max-width: 500px;
+.account-div {
+    max-width: 30rem;
 }
 
 

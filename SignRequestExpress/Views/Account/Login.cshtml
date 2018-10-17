@@ -5,15 +5,51 @@
     Layout = "_Layout";
 }
 
+<br />
 
-<fieldset>
-    <h1>Login <small>with existing account</small></h1>
+<h2>Login <small>with existing account</small></h2>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Enter login credentials for access</h3>
-        </div>
-        <div class="panel-body">
+<div class="card account-div">
+    <div class="card-header">
+        <h5 class="card-title">Enter login credentials for access</h5>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Account" asp-action="Login" role="form">
+            <div asp-validation-summary="All" class="input-validation-error"></div>
+
+            <div class="form-group">
+                <label for="Username">Username</label>
+                <input type="text" asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="field-validation-error"></span>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+
+            </div>
+
+            <p>
+                <a asp-action="Register">Register as a new user?</a>
+            </p>
+        </form>        
+    </div>
+</div>
+
+<form>
+    
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
             <div class="account-div" style="max-width: 500px;">
                 <form asp-controller="Account" role="form" asp-action="Login" class="form-horizontal">
                     <div asp-validation-summary="All" class="input-validation-error"></div>
@@ -50,6 +86,4 @@
                     </p>                    
                 </form>
             </div>
-        </div>
-    </div>
-</fieldset>
+

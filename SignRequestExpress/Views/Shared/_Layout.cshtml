@@ -37,18 +37,27 @@
     {
 
         <nav class="navbar navbar-inverse fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="container">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                    </li>
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
         </nav>
 
@@ -115,20 +124,25 @@
     }
     else
     {
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-inverse fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="glyphicon glyphicon-align-justify" style="color:#808080"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>                        
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

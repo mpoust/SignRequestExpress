@@ -10,15 +10,15 @@
 {
     <form id="logout" asp-controller="Account" role="form" asp-action="Logout">
         <ul class="nav navbar-nav navbar-right">
-            <li>
+            <li class="nav-item">
                <!-- TODO: implement account management <a asp-area="" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a> -->
-                <a>Hello @UserManager.GetUserName(User)
+                <a class="nav-link">Hello @UserManager.GetUserName(User)
                     <span class="glyphicon glyphicon-user"></span>
                 </a> <!-- TODO: change to first name -->
             </li>
             <!-- Check security tutorial -- urlaction to return pages based on login, possible roles as well? -->
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout
+            <li class="nav-item">
+                <button type="submit" class="btn btn-link navbar-btn nav-link">Logout
                     <span class="glyphicon glyphicon-log-out"></span>
                 </button>
             </li>
@@ -28,8 +28,11 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-controller="Account" asp-action="Login">Login
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="Register" class="nav-link">Register</a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="Login" class="nav-link">Login
                 <span class="glyphicon glyphicon-log-in"></span>
             </a>
         </li>
