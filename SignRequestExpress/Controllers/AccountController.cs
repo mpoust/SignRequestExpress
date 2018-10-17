@@ -118,9 +118,7 @@ namespace SignRequestExpress.Controllers
                     });
 
                     var response = await _httpClient.PostAsync("https://signrequestexpressapi.azurewebsites.net/users",
-                                            new StringContent(postUser,
-                                                              Encoding.UTF8,
-                                                              "application/json"));
+                                            new StringContent(postUser, Encoding.UTF8, "application/json"));
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Login", "Account");
@@ -138,7 +136,8 @@ namespace SignRequestExpress.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        //
+
+        // Returns the view
         // GET: /Account/Login
         [HttpGet]
         public IActionResult Login()
@@ -146,7 +145,7 @@ namespace SignRequestExpress.Controllers
             return View();
         }
 
-        //
+        // Does the action
         // POST: /Account/Login
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
