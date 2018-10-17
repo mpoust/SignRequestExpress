@@ -9,41 +9,59 @@
 
 <h1>Sales Dashboard <small>Control your Sign Requests</small></h1>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3>Select an option: </h3>
-        <div class="btn-group-lg" role="toolbar">
-            <button type="button" class="btn-lg">Create Request</button>
-            <button type="button" class="btn-lg">Check Status</button>
-            <button type="button" class="btn-lg">Old Requests</button>
-            <button type="button" class="btn-lg">Account Management</button>
-        </div>
-
-        <!-- TODO: add button press handlers -->
-
-    </div>
-    <div class="panel-body">
-        <!-- Changing Panel Options after button press -->
-
-    </div>
-    <div class="panel-footer">Panel Footer</div>
-
-</div>
-
-<br />
 <br />
 
-<div class="card" style="width: 18rem;">
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs nav-fill" id="salesTab" role="tablist">
 
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <li class="nav-item">
+                <a class="nav-link active" id="create-tab" data-toggle="tab" href="#createReq" role="tab" aria-controls="createTab" aria-selected="true">Create Request</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="check-tab" data-toggle="tab" href="#checkReq" role="tab" aria-controls="checkTab" aria-selected="false">Check Status</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="prev-tab" data-toggle="tab" href="#previousReq" role="tab" aria-controls="prevTab" aria-selected="false">Previous Requests</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="account-tab" data-toggle="tab" href="#accountReq" role="tab" aria-controls="accountTab" aria-selected="false">Account Management</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="salesTabContent">
+            <div class="tab-pane fade show active" id="createTab" role="tabpanel" aria-labelledby="create-tab">
+                <partial name="CreateRequestPartial"/>
+            </div>
+
+            <div class="tab-pane fade" id="checkTab" role="tabpanel" aria-labelledby="check-tab">
+                <partial name="CheckStatusPartial" />
+            </div>
+
+            <div class="tab-pane fade" id="prevTab" role="tabpanel" aria-labelledby="prev-tab">
+                PREV
+            </div>
+
+            <div class="tab-pane fade" id="accountTab" role="tabpanel" aria-labelledby="account-tab">
+                ACCOUNT
+            </div>
         </div>
     </div>
 </div>
 
-<p>@ViewData["sessionTest"]</p>
+@section Scripts{ 
+    <!--<script type="text/javascript" src="~/js/sales.js"></script>-->
+
+    <script>
+        $(function () {
+            $('#salesTab li:last-child a').tab('show')
+        })
+    </script>
+}
+
+

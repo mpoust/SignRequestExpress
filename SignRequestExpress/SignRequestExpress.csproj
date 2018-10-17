@@ -26,6 +26,9 @@
     <Content Update="Views\Home\Help.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Sales\CheckStatusPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\SignShop\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
