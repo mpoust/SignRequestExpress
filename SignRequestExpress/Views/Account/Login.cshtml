@@ -15,75 +15,34 @@
     </div>
     <div class="card-body">
         <form asp-controller="Account" asp-action="Login" role="form">
-            <div asp-validation-summary="All" class="input-validation-error"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="form-group">
-                <label for="Username">Username</label>
+                <label asp-for="Username">Username</label>
                 <input type="text" asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="field-validation-error"></span>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>            
+
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="RememberMe">Remember Me</label>
+                <input type="checkbox" asp-for="RememberMe"/>
+                <span asp-validation-for="RememberMe" class="field-validation-error"></span>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Log in</button>
 
             <br />
-
-            <div class="form-group">
-
-            </div>
+            <br />
 
             <p>
                 <a asp-action="Register">Register as a new user?</a>
             </p>
         </form>        
     </div>
-</div>
-
-<form>
-    
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-
-            <div class="account-div" style="max-width: 500px;">
-                <form asp-controller="Account" role="form" asp-action="Login" class="form-horizontal">
-                    <div asp-validation-summary="All" class="input-validation-error"></div>
-
-                    <div class="form-group">
-                        <label asp-for="Username" class="col-md-2 control-label"></label>
-                        <div class="col-md-10">
-                            <input type="text" asp-for="Username" class="form-control" />
-                            <span asp-validation-for="Username" class="field-validation-error"></span>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <label asp-for="Password" class="col-md-2 control-label"></label>
-                        <div class="col-md-10">
-                            <input type="password" asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="field-validation-error"></span>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <label asp-for="RememberMe" class="col-md-2 control-label"></label>
-                        <input type="checkbox" asp-for="RememberMe" />
-                        <span asp-validation-for="RememberMe" class="field-validation-error"></span>
-                    </div>
-                    <br />
-                    <div>
-                        <label>&nbsp;</label>
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                    </div>
-                    <br />
-                    <p>
-                        <a asp-action="Register">Register as a new user?</a>
-                    </p>                    
-                </form>
-            </div>
-
+</div>           
