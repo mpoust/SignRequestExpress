@@ -24,9 +24,9 @@
 </head>
 
 <body>
-    @if (IsSectionDefined("NavBar"))
+    @if (IsSectionDefined("TEST"))
     {
-        @RenderSection("NavBar", required: false)
+        @RenderSection("TEST", required: false)
     }
     else
     {
@@ -35,83 +35,56 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
-
         <nav class="navbar navbar-inverse fixed-top navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Sign Request Express</a>
+                <div class="dropdown">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand dropdown-toggle" role="button" id="brandDropdown"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sign Request Express</a>
+
+                    <div class="dropdown-menu" aria-labelledby="brandDropdown">
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+                    </div>
+
+                </div>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">About</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Contact" class="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-
-        <!--
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="glyphicon glyphicon-align-justify" style="color:#808080"></span>
-                    </button>
-                    <div class="btn-group">
-                        <a class="navbar-brand dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Sign Request Express <span class="caret"></span>
-                        </a>                    
-                        <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a asp-controller="Home" asp-action="About">Help</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="navbar-collapse collapse">
                     @if (User.IsInRole("Sales"))
                     {
-                        <ul class="nav navbar-nav">
-                            <li><a asp-controller="Sales" asp-action="Index">Your Dashboard</a></li>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li><a asp-controller="Sales" asp-action="Index" class="nav-link">Your Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("Executive"))
                     {
-                        <ul class="nav navbar-nav">
-                            <li><a asp-controller="Executive" asp-action="Index">Executive Dashboard</a></li>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li><a asp-controller="Executive" asp-action="Index" class="nav-link">Executive Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("Administrator"))
                     {
-                        <ul class="nav navbar-nav">
-                            <li><a asp-controller="Administrator" asp-action="Index">Admin Dashboard</a></li>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li><a asp-controller="Administrator" asp-action="Index" class="nav-link">Admin Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("SignShop"))
                     {
-                        <ul class="nav navbar-nav">
-                            <li><a asp-controller="SignShop" asp-action="Index">SignShop Dashboard</a></li>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li><a asp-controller="SignShop" asp-action="Index" class="nav-link">SignShop Dashboard</a></li>
                         </ul>
                     }
                     else
                     {
-                        <ul class="nav navbar-nav">
-                            <li><a asp-controller="Default" asp-action="Index">Access</a></li>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li><a asp-controller="Default" asp-action="Index" class="nav-link">Access</a></li>
                         </ul>
                     }
 
@@ -119,8 +92,6 @@
                 </div>
             </div>
         </nav>
-
-        -->
     }
     else
     {
@@ -151,9 +122,6 @@
     }
 
     <partial name="_CookieConsentPartial" />
-
-
-
 
     <div class="container body-content">
         @RenderBody()
