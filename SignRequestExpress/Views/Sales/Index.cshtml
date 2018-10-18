@@ -11,26 +11,25 @@
 
 <br />
 
-
 <div class="card">
     <div class="card-header">
 
         <ul class="nav nav-tabs card-header-tabs nav-fill" id="salesTab" role="tablist">
 
             <li class="nav-item">
-                <a class="nav-link active" id="create-tab" data-toggle="tab" role="tab" href="#createTab" aria-controls="createTab" aria-selected="true">Create Request</a>
+                <a class="nav-link active" id="create-tab" data-toggle="tab" role="tab" href="#createTab" aria-controls="createTab" aria-selected="true"><b>Create Request</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="check-tab" data-toggle="tab" role="tab" href="#checkTab" aria-controls="checkTab" aria-selected="false">Check Status</a>
+                <a class="nav-link" id="check-tab" data-toggle="tab" role="tab" href="#checkTab" aria-controls="checkTab" aria-selected="false"><b>Check Status</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="prev-tab" data-toggle="tab" role="tab" href="#prevTab" aria-controls="prevTab" aria-selected="false">Previous Requests</a>
+                <a class="nav-link" id="prev-tab" data-toggle="tab" role="tab" href="#prevTab" aria-controls="prevTab" aria-selected="false"><b>Previous Requests</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="account-tab" data-toggle="tab" role="tab" href="#accountTab" aria-controls="accountTab" aria-selected="false">Account Management</a>
+                <a class="nav-link" id="account-tab" data-toggle="tab" role="tab" href="#accountTab" aria-controls="accountTab" aria-selected="false"><b>Account Management</b></a>
             </li>
         </ul>
 
@@ -47,11 +46,11 @@
             </div>
 
             <div class="tab-pane fade" id="prevTab" role="tabpanel" aria-labelledby="prev-tab">
-                PREV
+                <partial name="_PreviousRequestPartial" />
             </div>
 
             <div class="tab-pane fade" id="accountTab" role="tabpanel" aria-labelledby="account-tab">
-                ACCOUNT
+                <partial name="_AccountRequestPartial" />
             </div>
         </div>
     </div>

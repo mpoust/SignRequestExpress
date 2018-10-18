@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/17/2018
- * Last Modified: 9/30/2018
+ * Last Modified: 10/18/2018
  * Description: This controller will return data requested for Users within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client

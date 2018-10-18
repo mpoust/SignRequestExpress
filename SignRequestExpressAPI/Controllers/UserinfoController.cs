@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 10/01/2018
- * Last Modified:
+ * Last Modified: 10/18/2018
  * Description: This controller will return the user info for current user
  * 
  * References:
@@ -54,10 +54,11 @@ namespace SignRequestExpressAPI.Controllers
                 });
             }
 
-            var userId = _userService.GetUserIdAsync(User);
+            var userId = await _userService.GetUserIdAsync(User);
 
             return new UserinfoResponse
             {
+                Id = (Guid) userId,
                 Self = Link.To(nameof(Userinfo)),
                 GivenName = user.FirstName,
                 FamilyName = user.LastName,

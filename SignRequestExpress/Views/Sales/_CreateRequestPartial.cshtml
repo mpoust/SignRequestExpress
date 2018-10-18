@@ -2,5 +2,65 @@
 @{
 }
 
+<!--TODO: Add Question Marks for user introspection-->
 
-<h1>CREATE REQUEST FORM HERE</h1>
+<!--TODO: Add Labels for everything - that way it lines up better on mobile views-->
+
+<form asp-controller="Sales" asp-action="SubmitRequest" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-row">
+        <div class="col">
+            <select class="custom-select form-control">
+                <option selected disabled>Select Account</option>
+                <!--TODO: Dynamically fill with User's accounts-->
+                <!--TODO: Add Iconic too create Addition button for a new account -->
+            </select>
+        </div>
+        <div class="col form-control">
+            <label><b>Requested Date:</b> @DateTime.Now.ToShortDateString()</label>
+            <!-- TODO: Make the date not look weird on mobile view-->
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Reason" />
+        </div>
+        <div class="col form-control">
+            <label><b>Date Needed:</b></label> <!--TODO: Configure a DatePicker-->
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-row"> <!--TODO: Figure out how to disable form elements based off other's selection-->
+        <div class="col">
+            <select class="custom-select form-control">
+                <option selected disabled>Media Type</option>
+                <option>Adhesive</option>
+                <!--TODO: Option appears if selected for Corr-Plast-->
+                <option>Photo Glossy</option>
+                <option>Matte Outdoor</option>
+                <option>Plasticore</option>
+                <!--TODO: Option appears if selected for Lighted-->
+            </select>
+        </div>
+        <div class="col-auto form-inline">
+            <label for="number-input">Quantity:</label>
+            <input class="form-control" type="number" value="1" id="number-input" />
+        </div>
+        <div class="col form-inline">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
+                <label class="form-check-label" for="proofCheck">Proof Needed Before Print</label>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <button class="btn btn-primary" type="submit">Submit Request</button>
+</form>

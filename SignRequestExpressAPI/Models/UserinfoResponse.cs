@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 10/01/2018
- * Last Modified:
+ * Last Modified: 10/18/2018
  * Description: Model for the information returned with user info
  * 
  * References:
@@ -26,6 +26,8 @@ namespace SignRequestExpressAPI.Models
 {
     public class UserinfoResponse : Resource
     {
+        public Guid Id { get; set; }
+
         [JsonProperty(PropertyName = OpenIdConnectConstants.Claims.Subject)]
         public string Subject { get; set; }
 

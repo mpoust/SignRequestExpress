@@ -57,6 +57,8 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(request);
         }
 
+
+        //TODO: Rescrict who can see requests by role?
         // GET /requests
         [HttpGet(Name = nameof(GetRequestsAsync))]
         [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "offset", "limit", "orderBy", "search" })]
