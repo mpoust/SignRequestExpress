@@ -26,7 +26,13 @@
     <Content Update="Views\Home\Help.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Sales\CheckStatusPartial.cshtml">
+    <Content Update="Views\Sales\_AccountRequestPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Sales\_PreviousRequestPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Sales\_CheckStatusPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\SignShop\Index.cshtml">

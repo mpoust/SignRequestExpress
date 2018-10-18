@@ -13,11 +13,13 @@
     <title>@ViewData["Title"] - SRE</title>
 
     <environment include="Development">
+        <link rel="stylesheet" href="~/lib/jquery/dist/jquery.js" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
 
     <environment include="Staging, Production">
+        <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -121,8 +123,7 @@
         </nav>
     }
 
-    <!--<partial name="_CookieConsentPartial" /> -->
-
+    <partial name="_CookieConsentPartial" /> 
     <div class="container body-content">
         @RenderBody()
         <hr />
