@@ -1,10 +1,81 @@
 ﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 
 @{
-    ViewData["Title"] = "Sales Home";
+    ViewData["Title"] = "Sign Shop Home";
     Layout = "_Layout";
 }
 
-<p>@ViewData["apiUrl"]</p>
+<br />
 
-<h1>SIGN SHOP LOGIN!!</h1>
+<h1>Sign Shop Dashboard <small>- Manage Sign Creation</small></h1>
+
+<br />
+
+<div class="card">
+    <div class="card-header">
+
+        <ul class="nav nav-tabs card-header-tabs nav-fill" id="signshopTab" role="tablist">
+
+            <li class="nav-item">
+                <a class="nav-link active" id="queue-tab" data-toggle="tab" role="tab" href="#queueTab" aria-controls="queueTab" aria-selected="true"><b>Request Queue</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="prev-tab" data-toggle="tab" role="tab" href="#prevTab" aria-controls="prevTab" aria-selected="false"><b>Request Archive</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="log-tab" data-toggle="tab" role="tab" href="#logTab" aria-controls="logTab" aria-selected="false"><b>Request Logs</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="template-tab" data-toggle="tab" role="tab" href="#templateTab" aria-controls="templateTab" aria-selected="false"><b>Templates</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="standard-tab" data-toggle="tab" role="tab" href="#standardTab" aria-controls="standardTab" aria-selected="false"><b>Standards</b></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="account-tab" data-toggle="tab" role="tab" href="#accountTab" aria-controls="accountTab" aria-selected="false"><b>Account Management</b></a>
+            </li>
+
+
+
+
+        </ul>
+
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="signshopTabContent">
+            <div class="tab-pane fade show active" id="queueTab" role="tabpanel" aria-labelledby="queue-tab">
+                <partial name="_RequestQueuePartial" />
+            </div>
+
+            <div class="tab-pane fade" id="prevTab" role="tabpanel" aria-labelledby="prev-tab">
+                <partial name="_RequestArchivePartial" />
+            </div>
+
+            <div class="tab-pane fade" id="logTab" role="tabpanel" aria-labelledby="log-tab">
+                <partial name="_RequestLogSignShopPartial" />
+            </div>
+
+            <div class="tab-pane fade" id="templateTab" role="tabpanel" aria-labelledby="template-tab">
+                <partial name="_BrandTemplatePartial" />
+            </div>
+
+            <div class="tab-pane fade" id="standardTab" role="tabpanel" aria-labelledby="standard-tab">
+                <partial name="_BrandStandardPartial" />
+            </div>
+
+            <div class="tab-pane fade" id="accountTab" role="tabpanel" aria-labelledby="account-tab">
+                <partial name="_AccountManagementSignShopPartial" />
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
