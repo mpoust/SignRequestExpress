@@ -35,12 +35,17 @@ body {
         display: none;
     }
 }
-.navbar-brand {
-    
-}
 
 .account-div {
     max-width: 30rem;
+}
+
+.tab-link{
+    color: dimgray;
+}
+
+.tab-link:hover{
+    color: darkgrey;
 }
 
 
