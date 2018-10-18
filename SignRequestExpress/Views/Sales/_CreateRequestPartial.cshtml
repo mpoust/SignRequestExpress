@@ -50,12 +50,36 @@
         </div>
         <div class="col-auto form-inline">
             <label for="number-input">Quantity:</label>
-            <input class="form-control" type="number" value="1" id="number-input" />
+            <input class="form-control" type="number" value="1" min="0" max="100" id="number-input" />
         </div>
         <div class="col form-inline">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
                 <label class="form-check-label" for="proofCheck">Proof Needed Before Print</label>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="form-row">
+        <div class="col-auto form-inline">
+            <label for="height-inch">Height (in inches):</label>
+            <input class="form-control" type="number" placeholder="Height" step="0.05" min="0.5" max="500" id="height-inch" />
+        </div>
+        <div class="col-auto form-inline">
+            <label for="width-inch">Width (in inches):</label>
+            <input class="form-control" type="number" placeholder="Width" step="0.05" min="0.5" max="500" id="width-inch" />
+        </div>
+        <div class="col-auto form-inline">
+            <!--TODO: Auto populate checkbox, and switch values of heigh and width if opposite is selected-->
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="horizontalCheckbox" value="option1" />
+                <label class="form-check-label" for="horizontalCheckbox">Horizontal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="verticalCheckbox" value="option2" />
+                <label class="form-check-label" for="verticalCheckbox">Vertical</label>
             </div>
         </div>
     </div>
