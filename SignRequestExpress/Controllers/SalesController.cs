@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using SignRequestExpress.Models.AccountViewModels;
 using SignRequestExpress.Models.PostModels;
 using SignRequestExpress.Models.ResponseModels;
+using SignRequestExpress.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,13 +38,44 @@ namespace SignRequestExpress.Controllers
             _clientFactory = clientFactory;
             _httpClient = _clientFactory.CreateClient("sreApi");
         }
+
+        public async Task<IActionResult> TestPage()
+        {
+            SalesService salesService = new SalesService();
+
+            var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+            var id = salesService.GetSalesId(_httpClient, apiToken); //this too
+
+            ViewData["test1"] = apiToken.ToString();
+
+            ViewData["test2"] = id;
+
+            return View();
+        }
     
-        public IActionResult Index()
-        {   
+        public async Task<IActionResult> Index()
+        {
             // Do I get the data for all the partial views here?  Is there a better place to process this?
             //  do with a View Component instead of partialview?  Need to learn more
 
+            SalesService salesService = new SalesService();
             // Get Accounts for user with an API call
+            var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+            var id = salesService.GetSalesId(_httpClient, apiToken); //this too
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{id}");
+            var response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var info = response.Content.ReadAsStringAsync().Result;
+                List<SalesAccounts> accountsList = JsonConvert.DeserializeObject<List<SalesAccounts>>(info);
+                ViewBag.AccountsList = accountsList;
+                ViewData["Message"] = "Is this working!?";
+            }
+
             
 
             return View();
@@ -54,20 +86,13 @@ namespace SignRequestExpress.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitRequest()
         {
+            SalesService salesService = new SalesService();
+
             // GET UserInfo - UserID to send with Request POST
             var apiToken = HttpContext.Session.GetString(SessionKeyName);
 
-            // Get UserInfo
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-            var request = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
-            var response = await _httpClient.SendAsync(request);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var info = response.Content.ReadAsStringAsync().Result;
-                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(info);
-                var id = userInfo.Id;
-            }
+            // Get Sales User ID - for POSTing the Request
+            var id = salesService.GetSalesId(_httpClient, apiToken);
 
             // TODO: Post the Request to the API
 

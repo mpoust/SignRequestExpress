@@ -19,7 +19,6 @@
 
 using SignRequestExpressAPI.Entities;
 using SignRequestExpressAPI.Models;
-
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;

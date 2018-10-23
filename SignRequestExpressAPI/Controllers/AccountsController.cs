@@ -72,8 +72,8 @@ namespace SignRequestExpressAPI.Controllers
         }
 
         [Authorize]
-        [Route("sales/{userId}")]
-        [HttpGet(Name = nameof(GetUserAccountsAsync))]
+       // [Route("sales/{userId}")]
+        [HttpGet("sales/{userId}", Name = nameof(GetUserAccountsAsync))]
         public async Task<IActionResult> GetUserAccountsAsync(Guid userId, CancellationToken ct)
         {
             var salesAccounts = await _accountService.GetUserAccountsAsync(userId, ct);
