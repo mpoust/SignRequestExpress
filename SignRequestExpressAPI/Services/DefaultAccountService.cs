@@ -51,5 +51,16 @@ namespace SignRequestExpressAPI.Services
 
             return await query.ToArrayAsync();
         }
+
+        // Used for populating the dropdown Accounts listing in the Sales Request Page in SPA
+        public async Task<IEnumerable<Account>> GetUserAccountsAsync(Guid userId, CancellationToken ct)
+        {
+            // Get the Accounts for the UserID supplied
+            var query = _context.Account
+                .Where(a => a.AssociateFK == userId)
+                .ProjectTo<Account>();
+
+            return await query.ToArrayAsync();
+        }
     }
 }

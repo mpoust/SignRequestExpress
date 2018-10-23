@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/16/2018
+ * Last Modified: 10/23/2018
  * Description: This controller will return data requested for Accounts within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SignRequestExpressAPI.Models;
@@ -37,12 +38,17 @@ namespace SignRequestExpressAPI.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IAuthorizationService _authzService;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(
+            IAccountService accountService,
+            IAuthorizationService authorizationService)
         {
             _accountService = accountService;
+            _authzService = authorizationService;
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetAccountsAsync))]
         public async Task<IActionResult> GetAccountsAsync(CancellationToken ct)
         {
@@ -55,6 +61,40 @@ namespace SignRequestExpressAPI.Controllers
                 Self = collectionLink,
                 Value = accounts.ToArray()
             };
+
+            var canViewAllAccounts = await _authzService.AuthorizeAsync(
+                User, "ViewAllAccountsPolicy");
+            if (!canViewAllAccounts.Succeeded) return NotFound();
+            else
+            {
+                return Ok(collection);
+            }
+        }
+
+        [Authorize]
+        [Route("sales/{userId}")]
+        [HttpGet(Name = nameof(GetUserAccountsAsync))]
+        public async Task<IActionResult> GetUserAccountsAsync(Guid userId, CancellationToken ct)
+        {
+            var salesAccounts = await _accountService.GetUserAccountsAsync(userId, ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetUserAccountsAsync));
+
+            var collection = new Collection<Account>
+            {
+                Self = collectionLink,
+                Value = salesAccounts.ToArray()
+            };
+
+            /*
+            var canViewSalesAccounts = await _authzService.AuthorizeAsync(
+                User, "ViewSalesAccountsPolicy");
+            if (!canViewSalesAccounts.Succeeded) return NotFound();
+            else
+            {
+                return Ok(collection);
+            }
+            */
 
             return Ok(collection);
         }

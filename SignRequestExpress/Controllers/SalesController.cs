@@ -39,7 +39,13 @@ namespace SignRequestExpress.Controllers
         }
     
         public IActionResult Index()
-        {      
+        {   
+            // Do I get the data for all the partial views here?  Is there a better place to process this?
+            //  do with a View Component instead of partialview?  Need to learn more
+
+            // Get Accounts for user with an API call
+            
+
             return View();
         }
 
@@ -62,6 +68,8 @@ namespace SignRequestExpress.Controllers
                 UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(info);
                 var id = userInfo.Id;
             }
+
+            // TODO: Post the Request to the API
 
             // Return to success page if request submitted successfully
             return RedirectToAction(nameof(SalesController.RequestSubmitted), "Sales");

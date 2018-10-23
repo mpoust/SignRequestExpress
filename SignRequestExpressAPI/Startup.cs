@@ -117,6 +117,12 @@ namespace SignRequestExpressAPI
             {
                 opt.AddPolicy("ViewAllUsersPolicy",
                     p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+
+                opt.AddPolicy("ViewAllAccountsPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+
+                opt.AddPolicy("ViewSalesAccountsPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Sales"));
             });
 
             // Set up AutoMapper
