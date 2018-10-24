@@ -47,8 +47,8 @@ namespace SignRequestExpress
             services.AddDistributedMemoryCache();
             services.AddSession(opt =>
             {
-                // Short timeout for easy testing
-                opt.IdleTimeout = TimeSpan.FromSeconds(20); // Independent of cookie expiration
+                //opt.IdleTimeout = TimeSpan.FromSeconds(20); // Independent of cookie expiration
+                opt.IdleTimeout = TimeSpan.FromSeconds(15552000); // Set same as ApiToken lifetime
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.Name = ".SRE.Session";
             });

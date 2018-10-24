@@ -45,11 +45,68 @@ namespace SignRequestExpress.Controllers
 
             var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-            var id = salesService.GetSalesId(_httpClient, apiToken); //this too
+            // var id = salesService.GetSalesId(_httpClient, apiToken); //this does not work
 
-            ViewData["test1"] = apiToken.ToString();
+            var request = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
+            var response = await _httpClient.SendAsync(request);
 
-            ViewData["test2"] = id;
+           // ViewData["test1"] = apiToken.ToString();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var info = response.Content.ReadAsStringAsync().Result;
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(info);
+                var id = userInfo.Id;
+                ViewData["test2"] = id;
+
+                var request2 = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{id}");
+                var response2 = await _httpClient.SendAsync(request2);
+
+                if (response2.IsSuccessStatusCode)
+                {
+                    var info2 = response2.Content.ReadAsStringAsync().Result;
+                    //List<SalesAccounts> accountsList = JsonConvert.DeserializeObject<List<SalesAccounts>>(info2);
+                    // accountsList = JsonConvert.DeserializeObject<SalesAccounts[]>(info2);
+                    //ViewBag.AccountsList = accountsList;
+
+                    var data = JsonConvert.DeserializeObject<SalesAccountsResponse>(info2).Value;
+
+                    /*
+                    foreach (var dict in data)
+                    {
+                        foreach (var kvp in dict)
+                        {
+                            Console.WriteLine(kvp.Key + ": " + kvp.Value);
+                            ViewData["test3"] = kvp.Key + ": " + kvp.Value;
+                        }
+                        //Console.WriteLine();
+                        string accountName;
+                        dict.TryGetValue("accountName",out accountName);
+                        ViewData["test4"] = dict.;
+
+                    }
+                    */
+
+                    foreach(var accounts in data)
+                    {
+                        ViewData["test3"] += "New Account\r\n"; // How to use new lines..?!
+
+                        foreach (var kvp in accounts)
+                        {
+                            ViewData["test4"] += kvp.Key + ": " + kvp.Value;
+                            ViewData["test5"] += kvp.Key + ": " + kvp.Value;
+                            ViewData["test6"] += kvp.Key + ": " + kvp.Value;
+                            ViewData["test7"] += kvp.Key + ": " + kvp.Value;
+                        }
+                    }
+
+                    //ViewData["test3"] = data.First().ToString();
+
+                    //ViewData["test4"] = data.FirstOrDefault().Values;
+                }
+            }
+
+           // ViewData["test2"] = id.ToString();
 
             return View();
         }
@@ -63,8 +120,9 @@ namespace SignRequestExpress.Controllers
             // Get Accounts for user with an API call
             var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-            var id = salesService.GetSalesId(_httpClient, apiToken); //this too
-
+            // var id = salesService.GetSalesId(_httpClient, apiToken); //this does not work
+            
+            /*
             var request = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{id}");
             var response = await _httpClient.SendAsync(request);
 
@@ -75,7 +133,7 @@ namespace SignRequestExpress.Controllers
                 ViewBag.AccountsList = accountsList;
                 ViewData["Message"] = "Is this working!?";
             }
-
+            */
             
 
             return View();
