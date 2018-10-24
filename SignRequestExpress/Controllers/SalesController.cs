@@ -94,20 +94,13 @@ namespace SignRequestExpress.Controllers
                         foreach (var kvp in accounts)
                         {
                             ViewData["test4"] += kvp.Key + ": " + kvp.Value;
-                            ViewData["test5"] += kvp.Key + ": " + kvp.Value;
-                            ViewData["test6"] += kvp.Key + ": " + kvp.Value;
-                            ViewData["test7"] += kvp.Key + ": " + kvp.Value;
+                            // Create List of SalesAccounts?
+                            
                         }
                     }
 
-                    //ViewData["test3"] = data.First().ToString();
-
-                    //ViewData["test4"] = data.FirstOrDefault().Values;
                 }
             }
-
-           // ViewData["test2"] = id.ToString();
-
             return View();
         }
     
