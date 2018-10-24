@@ -39,6 +39,7 @@ namespace SignRequestExpress.Controllers
             _httpClient = _clientFactory.CreateClient("sreApi");
         }
 
+        // DEVELOPMENT TESTING ONLY
         public async Task<IActionResult> TestPage()
         {
             SalesService salesService = new SalesService();
@@ -71,33 +72,29 @@ namespace SignRequestExpress.Controllers
 
                     var data = JsonConvert.DeserializeObject<SalesAccountsResponse>(info2).Value;
 
-                    /*
-                    foreach (var dict in data)
-                    {
-                        foreach (var kvp in dict)
-                        {
-                            Console.WriteLine(kvp.Key + ": " + kvp.Value);
-                            ViewData["test3"] = kvp.Key + ": " + kvp.Value;
-                        }
-                        //Console.WriteLine();
-                        string accountName;
-                        dict.TryGetValue("accountName",out accountName);
-                        ViewData["test4"] = dict.;
-
-                    }
-                    */
-
+                    var AccountList = new List<object>();
                     foreach(var accounts in data)
                     {
                         ViewData["test3"] += "New Account\r\n"; // How to use new lines..?!
 
                         foreach (var kvp in accounts)
                         {
-                            ViewData["test4"] += kvp.Key + ": " + kvp.Value;
-                            // Create List of SalesAccounts?
+
+                            //string msg = "Key = " + kvp.Key + ", Value = " + kvp.Value + " | ";
+                            string msg = "";
+                          // var AccountList = new List<string>();
                             
+                            if(kvp.Key == "accountName")
+                            {
+                                msg += kvp.Value + ", ";
+                                AccountList.Add(kvp.Value);
+                            }
+
+                            ViewData["test4"] += msg;
+
                         }
                     }
+                    ViewBag.AccountList = AccountList;
 
                 }
             }
@@ -108,29 +105,51 @@ namespace SignRequestExpress.Controllers
         {
             // Do I get the data for all the partial views here?  Is there a better place to process this?
             //  do with a View Component instead of partialview?  Need to learn more
-
-            SalesService salesService = new SalesService();
             // Get Accounts for user with an API call
             var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-            // var id = salesService.GetSalesId(_httpClient, apiToken); //this does not work
-            
-            /*
-            var request = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{id}");
-            var response = await _httpClient.SendAsync(request);
 
-            if (response.IsSuccessStatusCode)
+            // Getting userID from /userinfo to pull Accounts tied to that user.
+            var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
+            var userinfoResponse = await _httpClient.SendAsync(userinfoRequest);
+
+            if (userinfoResponse.IsSuccessStatusCode)
             {
-                var info = response.Content.ReadAsStringAsync().Result;
-                List<SalesAccounts> accountsList = JsonConvert.DeserializeObject<List<SalesAccounts>>(info);
-                ViewBag.AccountsList = accountsList;
-                ViewData["Message"] = "Is this working!?";
-            }
-            */
-            
+                var userinfo = userinfoResponse.Content.ReadAsStringAsync().Result;
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
+                var userId = userInfo.Id;
 
+                // Have ID, get accounts
+                var accountRequest = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{userId}");
+                var accountResponse = await _httpClient.SendAsync(accountRequest);
+
+                if (accountResponse.IsSuccessStatusCode)
+                {
+                    var accountInfo = accountResponse.Content.ReadAsStringAsync().Result;
+                    var jsonData = JsonConvert.DeserializeObject<SalesAccountsResponse>(accountInfo).Value; // is there a way to deserialize into my model?
+
+                    var AccountList = new List<object>(); // List use to seed account selection dropdown
+
+                    foreach (var account in jsonData)
+                    {
+                        foreach (var kvp in account)
+                        {
+                            if (kvp.Key == "accountName")
+                            {
+                                AccountList.Add(kvp.Value);
+                            }
+                        }
+                    }
+                    // Sort the List
+                    AccountList.Sort();
+
+                    // Create ViewBag for use in the PartialView
+                    ViewBag.AccountList = AccountList;
+                }
+            }
             return View();
         }
+
 
         //
         // POST: /Sales (CreateRequestPartial)

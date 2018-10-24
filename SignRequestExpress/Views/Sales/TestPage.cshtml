@@ -46,3 +46,12 @@
 <br />
 
 <h4>@ViewData["test10"]</h4>
+
+<br />
+
+<ul>
+    @foreach(var item in ViewBag.AccountList)
+    {
+        <li>@item</li>
+    }
+</ul>
