@@ -42,16 +42,13 @@ namespace SignRequestExpress.Controllers
         // DEVELOPMENT TESTING ONLY
         public async Task<IActionResult> TestPage()
         {
-            SalesService salesService = new SalesService();
+            //SalesService salesService = new SalesService(); // Turn the whole process into a method - seed accounts, seed brands, etc inside salesService
 
             var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
-            // var id = salesService.GetSalesId(_httpClient, apiToken); //this does not work
 
             var request = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
             var response = await _httpClient.SendAsync(request);
-
-           // ViewData["test1"] = apiToken.ToString();
 
             if (response.IsSuccessStatusCode)
             {
@@ -70,7 +67,7 @@ namespace SignRequestExpress.Controllers
                     // accountsList = JsonConvert.DeserializeObject<SalesAccounts[]>(info2);
                     //ViewBag.AccountsList = accountsList;
 
-                    var data = JsonConvert.DeserializeObject<SalesAccountsResponse>(info2).Value;
+                    var data = JsonConvert.DeserializeObject<CollectionResponse>(info2).Value;
 
                     var AccountList = new List<object>();
                     foreach(var accounts in data)
@@ -126,11 +123,11 @@ namespace SignRequestExpress.Controllers
                 if (accountResponse.IsSuccessStatusCode)
                 {
                     var accountInfo = accountResponse.Content.ReadAsStringAsync().Result;
-                    var jsonData = JsonConvert.DeserializeObject<SalesAccountsResponse>(accountInfo).Value; // is there a way to deserialize into my model?
+                    var userJsonData = JsonConvert.DeserializeObject<CollectionResponse>(accountInfo).Value; // is there a way to deserialize into my model?
 
                     var AccountList = new List<object>(); // List use to seed account selection dropdown
 
-                    foreach (var account in jsonData)
+                    foreach (var account in userJsonData)
                     {
                         foreach (var kvp in account)
                         {
@@ -140,11 +137,43 @@ namespace SignRequestExpress.Controllers
                             }
                         }
                     }
-                    // Sort the List
+                    // Alphabetize
                     AccountList.Sort();
 
                     // Create ViewBag for use in the PartialView
                     ViewBag.AccountList = AccountList;
+
+
+                    // Create Brand List - Potentially cache or store this stuff locally and check for new on login? -- Same with Accounts
+                    var brandListRequest = new HttpRequestMessage(HttpMethod.Get, "/brands");
+                    var brandinfoResponse = await _httpClient.SendAsync(brandListRequest);
+
+                    if (brandinfoResponse.IsSuccessStatusCode)
+                    {
+                        var brandInfo = brandinfoResponse.Content.ReadAsStringAsync().Result;
+                        var brandJsonData = JsonConvert.DeserializeObject<CollectionResponse>(brandInfo).Value;
+
+                        var BrandList = new List<object>();
+
+                        foreach(var brand in brandJsonData)
+                        {
+                            foreach(var kvp2 in brand)
+                            {
+                                if(kvp2.Key == "brandName")
+                                {
+                                    BrandList.Add(kvp2.Value);
+                                }
+                            }
+                        }
+
+                        // Alphabetize
+                        BrandList.Sort();
+
+
+                        // Create ViewBag 
+                        ViewBag.BrandList = BrandList;
+                    }
+
                 }
             }
             return View();

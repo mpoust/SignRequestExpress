@@ -14,7 +14,6 @@
         <div class="col">
             <select class="custom-select form-control">
                 <option selected disabled>Select Account</option>
-                <!--TODO: Dynamically fill with User's accounts-->
                 <!--TODO: Add Iconic too create Addition button for a new account -->
                 @if (ViewBag.AccountList != null)
                 {
@@ -98,7 +97,13 @@
         <div class="col">
             <select class="custom-select form-control">
                 <option selected disabled>Select Brand</option>
-                <!--TODO: Dynamically fill with supported brands-->
+                @if (ViewBag.BrandList != null)
+                {
+                    foreach (var item in ViewBag.BrandList)
+                    {
+                        <option>@item</option>
+                    }
+                }
             </select>
         </div>
         <div class="col">

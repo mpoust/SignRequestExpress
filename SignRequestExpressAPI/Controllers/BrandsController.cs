@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified:
+ * Last Modified: 10/24/2018
  * Description: This controller will return data requested for Brands within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
@@ -41,6 +42,7 @@ namespace SignRequestExpressAPI.Controllers
             _brandService = brandService;
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetBrandsAsync))]
         public async Task<IActionResult> GetBrandsAsync(CancellationToken ct)
         {
@@ -57,6 +59,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(collection);
         }
 
+        [Authorize]
         [HttpGet("{brandId}", Name = nameof(GetBrandByIdAsync))]
         public async Task<IActionResult> GetBrandByIdAsync(Guid brandId, CancellationToken ct)
         {

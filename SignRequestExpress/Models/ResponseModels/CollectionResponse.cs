@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SignRequestExpress.Models.ResponseModels
 {
-    public class SalesAccountsResponse : Resource
+    public class CollectionResponse : Resource
     {
         // rel?
 
