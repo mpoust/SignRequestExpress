@@ -34,11 +34,11 @@ namespace SignRequestExpress.Controllers
         public const string PasswordKey = "password";
         public const string ApiClient = "sreApi";
 
-        private const string ExecutiveCase =     "498-01-RK01";
-        private const string AdministratorCase = "498-01-RK02";
+        private const string ExecutiveCase =     "498-01-RK00";
+        private const string AdministratorCase = "498-01-RK01";
+        private const string SignShopCase =      "498-01-RK02";
         private const string SalesCase =         "498-01-RK03";
-        private const string SignShopCase =      "498-01-RK04";
-
+        
         private const string ExecutiveRole =     "Executive";
         private const string AdministratorRole = "Administrator";
         private const string SalesRole =         "Sales";
@@ -81,7 +81,7 @@ namespace SignRequestExpress.Controllers
 
                 string role;
                 // Determine Role from Access Code - No Code put in Default role
-                switch (model.AccessCode)
+                switch (model.AccessCode.ToUpper())
                 {
                     case ExecutiveCase:
                         role = ExecutiveRole;
