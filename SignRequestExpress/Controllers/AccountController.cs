@@ -150,6 +150,9 @@ namespace SignRequestExpress.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            // TODO: Figure out how to make this happen when the Session restarts as well. When browser closes a long time the fields are not populated
+            //      and I think this is because the ApiToken Cookie is stale
+
            // ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {

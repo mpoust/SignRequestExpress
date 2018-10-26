@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Entities;
@@ -98,9 +99,9 @@ namespace SignRequestExpressAPI.Controllers
         }
 
 
-        // TODO add authentication
         // POST /requests/{requestNumber}
         //[HttpPost("{requestNumber}", Name = nameof(SubmitRequestAsync))]
+        [Authorize]
         [HttpPost(Name = nameof(SubmitRequestAsync))]
         public async Task<IActionResult> SubmitRequestAsync(
             string requestNumber,
@@ -111,14 +112,27 @@ namespace SignRequestExpressAPI.Controllers
 
             // Business logic for creating a sign request
             // Get current user ID (TODO)
-            var userId = Guid.NewGuid();
+            //var userId = Guid.NewGuid(); //testing
+
+            // Quick check on needed date
             if (!requestForm.NeededDate.HasValue) requestForm.NeededDate = DateTime.Now.AddDays(6);
 
             var requestId = await _requestService.CreateRequestAsync(
-                    userId, requestForm.Reason, 0, requestForm.NeededDate.Value, requestForm.IsProofNeeded.Value, 
-                    requestForm.MediaFK.Value, requestForm.Quantity.Value, requestForm.IsVertical.Value,
-                    requestForm.HeightInch.Value, requestForm.WidthInch.Value, requestForm.Template.Value,
-                    requestForm.Information, requestForm.DataFileURI, requestForm.ImageURI, ct);
+                    requestForm.UserId, 
+                    requestForm.Reason, 
+                    0, // User Number TODO: Increment - this number is used for user visual and seeing sign requests
+                    requestForm.NeededDate.Value,
+                    requestForm.IsProofNeeded.Value,
+                    requestForm.MediaFK.Value,
+                    requestForm.Quantity.Value,
+                    requestForm.IsVertical.Value,
+                    requestForm.HeightInch.Value,
+                    requestForm.WidthInch.Value,
+                    requestForm.Template.Value,
+                    requestForm.Information, 
+                    requestForm.DataFileURI, 
+                    requestForm.ImageURI, 
+                    ct);
 
             return Created(
                 Url.Link(nameof(RequestsController.GetRequestByIdAsync),

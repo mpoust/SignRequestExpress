@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SignRequestExpress.Data;
+using SignRequestExpress.Services;
 
 namespace SignRequestExpress
 {
@@ -87,6 +88,9 @@ namespace SignRequestExpress
                 p => p.RequireClaim("FacultyNumber"));
             });
             */
+
+            // Adding Service Interfaces so DefaultService is selected -- not currently being used
+            services.AddScoped<ISalesService, DefaultSalesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

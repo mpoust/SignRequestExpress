@@ -1,98 +1,101 @@
-﻿
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@model SignRequestExpress.Models.PostModels.SignRequestModel
 @{
 }
 
-<!--TODO: Add Question Marks for user introspection-->
-
+<!--TODO: Add Question Marks for user questions-->
 <!--TODO: Add Labels for everything - that way it lines up better on mobile views-->
 
 
-<form asp-controller="Sales" asp-action="SubmitRequest" role="form">
+<form asp-controller="Sales" asp-action="SubmitRequest" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="form-row">
         <div class="col">
-            <select class="custom-select form-control">
+            <label asp-for="AccountName" class="requestLabel"></label>
+            <select asp-for="AccountName" class="custom-select form-control">
                 <option selected disabled>Select Account</option>
                 <!--TODO: Add Iconic too create Addition button for a new account -->
                 @if (ViewBag.AccountList != null)
                 {
                     foreach (var item in ViewBag.AccountList)
                     {
-                        <option>@item</option>
+                        <option>@item.ToString()</option>
                     }
                 }
             </select>
         </div>
-        <div class="col form-inline">
-            <label><b>Requested Date:&nbsp;</b> @DateTime.Now.ToShortDateString()</label>
-            <!-- TODO: Make the date not look weird on mobile view-->
+        <div class="col form-inline"> <!--Alignment is weird!-->
+            <label asp-for="NeededDate" class="requestLabel"></label>
+            <input type="text" asp-for="NeededDate" class="form-control"/>  <!--TODO: Configure a DatePicker-->
         </div>
+        <div class="col form-inline">
+            <label for="dateRequestedStatic" class="requestLabel">Date Requested:</label>
+            <input type="text" readonly class="form-control-plaintext" id="dateRequestedStatic"
+                   value="@DateTime.Now.ToShortDateString()" />
+            <!-- TODO: Make the date not look weird on mobile view-->
+        </div>        
     </div>
 
     <br />
 
     <div class="form-row">
         <div class="col">
-            <input type="text" class="form-control" placeholder="Reason" />
-        </div>
-        <div class="col form-control">
-            <label><b>Date Needed:</b></label> <!--TODO: Configure a DatePicker-->
-        </div>
-    </div>
-
-    <br />
-
-    <div class="form-row"> <!--TODO: Figure out how to disable form elements based off other's selection-->
+            <label asp-for="Reason" class="requestLabel"></label>
+            <input asp-for="Reason" type="text" class="form-control" placeholder="Reason" />
+        </div> 
         <div class="col">
-            <select class="custom-select form-control">
+            <label asp-for="MediaString" class="requestLabel"></label>
+            <select asp-for="MediaString" class="custom-select form-control">
+                <!--TODO: Store on client device - would sqlite work?-->
                 <option selected disabled>Media Type</option>
                 <option>Adhesive</option>
-                <!--TODO: Option appears if selected for Corr-Plast-->
+                <!--TODO: Option appears if selected for Corr-Plast -- jQeury, Angular?-->
                 <option>Photo Glossy</option>
                 <option>Matte Outdoor</option>
                 <option>Plasticore</option>
-                <!--TODO: Option appears if selected for Lighted-->
+                <!--TODO: Option appears if selected for Lighted -- accomplished with jQuery? Angular-->
             </select>
-        </div>
-        <div class="col-auto form-inline">
-            <label for="number-input">Quantity:</label>
-            <input class="form-control" type="number" value="1" min="0" max="100" id="number-input" />
-        </div>
-        <div class="col form-inline">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
-                <label class="form-check-label" for="proofCheck">Proof Needed Before Print</label>
-            </div>
         </div>
     </div>
 
     <br />
 
     <div class="form-row">
-        <div class="col-auto form-inline">
-            <label for="height-inch">Height (in inches):</label>
-            <input class="form-control" type="number" placeholder="Height" step="0.05" min="0.5" max="500" id="height-inch" />
+        <!--TODO: Figure out how to disable form elements based off other's selection-->
+        <div class="col">
+            <label asp-for="Quantity" class="requestLabel"></label>
+            <input asp-for="Quantity" class="form-control" type="number" value="1" min="0" max="100" />
         </div>
         <div class="col-auto form-inline">
-            <label for="width-inch">Width (in inches):</label>
-            <input class="form-control" type="number" placeholder="Width" step="0.05" min="0.5" max="500" id="width-inch" />
+            <label asp-for="HeightInch" class="requestLabel"></label>
+            <input asp-for="HeightInch" type="number" placeholder="Height" step="0.05" min="0.25" max="500" />
         </div>
         <div class="col-auto form-inline">
-            <!--TODO: Auto populate checkbox, and switch values of heigh and width if opposite is selected-->
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="horizontalCheckbox" value="option1" />
-                <label class="form-check-label" for="horizontalCheckbox">Horizontal</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="verticalCheckbox" value="option2" />
-                <label class="form-check-label" for="verticalCheckbox">Vertical</label>
-            </div>
+            <label asp-for="WidthInch" class="requestLabel"></label>
+            <input asp-for="WidthInch" type="number" placeholder="Width" step="0.05" min="0.25" max="500" />
+        </div>
+        <div class="col form-inline">
+            <!--TODO: orientation auto switch-->
+            <label for="signOrientation" class="requestLabel">Orientation:</label>
+            <!-- 
+                <div class="col-auto form-inline">
+                    <!--TODO: Auto populate checkbox, and switch values of heigh and width if opposite is selected
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="horizontalCheckbox" value="option1" />
+                        <label class="form-check-label" for="horizontalCheckbox">Horizontal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="verticalCheckbox" value="option2" />
+                        <label class="form-check-label" for="verticalCheckbox">Vertical</label>
+                    </div>
+                </div> -->
         </div>
     </div>
 
     <br />
 
+    <!--TODO: BELOW!-->
     <div class="form-row">
         <div class="col">
             <select class="custom-select form-control">
@@ -101,7 +104,7 @@
                 {
                     foreach (var item in ViewBag.BrandList)
                     {
-                        <option>@item</option>
+                        <option>@item.ToString()</option>
                     }
                 }
             </select>
@@ -131,13 +134,26 @@
 
     <div class="form-row">
         <div class="col">
-
+            <div class="form-group">
+                <label asp-for="Information" class="requestLabel"></label>
+                <!--TODO: Insert sign request form information, include in help as well. CREATE jump? LINK TO HELP-->
+                <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3"></textarea>
+            </div>
         </div>
     </div>
 
     <br />
 
-    <button class="btn btn-primary" type="submit">Submit Request</button>
-
+    <div class="form-row">
+        <div class="col">
+            <button class="btn btn-primary" type="submit">Submit Request</button>
+        </div>
+        <div class="col form-inline">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
+                <label class="form-check-label" for="proofCheck">Proof Needed Before Print</label>
+            </div>
+        </div>
+    </div>
     <!--TODO: Form refresh button-->
 </form>

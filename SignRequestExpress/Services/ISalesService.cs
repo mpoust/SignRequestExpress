@@ -2,12 +2,12 @@
 /*
  * CIT498 - Senior Project - Fall 2018
  * 
- * FileName: PostUser.cs
+ * FileName: ISalesService.cs
  * Author: Michael Poust
 		   mbp3@pct.edu
- * Created On: 10/12/2018
+ * Created On: 10/25/2018
  * Last Modified: 
- * Description: Model for user to POST to API during account registration
+ * Description: 
  * 
  * References:
  *   
@@ -15,28 +15,19 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using SignRequestExpress.Models.PostModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SignRequestExpress.Models.PostModels
+namespace SignRequestExpress.Services
 {
-    // TODO: add JSON validation?
-    public class PostUser
+    public interface ISalesService
     {
-        public string Username { get; set; }
+        Task<(bool Suceeded, string ErrorMessage)> CreateRequestAsync(PostSignRequest postSignRequest);
 
-        public string Password { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string PhoneNumber { get; set; }
-
-        public string Email { get; set; }
-
-        public string Role { get; set; }
+        Task<Guid> GetSalesId(HttpClient httpClient, string apiToken);
     }
 }

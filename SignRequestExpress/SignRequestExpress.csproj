@@ -49,6 +49,9 @@
     <Content Update="Views\Home\Help.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Sales\RequestSubmitError.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Sales\_AccountRequestPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

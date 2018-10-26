@@ -25,18 +25,34 @@ namespace SignRequestExpress.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpClientFactory _clientFactory;
         private readonly HttpClient _httpClient;
+        private readonly ISalesService _salesService;
 
+        public const string ApiClient = "sreApi";
         public const string SessionKeyName = "_APIToken";
+        public const string UserInfoRoute = "/userinfo";
+
+        public const string AdhesiveCase = "Adhesive";
+        public const string PhotoGlossyCase = "Photo Glossy";
+        public const string MatteOutdoorCase = "Matte Outdoor";
+        public const string PlasticoreCase = "Plasticore";
+
+        // TODO - add new cases for adhesive w/ and w/o corrplast, and plasticore options
+        public const byte Adhesive = 1;
+        public const byte PhotoGlossy = 2;
+        public const byte MatteOutdoor = 3;
+        public const byte Plasticore = 4;
 
         public SalesController(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IHttpClientFactory clientFactory)
+            IHttpClientFactory clientFactory,
+            ISalesService salesService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _clientFactory = clientFactory;
-            _httpClient = _clientFactory.CreateClient("sreApi");
+            _httpClient = _clientFactory.CreateClient(ApiClient);
+            _salesService = salesService;
         }
 
         // DEVELOPMENT TESTING ONLY
@@ -102,21 +118,23 @@ namespace SignRequestExpress.Controllers
         {
             // Do I get the data for all the partial views here?  Is there a better place to process this?
             //  do with a View Component instead of partialview?  Need to learn more
-            // Get Accounts for user with an API call
-            var apiToken = HttpContext.Session.GetString(SessionKeyName); // TODO: factor this out into a service
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+            SetHeaderWithApiToken();
+            //var userId = GetUserId(); // Doesn't seem to work?
 
             // Getting userID from /userinfo to pull Accounts tied to that user.
-            var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
+            var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoRoute);
             var userinfoResponse = await _httpClient.SendAsync(userinfoRequest);
 
+            
             if (userinfoResponse.IsSuccessStatusCode)
             {
                 var userinfo = userinfoResponse.Content.ReadAsStringAsync().Result;
                 UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
                 var userId = userInfo.Id;
-
-                // Have ID, get accounts
+                
+                // Get Accounts for user with an API call
+                // Create Account List
                 var accountRequest = new HttpRequestMessage(HttpMethod.Get, $"/accounts/sales/{userId}");
                 var accountResponse = await _httpClient.SendAsync(accountRequest);
 
@@ -139,64 +157,123 @@ namespace SignRequestExpress.Controllers
                     }
                     // Alphabetize
                     AccountList.Sort();
-
                     // Create ViewBag for use in the PartialView
                     ViewBag.AccountList = AccountList;
+                }
 
+                // Create Brand List - Potentially cache or store this stuff locally and check for new on login? -- Same with Accounts
+                var brandListRequest = new HttpRequestMessage(HttpMethod.Get, "/brands");
+                var brandinfoResponse = await _httpClient.SendAsync(brandListRequest);
 
-                    // Create Brand List - Potentially cache or store this stuff locally and check for new on login? -- Same with Accounts
-                    var brandListRequest = new HttpRequestMessage(HttpMethod.Get, "/brands");
-                    var brandinfoResponse = await _httpClient.SendAsync(brandListRequest);
+                if (brandinfoResponse.IsSuccessStatusCode)
+                {
+                    var brandInfo = brandinfoResponse.Content.ReadAsStringAsync().Result;
+                    var brandJsonData = JsonConvert.DeserializeObject<CollectionResponse>(brandInfo).Value;
 
-                    if (brandinfoResponse.IsSuccessStatusCode)
+                    var BrandList = new List<object>();
+
+                    foreach (var brand in brandJsonData)
                     {
-                        var brandInfo = brandinfoResponse.Content.ReadAsStringAsync().Result;
-                        var brandJsonData = JsonConvert.DeserializeObject<CollectionResponse>(brandInfo).Value;
-
-                        var BrandList = new List<object>();
-
-                        foreach(var brand in brandJsonData)
+                        foreach (var kvp2 in brand)
                         {
-                            foreach(var kvp2 in brand)
+                            if (kvp2.Key == "brandName")
                             {
-                                if(kvp2.Key == "brandName")
-                                {
-                                    BrandList.Add(kvp2.Value);
-                                }
+                                BrandList.Add(kvp2.Value);
                             }
                         }
-
-                        // Alphabetize
-                        BrandList.Sort();
-
-
-                        // Create ViewBag 
-                        ViewBag.BrandList = BrandList;
                     }
-
+                    // Alphabetize
+                    BrandList.Sort();
+                    // Create ViewBag 
+                    ViewBag.BrandList = BrandList;
                 }
             }
             return View();
         }
 
-
         //
         // POST: /Sales (CreateRequestPartial)
         [HttpPost]
-        public async Task<IActionResult> SubmitRequest()
+        public async Task<IActionResult> SubmitRequest(SignRequestModel model)
         {
-            SalesService salesService = new SalesService();
-
             // GET UserInfo - UserID to send with Request POST
-            var apiToken = HttpContext.Session.GetString(SessionKeyName);
+            SetHeaderWithApiToken();            
 
-            // Get Sales User ID - for POSTing the Request
-            var id = salesService.GetSalesId(_httpClient, apiToken);
+            if (ModelState.IsValid) // Model state is clearly not valid.  What is going wrong???
+            {
+                byte mediaFk;
 
-            // TODO: Post the Request to the API
+                switch (model.MediaString)
+                {
+                    case AdhesiveCase:
+                        mediaFk = Adhesive;
+                        break;
+                    case PhotoGlossyCase:
+                        mediaFk = PhotoGlossy;
+                        break;
+                    case MatteOutdoorCase:
+                        mediaFk = MatteOutdoor;
+                        break;
+                    case PlasticoreCase:
+                        mediaFk = Plasticore;
+                        break;
+                    default:
+                        mediaFk = Adhesive;
+                        break;
+                }
 
-            // Return to success page if request submitted successfully
-            return RedirectToAction(nameof(SalesController.RequestSubmitted), "Sales");
+                bool isVertical;
+                if (model.HeightInch > model.WidthInch) isVertical = true;
+                else isVertical = false;
+                
+                // Get userID - TODO: REPLACE WITH A METHOD THAT WORKS
+                var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoRoute);
+                var userinfoResponse = await _httpClient.SendAsync(userinfoRequest);
+
+                if (userinfoResponse.IsSuccessStatusCode)
+                {
+                    var userinfo = userinfoResponse.Content.ReadAsStringAsync().Result;
+                    UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
+                    Guid userId = userInfo.Id;
+
+                    var postRequest = JsonConvert.SerializeObject(new PostSignRequest
+                    {
+                        // NEED TO GET USER ID FUNCTION WORKING
+                        UserId = userId,
+                        Reason = model.Reason,
+                        NeededDate = model.NeededDate,     // TODO - add when datepicker implemented
+                        IsProofNeeded = false, // TODO - connect to checkbox
+                        MediaFK = mediaFk,
+                        Quantity = model.Quantity,
+                        IsVertical = isVertical,
+                        HeightInch = model.HeightInch,
+                        WidthInch = model.WidthInch,
+                        Template = model.Template,    // TODO - add when template selected implemented
+                        Information = model.Information,
+                        DataFileUri = model.DataFileUri,
+                        ImageUri = model.ImageUri
+                    });
+
+                    var responseRequest = await _httpClient.PostAsync("https://signrequestexpressapi.azurewebsites.net/requests",
+                                            new StringContent(postRequest, Encoding.UTF8, "application/json"));
+
+                    if (responseRequest.IsSuccessStatusCode)
+                    {
+                        // Return to success page if request submitted successfully
+                        return RedirectToAction(nameof(SalesController.RequestSubmitted), "Sales");
+                    }
+                }
+                
+            }
+
+            // NOTE: When submitting the request, a POST needs to also occur to the
+            //          Request_Account, User_Request
+
+            // If we got this far, something failed, redisplay form
+            //return View();
+            // return View(form);
+            return RedirectToAction(nameof(SalesController.RequestSubmitError), "Sales");
+
         }
 
         public async Task<IActionResult> RequestSubmitted()
@@ -205,5 +282,41 @@ namespace SignRequestExpress.Controllers
             //      add capability to show request details like a receipt details
             return View();
         }
+
+        public async Task<IActionResult> RequestSubmitError()
+        {
+            return View();
+        }
+
+        
+        // Helper Methods -- Don't appear to be working
+        public void SetHeaderWithApiToken()
+        {
+            var apiToken = HttpContext.Session.GetString(SessionKeyName);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+        }
+
+        /*
+        // used in posting a request and getting user accounts
+        public async Task<Guid> GetUserId()
+        {
+            SetHeaderWithApiToken();
+
+            var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, "/userinfo");
+            var userinfoResponse = await _httpClient.SendAsync(userinfoRequest);
+
+            if (userinfoResponse.IsSuccessStatusCode)
+            {
+                var userinfo = userinfoResponse.Content.ReadAsStringAsync().Result;
+                UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
+                var userId = userInfo.Id;
+                return userId;
+            }
+            else
+            {
+                throw new NotImplementedException(); // TODO fix errors
+            }            
+        }
+        */
     }
 }

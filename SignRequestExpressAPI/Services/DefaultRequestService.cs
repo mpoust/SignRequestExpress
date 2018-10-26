@@ -94,7 +94,9 @@ namespace SignRequestExpressAPI.Services
             // calling services from those ones
 
             // Create the RequestEntity and add to context
-            var id = Guid.NewGuid();
+            var id = Guid.NewGuid(); // This is the RequestID
+
+            // TODO: Generate entries for other tables associated with the request - tie to user and account
 
             var newRequest = _context.Request.Add(new RequestEntity
             {

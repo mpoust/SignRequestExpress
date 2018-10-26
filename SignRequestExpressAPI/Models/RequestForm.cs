@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/21/2018
- * Last Modified: 
+ * Last Modified: 10/26/2018
  * Description: This class represents the JSON data that a client needs to POST to the /requests/{requestNumber} route.
  *      Contains all relevant request data.
  * 
@@ -28,6 +28,9 @@ namespace SignRequestExpressAPI.Models
     {
         // What properties do I need here? Which once can I auto generate to include in the database
         // does this happen here or in the SPA??
+
+        [Required]
+        public Guid UserId { get; set; }
 
         [Display(Name ="reason", Description ="Reason for request")]
         public string Reason { get; set; }
@@ -78,12 +81,12 @@ namespace SignRequestExpressAPI.Models
         [Required]
         [Display(Name = "heightInch", Description = "Height of sign in inches")]
         [Range(1, 384, ErrorMessage = "Height must be greater than 0 and less than 384 inches. Signs cannot be made larger than 32 feet.")]
-        public Int16? HeightInch { get; set; }
+        public short? HeightInch { get; set; }
 
         [Required]
         [Display(Name = "widthInch", Description = "Width of sign in inches")]
         [Range(1, 384, ErrorMessage = "Width must be greater than 0 and less than 384 inches. Signs cannot be made larger than 32 feet.")]
-        public Int16? WidthInch { get; set; }
+        public short? WidthInch { get; set; }
 
         [Display(Name = "template", Description = "Foreign key of template for the request")]
         public Guid? Template { get; set; }
