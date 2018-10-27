@@ -13,17 +13,13 @@
     <title>@ViewData["Title"] - SRE</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/jquery/dist/jquery.js" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />       
+        <link rel="stylesheet" href="~/lib/vendor.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
 
     <environment include="Staging, Production">
-        <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bundle.min.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/js/bundle.min.js" />
-        <link rel="stylesheet" href="~/lib/popper.js/packages/popper/bundle.js" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/vendor.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
     </environment>
 </head>
 
@@ -125,14 +121,14 @@
         </nav>
     }
 
-    <partial name="_CookieConsentPartial" /> 
-
+    <partial name="_CookieConsentPartial" />
     <div class="container body-content">
         @RenderBody()
         <hr />
         <partial name="_Footer" />
     </div>
 
+    <!--
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -153,6 +149,17 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+        -->
+
+    <environment include="Development">
+        <script src="~/lib/vendor.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment include="Staging, Production">
+        <script src="~/lib/vendor.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>    
 
     @RenderSection("Scripts", required: false)
 </body>
