@@ -11,28 +11,32 @@
 
 <!--TODO: Implement forgot password, 2fa, other account options-->
 
-<div class="card account-div">
+<div class="card">
     <div class="card-header">
         <h5 class="card-title">Enter login credentials for access</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body local-card-body">
         <form asp-controller="Account" asp-action="Login">
             <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Username">Username</label>
-                <input type="text" asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label asp-for="Username" class="formLabel">Username</label>
+                    <input type="text" asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>                
             </div>            
 
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input type="password" asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label asp-for="Password" class="formLabel">Password</label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>                
             </div>
 
             <div class="form-group">
-                <label asp-for="RememberMe">Remember Me</label>
+                <label asp-for="RememberMe" class="formLabel">Remember Me</label>
                 <input type="checkbox" asp-for="RememberMe"/>
                 <span asp-validation-for="RememberMe" class="field-validation-error"></span>
             </div>

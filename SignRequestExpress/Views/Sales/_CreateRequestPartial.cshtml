@@ -4,16 +4,16 @@
 }
 
 <!--TODO: Add Question Marks for user questions-->
-<!--TODO: Add Labels for everything - that way it lines up better on mobile views-->
 
 
-<form asp-controller="Sales" asp-action="SubmitRequest" method="post">
+
+<form asp-controller="Sales" asp-action="SubmitRequest" method="post" novalidate>
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="form-row">
-        <div class="col">
-            <label asp-for="AccountName" class="requestLabel"></label>
-            <select asp-for="AccountName" class="custom-select form-control">
+        <div class="col-lg-6">
+            <label asp-for="AccountName" class="formLabel"></label>
+            <select asp-for="AccountName" class="form-control">
                 <option selected disabled>Select Account</option>
                 <!--TODO: Add Iconic too create Addition button for a new account -->
                 @if (ViewBag.AccountList != null)
@@ -25,31 +25,26 @@
                 }
             </select>
         </div>
-        <div class="col form-inline"> <!--Alignment is weird!-->
-            <label asp-for="NeededDate" class="requestLabel"></label>
+        <div class="col-md">
+            <label asp-for="NeededDate" class="formLabel"></label>
             <input asp-for="NeededDate" class="form-control" />
             <span asp-validation-for="NeededDate" class="text-danger"></span>
-        <!--
-            <label asp-for="NeededDate" class="requestLabel"></label>
-            <input type="text" asp-for="NeededDate" class="form-control"/> -->  <!--TODO: Configure a DatePicker-->
         </div>
-        <div class="col form-inline">
-            <label for="dateRequestedStatic" class="requestLabel">Date Requested:</label>
-            <input type="text" readonly class="form-control-plaintext" id="dateRequestedStatic"
+        <div class="col-md">
+            <label for="dateRequestedStatic" class="formLabel">Date Requested:</label>
+            <input type="text" readonly class="form-control" id="dateRequestedStatic"
                    value="@DateTime.Now.ToShortDateString()" />
             <!-- TODO: Make the date not look weird on mobile view-->
         </div>        
-    </div>
-
-    <br />
+    </div>    
 
     <div class="form-row">
-        <div class="col">
-            <label asp-for="Reason" class="requestLabel"></label>
+        <div class="col-md">
+            <label asp-for="Reason" class="formLabel"></label>
             <input asp-for="Reason" type="text" class="form-control" placeholder="Reason" />
         </div> 
-        <div class="col">
-            <label asp-for="MediaString" class="requestLabel"></label>
+        <div class="col-md">
+            <label asp-for="MediaString" class="formLabel"></label>
             <select asp-for="MediaString" class="custom-select form-control">
                 <!--TODO: Store on client device - would sqlite work?-->
                 <option selected disabled>Media Type</option>
@@ -63,25 +58,23 @@
         </div>
     </div>
 
-    <br />
-
     <div class="form-row">
         <!--TODO: Figure out how to disable form elements based off other's selection-->
-        <div class="col">
-            <label asp-for="Quantity" class="requestLabel"></label>
+        <div class="col-sm-2">
+            <label asp-for="Quantity" class="formLabel"></label>
             <input asp-for="Quantity" class="form-control" type="number" value="1" min="0" max="100" />
         </div>
-        <div class="col-auto form-inline">
-            <label asp-for="HeightInch" class="requestLabel"></label>
-            <input asp-for="HeightInch" type="number" placeholder="Height" step="0.05" min="0.25" max="500" />
+        <div class="col-sm-4">
+            <label asp-for="HeightInch" class="formLabel"></label>
+            <input asp-for="HeightInch" class="form-control" type="number" placeholder="Height" step="0.05" min="0.25" max="500" />
         </div>
-        <div class="col-auto form-inline">
-            <label asp-for="WidthInch" class="requestLabel"></label>
-            <input asp-for="WidthInch" type="number" placeholder="Width" step="0.05" min="0.25" max="500" />
+        <div class="col-sm-4">
+            <label asp-for="WidthInch" class="formLabel"></label>
+            <input asp-for="WidthInch" class="form-control" type="number" placeholder="Width" step="0.05" min="0.25" max="500" />
         </div>
-        <div class="col form-inline">
+        <div class="col-sm4">
             <!--TODO: orientation auto switch-->
-            <label for="signOrientation" class="requestLabel">Orientation:</label>
+            <label for="signOrientation" class="formLabel">Orientation:</label>
             <!-- 
                 <div class="col-auto form-inline">
                     <!--TODO: Auto populate checkbox, and switch values of heigh and width if opposite is selected
@@ -97,12 +90,10 @@
         </div>
     </div>
 
-    <br />
-
-    <!--TODO: BELOW!-->
     <div class="form-row">
-        <div class="col">
-            <select class="custom-select form-control">
+        <div class="col-lg-6">
+            <label for="templateBrand" class="formLabel">Brand:</label>
+            <select class="custom-select form-control" id="templateBrand">
                 <option selected disabled>Select Brand</option>
                 @if (ViewBag.BrandList != null)
                 {
@@ -113,20 +104,21 @@
                 }
             </select>
         </div>
-        <div class="col">
+        <div class="col-md">
+            <label asp-for="Template" class="formLabel"></label>
             <p><i>TODO: Template</i></p>
             <!--TODO: Create Modal? image gallery popup with templates from the selected brand-->
         </div>
     </div>
 
-    <br />
-
     <div class="form-row">
         <div class="col">
+            <label asp-for="ImageUri" class="formLabel"></label>
             <p><i>TODO: Account Logo</i></p>
             <!--TODO: Create Yes/No include account logo if there is one on file?-->
         </div>
         <div class="col">
+            <label asp-for="DataFileUri" class="formLabel"></label>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile">
                 <label class="custom-file-label" for="customFile">Choose file</label>
@@ -134,19 +126,15 @@
         </div>
     </div>
 
-    <br />
-
     <div class="form-row">
         <div class="col">
             <div class="form-group">
-                <label asp-for="Information" class="requestLabel"></label>
+                <label asp-for="Information" class="formLabel"></label>
                 <!--TODO: Insert sign request form information, include in help as well. CREATE jump? LINK TO HELP-->
                 <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3"></textarea>
             </div>
         </div>
     </div>
-
-    <br />
 
     <div class="form-row">
         <div class="col">

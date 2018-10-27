@@ -37,7 +37,7 @@ body {
 }
 
 .account-div {
-    max-width: 30rem;
+    max-width: 60rem;
 }
 
 .tab-link{
@@ -48,11 +48,16 @@ body {
     color: darkgrey;
 }
 
-.requestLabel{
+.formLabel{
     font-weight: bold;
+    margin-top: 1em;
 }
 
 .cookie-btn{
     /*float: right;*/
     margin-left: 2em;
+}
+
+.local-card-body{
+    padding-top: 0em;
 }

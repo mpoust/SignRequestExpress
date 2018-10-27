@@ -15,29 +15,27 @@
 
 <div class="card">
     <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs nav-fill flex-column flex-md-row" id="salesTab" role="tablist">
 
-        <ul class="nav nav-tabs card-header-tabs nav-fill" id="salesTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active tab-link" id="create-tab" data-toggle="tab" role="tab" href="#createTab" aria-controls="createTab" aria-selected="true"><b>Create Request</b></a>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link active tab-link" id="create-tab" data-toggle="tab" role="tab" href="#createTab" aria-controls="createTab" aria-selected="true"><b>Create Request</b></a>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link tab-link" id="check-tab" data-toggle="tab" role="tab" href="#checkTab" aria-controls="checkTab" aria-selected="false"><b>Check Status</b></a>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link tab-link" id="check-tab" data-toggle="tab" role="tab" href="#checkTab" aria-controls="checkTab" aria-selected="false"><b>Check Status</b></a>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link tab-link" id="prev-tab" data-toggle="tab" role="tab" href="#prevTab" aria-controls="prevTab" aria-selected="false"><b>Previous Requests</b></a>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link tab-link" id="prev-tab" data-toggle="tab" role="tab" href="#prevTab" aria-controls="prevTab" aria-selected="false"><b>Previous Requests</b></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link tab-link" id="account-tab" data-toggle="tab" role="tab" href="#accountTab" aria-controls="accountTab" aria-selected="false"><b>Account Management</b></a>
-            </li>
-        </ul>
-
+        <li class="nav-item">
+            <a class="nav-link tab-link" id="account-tab" data-toggle="tab" role="tab" href="#accountTab" aria-controls="accountTab" aria-selected="false"><b>Account Management</b></a>
+        </li>
+    </ul>        
     </div>
 
-    <div class="card-body">
+    <div class="card-body local-card-body">
         <div class="tab-content" id="salesTabContent">
             <div class="tab-pane fade show active" id="createTab" role="tabpanel" aria-labelledby="create-tab">
                 <partial name="_CreateRequestPartial" />
