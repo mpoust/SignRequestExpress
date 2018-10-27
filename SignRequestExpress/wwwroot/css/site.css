@@ -61,3 +61,7 @@ body {
 .local-card-body{
     padding-top: 0em;
 }
+
+.orientation-label{
+    margin-right: 2em;
+}
