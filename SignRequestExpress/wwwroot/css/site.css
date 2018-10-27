@@ -52,4 +52,7 @@ body {
     font-weight: bold;
 }
 
-
+.cookie-btn{
+    /*float: right;*/
+    margin-left: 2em;
+}
