@@ -236,9 +236,13 @@ namespace SignRequestExpress.Controllers
                     UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
                     Guid userId = userInfo.Id;
 
+                    userId = new Guid("0be59332-bd8f-484d-9f35-0dc17850d23b");
+                    Guid templateId = new Guid("066f4396-e614-49d2-94f9-57873aafc29b");
+
                     var postRequest = JsonConvert.SerializeObject(new PostSignRequest
                     {
                         // NEED TO GET USER ID FUNCTION WORKING
+                        
                         UserId = userId,
                         Reason = model.Reason,
                         NeededDate = model.NeededDate,     // TODO - add when datepicker implemented
@@ -251,7 +255,7 @@ namespace SignRequestExpress.Controllers
                         Template = model.Template,    // TODO - add when template selected implemented
                         Information = model.Information,
                         DataFileUri = model.DataFileUri,
-                        ImageUri = model.ImageUri
+                        ImageUri = model.ImageUri 
                     });
 
                     var responseRequest = await _httpClient.PostAsync("https://signrequestexpressapi.azurewebsites.net/requests",
@@ -271,8 +275,13 @@ namespace SignRequestExpress.Controllers
 
             // If we got this far, something failed, redisplay form
             //return View();
-            // return View(form);
-            return RedirectToAction(nameof(SalesController.RequestSubmitError), "Sales");
+            //return View(model);
+            //return RedirectToAction(nameof(SalesController.RequestSubmitError), "Sales");
+
+            //return PartialView("_CreateRequestPartial", model); // This result was interesting
+
+            //return RedirectToAction(nameof(SalesController.Index), model); // What I really want to do is redirect and show errors
+            return View("Index", model);
 
         }
 
@@ -294,6 +303,20 @@ namespace SignRequestExpress.Controllers
         {
             var apiToken = HttpContext.Session.GetString(SessionKeyName);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+        }
+
+        // Partial View Helper method
+        [NonAction]
+        public virtual PartialViewResult PartialView(string viewName, object model)
+        {
+            ViewData.Model = model;
+
+            return new PartialViewResult()
+            {
+                ViewName = viewName,
+                ViewData = ViewData,
+                TempData = TempData
+            };
         }
 
         /*
