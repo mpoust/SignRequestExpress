@@ -25,6 +25,7 @@ namespace SignRequestExpress.Models.PostModels
 {
     public class SignRequestModel
     {
+        [Required]
         [Display(Name = "Account Name:")]
         public string AccountName { get; set; }
 

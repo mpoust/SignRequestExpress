@@ -273,15 +273,9 @@ namespace SignRequestExpress.Controllers
             // NOTE: When submitting the request, a POST needs to also occur to the
             //          Request_Account, User_Request
 
-            // If we got this far, something failed, redisplay form
-            //return View();
-            //return View(model);
-            //return RedirectToAction(nameof(SalesController.RequestSubmitError), "Sales");
-
-            //return PartialView("_CreateRequestPartial", model); // This result was interesting
-
-            //return RedirectToAction(nameof(SalesController.Index), model); // What I really want to do is redirect and show errors
+            // If we got this far, something failed, redisplay form            
             return View("Index", model);
+            //return PartialView("_CreateRequestPartial", model); // This result was interesting
 
         }
 
