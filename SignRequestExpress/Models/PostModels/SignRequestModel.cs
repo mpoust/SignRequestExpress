@@ -35,6 +35,9 @@ namespace SignRequestExpress.Models.PostModels
         // TODO: Implement logic, hardcoded as 0 in API controller
         //public int UserNumber { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{dd-MM-yyyy}")]
         [Display(Name = "Date Needed:")]
         public DateTime NeededDate { get; set; }
 

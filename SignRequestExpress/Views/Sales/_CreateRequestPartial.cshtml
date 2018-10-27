@@ -26,6 +26,9 @@
             </select>
         </div>
         <div class="col form-inline"> <!--Alignment is weird!-->
+            <label asp-for="NeededDate" class="requestLabel"></label>
+            <input asp-for="NeededDate" class="form-control" />
+            <span asp-validation-for="NeededDate" class="text-danger"></span>
         <!--
             <label asp-for="NeededDate" class="requestLabel"></label>
             <input type="text" asp-for="NeededDate" class="form-control"/> -->  <!--TODO: Configure a DatePicker-->

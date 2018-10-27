@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 10/09/2018
- * Last Modified: 10/12/2018
+ * Last Modified: 10/27/2018
  * Description: Model for data passed when registering a new user
  * 
  * References:
