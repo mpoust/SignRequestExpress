@@ -65,3 +65,11 @@ body {
 .orientation-label{
     margin-right: 2em;
 }
+
+.home-image{
+    max-width: 30em;
+}
+
+.brand-image{
+    max-height: 2em;
+}
