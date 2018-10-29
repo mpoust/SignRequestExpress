@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Hanssens.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -119,13 +120,14 @@ namespace SignRequestExpress.Controllers
             // Do I get the data for all the partial views here?  Is there a better place to process this?
             //  do with a View Component instead of partialview?  Need to learn more
 
-            SetHeaderWithApiToken();
+            SetHeaderWithApiToken(_httpClient);
             //var userId = GetUserId(); // Doesn't seem to work?
+
+            // TODO: Only go through requests if there is no data in LocalStorage for Accounts, Brands - Will need refresh if added.
 
             // Getting userID from /userinfo to pull Accounts tied to that user.
             var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoRoute);
             var userinfoResponse = await _httpClient.SendAsync(userinfoRequest);
-
             
             if (userinfoResponse.IsSuccessStatusCode)
             {
@@ -139,7 +141,7 @@ namespace SignRequestExpress.Controllers
                 var accountResponse = await _httpClient.SendAsync(accountRequest);
 
                 if (accountResponse.IsSuccessStatusCode)
-                {
+                {                                   
                     var accountInfo = accountResponse.Content.ReadAsStringAsync().Result;
                     var userJsonData = JsonConvert.DeserializeObject<CollectionResponse>(accountInfo).Value; // is there a way to deserialize into my model?
 
@@ -159,6 +161,15 @@ namespace SignRequestExpress.Controllers
                     AccountList.Sort();
                     // Create ViewBag for use in the PartialView
                     ViewBag.AccountList = AccountList;
+
+                    /*
+                    // Test of LocalStorage
+                    using(var storage = new LocalStorage())
+                    {
+                        storage.Store("accountStorage", AccountList);
+                        storage.Persist();
+                    }
+                    */
                 }
 
                 // Create Brand List - Potentially cache or store this stuff locally and check for new on login? -- Same with Accounts
@@ -197,7 +208,7 @@ namespace SignRequestExpress.Controllers
         public async Task<IActionResult> SubmitRequest(SignRequestModel model)
         {
             // GET UserInfo - UserID to send with Request POST
-            SetHeaderWithApiToken();            
+            SetHeaderWithApiToken(_httpClient);            
 
             if (ModelState.IsValid) // Model state is clearly not valid.  What is going wrong???
             {
@@ -274,29 +285,37 @@ namespace SignRequestExpress.Controllers
             //          Request_Account, User_Request
 
             // If we got this far, something failed, redisplay form            
-            return View("Index", model);
+            return View("Index", model); // If there is an error the Account and Brand dropdowns are not filled
             //return PartialView("_CreateRequestPartial", model); // This result was interesting
 
         }
 
-        public async Task<IActionResult> RequestSubmitted()
+        public IActionResult RequestSubmitted()
         {
             // TODO: Make so redirect only can be viewed from submit button
             //      add capability to show request details like a receipt details
             return View();
         }
 
-        public async Task<IActionResult> RequestSubmitError()
+        public IActionResult RequestSubmitError()
         {
             return View();
         }
 
         
-        // Helper Methods -- Don't appear to be working
-        public void SetHeaderWithApiToken()
+        // Helper Methods -- TODO: Fix other methods, make private static void
+        private static void SetHeaderWithApiToken(HttpClient httpClient)
         {
-            var apiToken = HttpContext.Session.GetString(SessionKeyName);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+            // Get Token from LocalStorage
+            using(var storage = new LocalStorage())
+            {
+                // TODO: add check for if the token is expired, then get a refresh
+                var apiToken = storage.Get("ApiTokenStorage");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken.ToString());
+            }
+
+            //var apiToken = HttpContext.Session.GetString(SessionKeyName);
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
         }
 
         // Partial View Helper method
@@ -314,7 +333,7 @@ namespace SignRequestExpress.Controllers
         }
 
         /*
-        // used in posting a request and getting user accounts
+        // used in posting a request and getting user accounts -- this one doesnt work..?
         public async Task<Guid> GetUserId()
         {
             SetHeaderWithApiToken();

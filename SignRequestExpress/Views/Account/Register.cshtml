@@ -16,14 +16,14 @@
         <h5 class="card-title">Create a new account</h5>
     </div>
     <div class="card-body local-card-body">
-        <form asp-controller="Account" asp-action="Register" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+        <form asp-controller="Account" asp-action="Register" method="post" novalidate class="needs-validation">
+            <!--<div asp-validation-summary="All" class="text-danger"></div>-->
 
             <div class="form-row">
                 <div class="col-md">
                     <label asp-for="FirstName" class="formLabel"></label>
                     <input type="text" asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <div class="invalid-feedback">Your First Name is required.</div>
                 </div>
                 <div class="col-md">
                     <label asp-for="LastName" class="formLabel"></label>
@@ -69,6 +69,7 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <label asp-for="AccessCode" class="formLabel"></label>
+                    <i class="fas fa-question-circle"  data-toggle="popover" title="Optional" data-content="Enter an Access Code if you have been provided one. Otherwise, leave the field blank and see the 'Access' page once you create your account." tabindex="0" data-trigger="focus"></i>
                     <input type="text" asp-for="AccessCode" class="form-control" />
                     <span asp-validation-for="AccessCode" class="text-danger"></span>
                 </div>                
@@ -80,3 +81,33 @@
         </form>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            });
+        });
+
+        $(document).ready(function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}

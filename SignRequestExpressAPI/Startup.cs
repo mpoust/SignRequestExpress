@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 10/09/2018
+ * Last Modified: 10/28/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -183,6 +183,7 @@ namespace SignRequestExpressAPI
             //  then wraps in an interface called IOptions and puts that into the service container.
             services.Configure<CompanyInfo>(Configuration.GetSection("Info"));            
             services.Configure<PagingOptions>(Configuration.GetSection("DefaultPagingOptions")); // Configure Default PagingOptions Limit: 25, Offset: 0
+            services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount")); // Configure Storage Account for BLOB
 
             // Adding Service Interfaces so Default service is selected
             services.AddScoped<IAccountService, DefaultAccountService>();
@@ -216,7 +217,7 @@ namespace SignRequestExpressAPI
 
             // Add CORS to API
             //app.UseCors("AllowSPA");
-            app.UseCors("AllowAny"); // Development only!
+            app.UseCors("AllowAny"); // Development only! //TODO: fix for production
 
             // Add the HSTS header - for supported browsers this won't even allow an attempt to connect over plain HTTP
             app.UseHsts(opt =>

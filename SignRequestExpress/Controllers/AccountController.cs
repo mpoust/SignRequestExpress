@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Hanssens.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -169,7 +170,7 @@ namespace SignRequestExpress.Controllers
                         return Redirect(returnUrl);
                     }
                     else
-                    {                        
+                    {         
                         // Get API Token with valid credentials
                         var request = new HttpRequestMessage(HttpMethod.Post, "/token");
 
@@ -191,7 +192,17 @@ namespace SignRequestExpress.Controllers
 
                             // Create Session with API Access Token
                             HttpContext.Session.Clear(); // Clear any persisting session data
-                            HttpContext.Session.SetString(SessionKeyName, token);
+                            HttpContext.Session.SetString(SessionKeyName, token);    
+                            
+                            // Add Token to LocalStorage
+                            using(var storage = new LocalStorage())
+                            {
+                                // TODO - create update scheme
+                                storage.Clear(); // First clear storage
+                                storage.Store("ApiTokenStorage", token);
+                                storage.Persist();
+                            }
+
                         }
 
                         var user = await _userManager.FindByNameAsync(model.Username);

@@ -59,7 +59,25 @@
 
 @section Scripts{
     <!--<script type="text/javascript" src="~/js/sales.js"></script>-->
+    <script>
+        $('select[name="brandSelect"]').change(function () {
+            if ($(this).val() != "Select Brand") {
+                $('input[name="template"]').prop('disabled', false);
+            }
+            else {
+                $('input[name="template"]').prop('disabled', true);
+            }
+        });
 
+        $("#heightInput").change(function () {
+            if ($(this).val() > $("#widthInput")) {
+                var $orientationRad = $('input:radio[name=signOrientation]');
+                $orientationRad.filter('[value=vertical]').prop('checked', true);
+                $orientationRad.filter('[value=horizontal]').prop('checked', false);
+
+            }
+        });
+    </script>
 
 }
 
