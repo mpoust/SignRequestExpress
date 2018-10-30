@@ -5,7 +5,7 @@
       "node_modules/bootstrap/dist/css/bootstrap.min.css"
     ],
     "minify": {
-      "enabled": false
+      "enabled": true
     }
   },
   {
@@ -16,7 +16,7 @@
       "node_modules/bootstrap/dist/js/bootstrap.min.js"
     ],
     "minify": {
-      "enabled": false
+      "enabled": true
     }
   },
   {

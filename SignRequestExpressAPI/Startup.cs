@@ -182,8 +182,7 @@ namespace SignRequestExpressAPI
             // Gets static information in appsettings.json for the company and create new instance of CompanyInfo with those values
             //  then wraps in an interface called IOptions and puts that into the service container.
             services.Configure<CompanyInfo>(Configuration.GetSection("Info"));            
-            services.Configure<PagingOptions>(Configuration.GetSection("DefaultPagingOptions")); // Configure Default PagingOptions Limit: 25, Offset: 0
-            services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount")); // Configure Storage Account for BLOB
+            services.Configure<PagingOptions>(Configuration.GetSection("DefaultPagingOptions")); // Configure Default PagingOptions Limit: 25, Offset: 0            
 
             // Adding Service Interfaces so Default service is selected
             services.AddScoped<IAccountService, DefaultAccountService>();

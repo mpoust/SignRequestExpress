@@ -1,0 +1,36 @@
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@using Microsoft.WindowsAzure.Storage.Blob
+@model List<IListBlobItem>
+
+@{
+    ViewData["Title"] = "Blob Imagers";
+}
+
+<br />
+
+<h1>This is a Test for Blob Images</h1>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.Uri
+        </li>
+        <li>
+            @item.StorageUri
+        </li>
+        <li>
+            @item.Parent
+        </li>
+        <li>
+            @item.Container.Uri
+        </li>
+    }
+</ul>
+
+<ul>
+    @foreach(var item in Model)
+    {
+        <li><img src="@item.Uri" class="account-logos" /></li>
+    }
+</ul>

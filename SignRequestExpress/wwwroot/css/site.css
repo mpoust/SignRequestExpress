@@ -73,3 +73,7 @@ body {
 .brand-image{
     max-height: 2em;
 }
+
+.account-logos{
+    max-width: 10em;
+}

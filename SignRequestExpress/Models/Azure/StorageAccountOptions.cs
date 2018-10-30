@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 10/28/2018
- * Last Modified: 
+ * Last Modified: 10/30/2018
  * Description: Options for storage account - Azure BLOB Storage 
  * 
  * References: https://blogs.msdn.microsoft.com/premier_developer/2017/03/14/building-a-simple-photo-album-using-azure-blob-storage-with-net-core/
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SignRequestExpressAPI.Models
+namespace SignRequestExpress.Models.Azure
 {
     public class StorageAccountOptions
     {

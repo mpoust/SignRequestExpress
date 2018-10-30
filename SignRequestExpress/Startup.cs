@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SignRequestExpress.Data;
+using SignRequestExpress.Models.Azure;
 using SignRequestExpress.Services;
 
 namespace SignRequestExpress
@@ -90,8 +91,11 @@ namespace SignRequestExpress
             });
             */
 
+            services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount")); // Configure Storage Account for BLOB
+
             // Adding Service Interfaces so DefaultService is selected -- not currently being used
             services.AddScoped<ISalesService, DefaultSalesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,6 +37,9 @@
     <Content Update="Views\Administrator\_CreateRequestAdminPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\BlobImages\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Default\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
