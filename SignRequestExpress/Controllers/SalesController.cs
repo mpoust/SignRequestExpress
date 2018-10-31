@@ -1,10 +1,15 @@
-﻿using Hanssens.Net;
+﻿// COMMENT
+
+using Hanssens.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using SignRequestExpress.Models.AccountViewModels;
+using SignRequestExpress.Models.Azure;
 using SignRequestExpress.Models.PostModels;
 using SignRequestExpress.Models.ResponseModels;
 using SignRequestExpress.Services;
@@ -27,6 +32,8 @@ namespace SignRequestExpress.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private readonly HttpClient _httpClient;
         private readonly ISalesService _salesService;
+        private readonly StorageAccountOptions _storageAccountOptions;
+        private readonly BlobUtility _blobUtility;
 
         public const string ApiClient = "sreApi";
         public const string SessionKeyName = "_APIToken";
@@ -47,13 +54,18 @@ namespace SignRequestExpress.Controllers
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IHttpClientFactory clientFactory,
-            ISalesService salesService)
+            ISalesService salesService,
+            IOptions<StorageAccountOptions> storageAccountOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _clientFactory = clientFactory;
             _httpClient = _clientFactory.CreateClient(ApiClient);
             _salesService = salesService;
+            _storageAccountOptions = storageAccountOptions.Value;
+            _blobUtility = new BlobUtility(
+                _storageAccountOptions.StorageAccountNameOption,
+                _storageAccountOptions.StorageAccountKeyOption);
         }
 
         // DEVELOPMENT TESTING ONLY
@@ -247,8 +259,8 @@ namespace SignRequestExpress.Controllers
                     UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
                     Guid userId = userInfo.Id;
 
-                    userId = new Guid("0be59332-bd8f-484d-9f35-0dc17850d23b");
-                    Guid templateId = new Guid("066f4396-e614-49d2-94f9-57873aafc29b");
+                    //userId = new Guid("0be59332-bd8f-484d-9f35-0dc17850d23b");
+                    //Guid templateId = new Guid("066f4396-e614-49d2-94f9-57873aafc29b");
 
                     var postRequest = JsonConvert.SerializeObject(new PostSignRequest
                     {
@@ -288,6 +300,25 @@ namespace SignRequestExpress.Controllers
             return View("Index", model); // If there is an error the Account and Brand dropdowns are not filled
             //return PartialView("_CreateRequestPartial", model); // This result was interesting
 
+        }
+
+        // Used when a brand is selected to populate the template modal
+        [HttpPost]
+        //[Route("/Sales/GetTemplates")]
+        public async Task<List<IListBlobItem>> GetTemplates(string brandName)
+        {
+            List<IListBlobItem> templates = new List<IListBlobItem>();
+            templates = await _blobUtility.GetTemplateBlobsByBrand(brandName);
+
+            return templates;
+        }
+
+        [HttpPost]
+        public string TestPost(string brandName)
+        {
+            string response = "Brand is " + brandName;
+
+            return response;
         }
 
         public IActionResult RequestSubmitted()

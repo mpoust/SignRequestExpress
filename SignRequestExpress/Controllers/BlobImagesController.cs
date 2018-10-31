@@ -35,7 +35,7 @@ namespace SignRequestExpress.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<IListBlobItem> blobItems = await _blobUtility.GetBlobs("templates", "miller");
+            List<IListBlobItem> blobItems = await _blobUtility.GetTemplateBlobsByBrand("Founders");
 
             //List<IListBlobItem> blobItems = await _blobUtility.GetBlobs("account-logos");
 

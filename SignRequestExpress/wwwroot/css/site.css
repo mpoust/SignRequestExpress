@@ -71,9 +71,10 @@ body {
 }
 
 .brand-image{
-    max-height: 2em;
+    max-height: 1.5em;
 }
 
-.account-logos{
+.template-button{
+    width: 100%;
     max-width: 10em;
 }
