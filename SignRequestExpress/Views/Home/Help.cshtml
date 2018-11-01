@@ -2,9 +2,125 @@
     ViewData["Title"] = "Help";
 }
 
+@section Links{
+    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.css">
+}
+
 <br />
 
-<h2>@ViewData["Title"]</h2>
+<!--
+<div class="container" style="height: 25%; overflow-y: scroll;">
+    <div class="row">
+        <nav id="helpScrollNav" class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">Help</a>
+            <nav class="nav nav-pills flex-column">
+                <a class="nav-link" href="#section1">Section 1</a>
+                <!--Can put nested here
+                <a class="nav-link" href="#section2">Section 2</a>
+                <a class="nav-link" href="#section3">Section 3</a>
+            </nav>
+        </nav>
+
+        <!--Content Below:
+        <div data-spy="scroll" data-target="#helpScrollNav" data-offset="0" class="col-sm-9" style="height: 25%;">
+            <div id="section1">
+                <h1>Section 1</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel porttitor mauris. Proin maximus finibus tellus, non rhoncus lorem posuere sed. Sed quis quam pretium, luctus urna ac, ultrices ex. Phasellus quis dui vitae metus sodales malesuada in at nibh. Nullam ut metus ullamcorper, convallis nisi eu, bibendum justo. Donec sit amet rhoncus diam. Phasellus pharetra leo et magna gravida, porta ornare urna varius. Sed molestie suscipit diam in accumsan. Quisque at nulla purus. Cras vel gravida diam, ultricies fermentum massa. Suspendisse dapibus elementum dapibus. Quisque sodales tortor ex, at tristique nisi imperdiet malesuada. Nulla facilisis turpis sit amet orci facilisis, et viverra mi eleifend.
+
+                    In hac habitasse platea dictumst. Nunc sit amet arcu eu erat pellentesque interdum. Curabitur congue porttitor est, consequat egestas odio rhoncus eget. Phasellus enim odio, cursus vitae dui ut, rhoncus semper magna. Nullam a augue ornare nisi lobortis condimentum. Morbi ultricies enim in auctor lacinia. Morbi sit amet tortor dictum, elementum diam a, interdum urna. Integer sit amet dignissim est, fermentum mollis quam. Vivamus sit amet ultrices elit. Nam mauris leo, bibendum a pharetra non, cursus vel sapien. Integer gravida libero ut eros viverra bibendum. Aliquam eleifend augue sed porttitor sagittis. Ut vel volutpat enim, a dapibus sem. Nullam feugiat efficitur ante, sed porttitor arcu convallis ac.
+
+                    Morbi vel gravida sapien. Donec sollicitudin felis vitae interdum pretium. Curabitur ac pellentesque mi. Nam sed lacus massa. Pellentesque sed maximus mi. Pellentesque eget ultricies augue. Etiam nunc mauris, mollis vel est ut, feugiat viverra odio.
+
+                    Vestibulum nulla sem, vulputate a feugiat quis, ultrices quis quam. Duis finibus ante et nisi imperdiet, vel gravida sapien consectetur. Integer vitae nisi sed metus maximus mattis. Vivamus semper, tellus id condimentum porttitor, ligula tortor vestibulum ex, sit amet convallis sem nibh ac ex. Sed fringilla sodales turpis, sed eleifend est tempor a. Aenean sit amet lacus vitae est eleifend maximus. Sed sed pharetra mauris. Nunc quam massa, varius eu urna sit amet, faucibus varius nisi. Nullam vel erat nisi. Nulla at mauris vestibulum lectus scelerisque consectetur.
+
+                    Suspendisse potenti. Nullam nec convallis risus, eget mattis tellus. Nullam eros magna, consequat sed nulla ac, laoreet interdum nulla. Phasellus in euismod nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer quis tortor pharetra, feugiat turpis vitae, posuere orci. Maecenas cursus viverra ipsum, elementum fermentum ante. Proin malesuada est erat, eget malesuada metus tincidunt quis. Integer sit amet metus justo. Vestibulum dui mi, egestas quis turpis sit amet, tincidunt varius augue. Maecenas non sem in augue convallis sodales. Integer eu varius mi, ut condimentum sapien. Donec dictum id nisl at lacinia. Integer suscipit, sem sed vestibulum efficitur, mi sem iaculis quam, ut porttitor sem augue vitae nisi. In tristique, quam quis condimentum cursus, velit turpis feugiat purus, quis posuere sapien metus rhoncus tortor.
+                </p>
+            </div>
+            <div id="section2">
+                <h1>Section 2</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel porttitor mauris. Proin maximus finibus tellus, non rhoncus lorem posuere sed. Sed quis quam pretium, luctus urna ac, ultrices ex. Phasellus quis dui vitae metus sodales malesuada in at nibh. Nullam ut metus ullamcorper, convallis nisi eu, bibendum justo. Donec sit amet rhoncus diam. Phasellus pharetra leo et magna gravida, porta ornare urna varius. Sed molestie suscipit diam in accumsan. Quisque at nulla purus. Cras vel gravida diam, ultricies fermentum massa. Suspendisse dapibus elementum dapibus. Quisque sodales tortor ex, at tristique nisi imperdiet malesuada. Nulla facilisis turpis sit amet orci facilisis, et viverra mi eleifend.
+
+                    In hac habitasse platea dictumst. Nunc sit amet arcu eu erat pellentesque interdum. Curabitur congue porttitor est, consequat egestas odio rhoncus eget. Phasellus enim odio, cursus vitae dui ut, rhoncus semper magna. Nullam a augue ornare nisi lobortis condimentum. Morbi ultricies enim in auctor lacinia. Morbi sit amet tortor dictum, elementum diam a, interdum urna. Integer sit amet dignissim est, fermentum mollis quam. Vivamus sit amet ultrices elit. Nam mauris leo, bibendum a pharetra non, cursus vel sapien. Integer gravida libero ut eros viverra bibendum. Aliquam eleifend augue sed porttitor sagittis. Ut vel volutpat enim, a dapibus sem. Nullam feugiat efficitur ante, sed porttitor arcu convallis ac.
+
+                    Morbi vel gravida sapien. Donec sollicitudin felis vitae interdum pretium. Curabitur ac pellentesque mi. Nam sed lacus massa. Pellentesque sed maximus mi. Pellentesque eget ultricies augue. Etiam nunc mauris, mollis vel est ut, feugiat viverra odio.
+
+                    Vestibulum nulla sem, vulputate a feugiat quis, ultrices quis quam. Duis finibus ante et nisi imperdiet, vel gravida sapien consectetur. Integer vitae nisi sed metus maximus mattis. Vivamus semper, tellus id condimentum porttitor, ligula tortor vestibulum ex, sit amet convallis sem nibh ac ex. Sed fringilla sodales turpis, sed eleifend est tempor a. Aenean sit amet lacus vitae est eleifend maximus. Sed sed pharetra mauris. Nunc quam massa, varius eu urna sit amet, faucibus varius nisi. Nullam vel erat nisi. Nulla at mauris vestibulum lectus scelerisque consectetur.
+
+                    Suspendisse potenti. Nullam nec convallis risus, eget mattis tellus. Nullam eros magna, consequat sed nulla ac, laoreet interdum nulla. Phasellus in euismod nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer quis tortor pharetra, feugiat turpis vitae, posuere orci. Maecenas cursus viverra ipsum, elementum fermentum ante. Proin malesuada est erat, eget malesuada metus tincidunt quis. Integer sit amet metus justo. Vestibulum dui mi, egestas quis turpis sit amet, tincidunt varius augue. Maecenas non sem in augue convallis sodales. Integer eu varius mi, ut condimentum sapien. Donec dictum id nisl at lacinia. Integer suscipit, sem sed vestibulum efficitur, mi sem iaculis quam, ut porttitor sem augue vitae nisi. In tristique, quam quis condimentum cursus, velit turpis feugiat purus, quis posuere sapien metus rhoncus tortor.
+                </p>
+            </div>
+            <div id="section3">
+                <h1>Section 3</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel porttitor mauris. Proin maximus finibus tellus, non rhoncus lorem posuere sed. Sed quis quam pretium, luctus urna ac, ultrices ex. Phasellus quis dui vitae metus sodales malesuada in at nibh. Nullam ut metus ullamcorper, convallis nisi eu, bibendum justo. Donec sit amet rhoncus diam. Phasellus pharetra leo et magna gravida, porta ornare urna varius. Sed molestie suscipit diam in accumsan. Quisque at nulla purus. Cras vel gravida diam, ultricies fermentum massa. Suspendisse dapibus elementum dapibus. Quisque sodales tortor ex, at tristique nisi imperdiet malesuada. Nulla facilisis turpis sit amet orci facilisis, et viverra mi eleifend.
+
+                    In hac habitasse platea dictumst. Nunc sit amet arcu eu erat pellentesque interdum. Curabitur congue porttitor est, consequat egestas odio rhoncus eget. Phasellus enim odio, cursus vitae dui ut, rhoncus semper magna. Nullam a augue ornare nisi lobortis condimentum. Morbi ultricies enim in auctor lacinia. Morbi sit amet tortor dictum, elementum diam a, interdum urna. Integer sit amet dignissim est, fermentum mollis quam. Vivamus sit amet ultrices elit. Nam mauris leo, bibendum a pharetra non, cursus vel sapien. Integer gravida libero ut eros viverra bibendum. Aliquam eleifend augue sed porttitor sagittis. Ut vel volutpat enim, a dapibus sem. Nullam feugiat efficitur ante, sed porttitor arcu convallis ac.
+
+                    Morbi vel gravida sapien. Donec sollicitudin felis vitae interdum pretium. Curabitur ac pellentesque mi. Nam sed lacus massa. Pellentesque sed maximus mi. Pellentesque eget ultricies augue. Etiam nunc mauris, mollis vel est ut, feugiat viverra odio.
+
+                    Vestibulum nulla sem, vulputate a feugiat quis, ultrices quis quam. Duis finibus ante et nisi imperdiet, vel gravida sapien consectetur. Integer vitae nisi sed metus maximus mattis. Vivamus semper, tellus id condimentum porttitor, ligula tortor vestibulum ex, sit amet convallis sem nibh ac ex. Sed fringilla sodales turpis, sed eleifend est tempor a. Aenean sit amet lacus vitae est eleifend maximus. Sed sed pharetra mauris. Nunc quam massa, varius eu urna sit amet, faucibus varius nisi. Nullam vel erat nisi. Nulla at mauris vestibulum lectus scelerisque consectetur.
+
+                    Suspendisse potenti. Nullam nec convallis risus, eget mattis tellus. Nullam eros magna, consequat sed nulla ac, laoreet interdum nulla. Phasellus in euismod nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer quis tortor pharetra, feugiat turpis vitae, posuere orci. Maecenas cursus viverra ipsum, elementum fermentum ante. Proin malesuada est erat, eget malesuada metus tincidunt quis. Integer sit amet metus justo. Vestibulum dui mi, egestas quis turpis sit amet, tincidunt varius augue. Maecenas non sem in augue convallis sodales. Integer eu varius mi, ut condimentum sapien. Donec dictum id nisl at lacinia. Integer suscipit, sem sed vestibulum efficitur, mi sem iaculis quam, ut porttitor sem augue vitae nisi. In tristique, quam quis condimentum cursus, velit turpis feugiat purus, quis posuere sapien metus rhoncus tortor.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+<div class="body-content" data-spy="scroll" data-target="#toc">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <nav id="toc" data-toggle="toc" class="sticky-top">
 
 
-<h1>Temporary Help Page</h1>
+                </nav>
+            </div>
+
+            <div id="scrollContent" class="col-sm-9">
+                <h2>@ViewData["Title"]</h2>
+                <p>Testing the help page.</p>
+                <h3 id="section1">Section 1</h3>
+                <p>
+                    Pellentesque posuere in lorem sit amet bibendum. Proin vel est sit amet quam tincidunt dapibus. Etiam ornare, justo tempor consectetur pharetra, risus tellus interdum dui, eget malesuada diam nisi eget diam. Sed pretium porta lacus, sit amet commodo mi semper at. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc ex ipsum, viverra ut purus nec, fermentum vestibulum orci. Aliquam at ipsum at eros bibendum ullamcorper vitae eget ante. Maecenas non ullamcorper erat. Pellentesque faucibus ornare nulla fermentum pellentesque. Ut eu euismod augue.
+
+                    In commodo nisl purus, non posuere augue iaculis venenatis. Nam elit turpis, tristique ut auctor nec, ultrices vel lectus. Sed imperdiet velit ante, vitae semper turpis scelerisque ac. Vivamus a ante at arcu posuere ullamcorper quis eu eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi eu fringilla diam, sed convallis augue. Aenean molestie egestas diam non mollis. Fusce tempus vel mauris at varius.
+
+                    Etiam tempus pharetra tortor in dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec at eleifend nisi. In at lectus a lorem fermentum faucibus. Vivamus eu dignissim tortor. Phasellus vel cursus nibh. Proin id purus dictum, dapibus mi non, viverra libero. Maecenas eu varius enim, ut elementum lorem. Nunc tincidunt quam tellus, vel sagittis lectus iaculis a.
+                </p>
+                <h4 id="section1-1">Section 1-1</h4>
+                <p>
+                    Pellentesque posuere in lorem sit amet bibendum. Proin vel est sit amet quam tincidunt dapibus. Etiam ornare, justo tempor consectetur pharetra, risus tellus interdum dui, eget malesuada diam nisi eget diam. Sed pretium porta lacus, sit amet commodo mi semper at. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc ex ipsum, viverra ut purus nec, fermentum vestibulum orci. Aliquam at ipsum at eros bibendum ullamcorper vitae eget ante. Maecenas non ullamcorper erat. Pellentesque faucibus ornare nulla fermentum pellentesque. Ut eu euismod augue.
+
+                    In commodo nisl purus, non posuere augue iaculis venenatis. Nam elit turpis, tristique ut auctor nec, ultrices vel lectus. Sed imperdiet velit ante, vitae semper turpis scelerisque ac. Vivamus a ante at arcu posuere ullamcorper quis eu eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi eu fringilla diam, sed convallis augue. Aenean molestie egestas diam non mollis. Fusce tempus vel mauris at varius.
+
+                    Etiam tempus pharetra tortor in dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec at eleifend nisi. In at lectus a lorem fermentum faucibus. Vivamus eu dignissim tortor. Phasellus vel cursus nibh. Proin id purus dictum, dapibus mi non, viverra libero. Maecenas eu varius enim, ut elementum lorem. Nunc tincidunt quam tellus, vel sagittis lectus iaculis a.
+                </p>
+                <h4 id="section1-2">Section 1-2</h4>
+                <p>
+                    Curabitur vestibulum interdum metus. Nam eu mi a neque mollis mollis. Duis fermentum, turpis sed pulvinar sagittis, lorem nisl dignissim dui, in commodo tellus mi sed sem. Proin sollicitudin fringilla mauris, at accumsan sem dapibus nec. Maecenas scelerisque nisl non nisl cursus, id blandit arcu blandit. Integer sapien libero, consequat id ornare quis, euismod nec lectus. Integer tristique non orci eget egestas. Sed condimentum odio ut lacinia condimentum. Pellentesque ipsum metus, venenatis eget magna nec, porta maximus arcu. Donec at accumsan nulla, a porttitor nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras at ligula pulvinar, euismod nulla a, fermentum sem. Suspendisse lacinia massa ut felis vulputate, eget finibus dui eleifend. Proin consectetur magna id odio tempus, quis tincidunt ligula iaculis. Cras mattis orci id est sodales, nec condimentum lacus suscipit. Ut tristique nisl eget arcu convallis, eget rutrum risus consequat.
+                </p>
+                <h3 id="section2">Section 2</h3>
+                <p>
+                    Curabitur vestibulum interdum metus. Nam eu mi a neque mollis mollis. Duis fermentum, turpis sed pulvinar sagittis, lorem nisl dignissim dui, in commodo tellus mi sed sem. Proin sollicitudin fringilla mauris, at accumsan sem dapibus nec. Maecenas scelerisque nisl non nisl cursus, id blandit arcu blandit. Integer sapien libero, consequat id ornare quis, euismod nec lectus. Integer tristique non orci eget egestas. Sed condimentum odio ut lacinia condimentum. Pellentesque ipsum metus, venenatis eget magna nec, porta maximus arcu. Donec at accumsan nulla, a porttitor nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras at ligula pulvinar, euismod nulla a, fermentum sem. Suspendisse lacinia massa ut felis vulputate, eget finibus dui eleifend. Proin consectetur magna id odio tempus, quis tincidunt ligula iaculis. Cras mattis orci id est sodales, nec condimentum lacus suscipit. Ut tristique nisl eget arcu convallis, eget rutrum risus consequat. Curabitur vestibulum interdum metus. Nam eu mi a neque mollis mollis. Duis fermentum, turpis sed pulvinar sagittis, lorem nisl dignissim dui, in commodo tellus mi sed sem. Proin sollicitudin fringilla mauris, at accumsan sem dapibus nec. Maecenas scelerisque nisl non nisl cursus, id blandit arcu blandit. Integer sapien libero, consequat id ornare quis, euismod nec lectus. Integer tristique non orci eget egestas. Sed condimentum odio ut lacinia condimentum. Pellentesque ipsum metus, venenatis eget magna nec, porta maximus arcu. Donec at accumsan nulla, a porttitor nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras at ligula pulvinar, euismod nulla a, fermentum sem. Suspendisse lacinia massa ut felis vulputate, eget finibus dui eleifend. Proin consectetur magna id odio tempus, quis tincidunt ligula iaculis. Cras mattis orci id est sodales, nec condimentum lacus suscipit. Ut tristique nisl eget arcu convallis, eget rutrum risus consequat.
+                </p>
+                <h3 id="section3">Section 3</h3>
+                <p>
+                    Curabitur vestibulum interdum metus. Nam eu mi a neque mollis mollis. Duis fermentum, turpis sed pulvinar sagittis, lorem nisl dignissim dui, in commodo tellus mi sed sem. Proin sollicitudin fringilla mauris, at accumsan sem dapibus nec. Maecenas scelerisque nisl non nisl cursus, id blandit arcu blandit. Integer sapien libero, consequat id ornare quis, euismod nec lectus. Integer tristique non orci eget egestas. Sed condimentum odio ut lacinia condimentum. Pellentesque ipsum metus, venenatis eget magna nec, porta maximus arcu. Donec at accumsan nulla, a porttitor nunc. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras at ligula pulvinar, euismod nulla a, fermentum sem. Suspendisse lacinia massa ut felis vulputate, eget finibus dui eleifend. Proin consectetur magna id odio tempus, quis tincidunt ligula iaculis. Cras mattis orci id est sodales, nec condimentum lacus suscipit. Ut tristique nisl eget arcu convallis, eget rutrum risus consequat.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.0/dist/bootstrap-toc.min.js"></script>
+
+    <script>
+        $('scrollContent').scrollspy();
+    </script>
+}
