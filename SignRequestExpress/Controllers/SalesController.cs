@@ -314,9 +314,10 @@ namespace SignRequestExpress.Controllers
         }
 
         [HttpPost]
-        public string TestPost(string brandName)
+        //[HttpPost("{brandName}")] // Added FromBody.. no change
+        public string TestPost([FromBody] string brandName)
         {
-            string response = "Brand is " + brandName;
+            string response = "Brand is " + brandName + "!";
 
             return response;
         }
