@@ -135,7 +135,7 @@ namespace SignRequestExpress.Controllers
             SetHeaderWithApiToken(_httpClient);
             //var userId = GetUserId(); // Doesn't seem to work?
 
-            // TODO: Only go through requests if there is no data in LocalStorage for Accounts, Brands - Will need refresh if added.
+            // TODO: Only go through requests below if there is no data in LocalStorage for Accounts, Brands - Will need refresh if added.
 
             // Getting userID from /userinfo to pull Accounts tied to that user.
             var userinfoRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoRoute);
@@ -305,19 +305,26 @@ namespace SignRequestExpress.Controllers
         // Used when a brand is selected to populate the template modal
         [HttpPost]
         //[Route("/Sales/GetTemplates")]
-        public async Task<List<IListBlobItem>> GetTemplates(string brandName)
-        {
+        // Changing return type from Task<List<IListBlobItem>> to Task<List<string>>
+        public async Task<List<string>> GetTemplates([FromBody] Brand brand)
+        {       
             List<IListBlobItem> templates = new List<IListBlobItem>();
-            templates = await _blobUtility.GetTemplateBlobsByBrand(brandName);
+            templates = await _blobUtility.GetTemplateBlobsByBrand(brand.BrandName);
 
-            return templates;
+            // Return the URI of each to use to display the templates - change return type to list of string?
+            List<string> UriList = new List<string>();
+            foreach (IListBlobItem item in templates)
+            {
+                UriList.Add(item.Uri.ToString());
+            }
+
+            return UriList;
         }
 
         [HttpPost]
-        //[HttpPost("{brandName}")] // Added FromBody.. no change
-        public string TestPost([FromBody] string brandName)
+        public string TestPost([FromBody] Brand brand)
         {
-            string response = "Brand is " + brandName + "!";
+            string response = "Brand is " + brand.BrandName + "!";
 
             return response;
         }

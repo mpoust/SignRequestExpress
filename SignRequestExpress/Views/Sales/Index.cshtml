@@ -70,20 +70,17 @@
 
             // Changing the templates in the modal
             // POST not found for GetTemplates but TestPost finds it. Is it the return type??
-            // However, TestPost is not returning any brand. Why isn't the value from the select being passed?
-            // Switch to populate the dropdowns with Ajax instead of saving in LocalStorage??
+
+            let brand = {
+               "BrandName": $('#templateBrand option:selected').val()
+            };
 
             $.ajax({
                 type: "POST",
-                url: "/Sales/TestPost",
+                url: "/Sales/GetTemplates",
                 contentType: "application/json; charset=utf-8",
-                //data: { brandName: test.toString() },
-                //data: {brandName: + $('#templateBrand option:selected').val()},
-                //data: '{"brandName":"' + $("#templateBrand").val() + '"}',
-                //dataType: "html",
-                //data: { brandName: "Yuengling" },
-                data: "Yuengling",
                 dataType: "html",
+                data: JSON.stringify(brand),
                 success: function (result, status, xhr) {
                     $("#dataDiv").html(result);
                 },

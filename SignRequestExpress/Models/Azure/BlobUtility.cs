@@ -15,6 +15,16 @@ namespace SignRequestExpress.Models.Azure
 
         private readonly string TemplatesScaled = "templates-scaled";
 
+        /* Blob Folder Names */
+        private readonly string Founders = "founders";
+        private readonly string Miller = "miller";
+        private readonly string Yuengling = "yueng";
+
+        /* UI Cases */
+        private const string FoundersCase = "Founders";
+        private const string LiteCase = "Lite";
+        private const string YuenglingCase = "Yuengling";
+
         public BlobUtility(string accountName, string accountKey)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName="
@@ -67,8 +77,23 @@ namespace SignRequestExpress.Models.Azure
                 PublicAccess = BlobContainerPublicAccessType.Blob
             });
 
-            // TODO: add a switch here for matching the UI List heading to the actual blob directory
-            blobDirectory = blobDirectory.ToLower();
+            //blobDirectory = blobDirectory.ToLower();
+
+            switch (blobDirectory)
+            {
+                case FoundersCase:
+                    blobDirectory = Founders;
+                    break;
+                case LiteCase:
+                    blobDirectory = Miller;
+                    break;
+                case YuenglingCase:
+                    blobDirectory = Yuengling;
+                    break;
+                default:
+                    blobDirectory = null;
+                    break;
+            }
 
             CloudBlobDirectory directory = container.GetDirectoryReference(blobDirectory);
 
