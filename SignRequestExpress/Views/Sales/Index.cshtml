@@ -5,6 +5,10 @@
     Layout = "_Layout";
 }
 
+@section Links{
+    <link rel="stylesheet" href="~/css/image-picker.css" />
+}
+
 <br />
 
 <h2>Sales Dashboard <small>Control your Sign Requests</small></h2>
@@ -59,6 +63,9 @@
 
 @section Scripts{
     <!--<script type="text/javascript" src="~/js/sales.js"></script>-->
+
+    <script type="text/javascript" src="~/js/image-picker.js"></script>
+
     <script>
         $('select[name="brandSelect"]').change(function () {
             if ($(this).val() != "Select Brand") {
@@ -82,7 +89,20 @@
                 dataType: "html",
                 data: JSON.stringify(brand),
                 success: function (result, status, xhr) {
-                    $("#dataDiv").html(result);
+
+                    result = result.replace('[', '');
+                    result = result.replace(']', '');
+                    result = result.replace(/\"/g, '');
+
+                    var array = result.split(',');
+
+                    var select_html = "<select asp-for=\"Template\" class=\"image-picker\" id=\"templateSelect\">"; 
+                    for (var i = 0; i < array.length; i++) {
+                        select_html += "<option data-img-src=" + array[i] + " value=\" \"></option>";
+                    }
+                    select_html += "</select>"                    
+                    $("#dataDiv").html(select_html);   
+                    $(".image-picker").imagepicker();
                 },
                 error: function (xhr, status, error) {
                     $("#dataDiv").html(error);

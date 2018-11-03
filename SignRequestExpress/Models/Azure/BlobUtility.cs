@@ -77,8 +77,6 @@ namespace SignRequestExpress.Models.Azure
                 PublicAccess = BlobContainerPublicAccessType.Blob
             });
 
-            //blobDirectory = blobDirectory.ToLower();
-
             switch (blobDirectory)
             {
                 case FoundersCase:

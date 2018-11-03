@@ -6,10 +6,14 @@
     ViewData["Title"] = "Blob Imagers";
 }
 
+@section Links{ 
+    <link rel="stylesheet" href="~/css/image-picker.css" />
+}
 <br />
 
 <h1>This is a Test for Blob Images</h1>
 
+<!--
 <ul>
     @foreach (var item in Model)
     {
@@ -27,6 +31,8 @@
         </li>
     }
 </ul>
+    -->
+
 
 <ul>
     @foreach(var item in Model)
@@ -34,3 +40,28 @@
         <li><img src="@item.Uri" /></li>
     }
 </ul>
+
+<select class="custom-select">
+    <option value="" selected disabled>Select Template</option>
+    @foreach(var item in Model)
+    {
+        <option value="@item.Uri">@item.Uri</option>
+    }
+</select>
+
+<select class="image-picker">
+    @foreach(var item in Model)
+    {
+        <option data-img-src="@item.Uri" value="@item.Uri">@item.Uri</option>
+    }
+</select>
+
+@section Scripts{ 
+    <script type="text/javascript" src="~/js/image-picker.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".image-picker").imagepicker();
+        });
+    </script>
+}
