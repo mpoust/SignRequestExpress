@@ -157,7 +157,7 @@ namespace SignRequestExpress.Controllers
                     var accountInfo = accountResponse.Content.ReadAsStringAsync().Result;
                     var userJsonData = JsonConvert.DeserializeObject<CollectionResponse>(accountInfo).Value; // is there a way to deserialize into my model?
 
-                    var AccountList = new List<object>(); // List use to seed account selection dropdown
+                    var AccountList = new List<string>(); // List use to seed account selection dropdown
 
                     foreach (var account in userJsonData)
                     {
@@ -165,23 +165,20 @@ namespace SignRequestExpress.Controllers
                         {
                             if (kvp.Key == "accountName")
                             {
-                                AccountList.Add(kvp.Value);
+                                AccountList.Add(kvp.Value.ToString());
                             }
                         }
                     }
                     // Alphabetize
                     AccountList.Sort();
-                    // Create ViewBag for use in the PartialView
-                    ViewBag.AccountList = AccountList;
 
-                    /*
-                    // Test of LocalStorage
+                    // Create accountStorage - data will now persist through failed submits
                     using(var storage = new LocalStorage())
                     {
                         storage.Store("accountStorage", AccountList);
                         storage.Persist();
                     }
-                    */
+                    
                 }
 
                 // Create Brand List - Potentially cache or store this stuff locally and check for new on login? -- Same with Accounts
@@ -207,8 +204,13 @@ namespace SignRequestExpress.Controllers
                     }
                     // Alphabetize
                     BrandList.Sort();
-                    // Create ViewBag 
                     ViewBag.BrandList = BrandList;
+                    // Create brandStorage
+                    using (var storage = new LocalStorage())
+                    {
+                        storage.Store("brandStorage", BrandList);
+                        storage.Persist();
+                    }
                 }
             }
             return View();
@@ -293,11 +295,15 @@ namespace SignRequestExpress.Controllers
                 
             }
 
+            //ViewBag.AccountList = model.AccountList;
+            //ViewBag.AccountList = Request.Form["AccountList"];
+
             // NOTE: When submitting the request, a POST needs to also occur to the
             //          Request_Account, User_Request
 
             // If we got this far, something failed, redisplay form            
             return View("Index", model); // If there is an error the Account and Brand dropdowns are not filled
+            //return RedirectToAction("Index");
             //return PartialView("_CreateRequestPartial", model); // This result was interesting
 
         }

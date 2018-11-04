@@ -1,6 +1,8 @@
 ﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@using Hanssens.Net
 @model SignRequestExpress.Models.PostModels.SignRequestModel
 @{
+    //TempData.Keep("TestTemp");
 }
 
 <!--TODO: Add Question Marks for user questions-->
@@ -17,12 +19,36 @@
             <select asp-for="AccountName" class="form-control">
                 <option selected disabled>Select Account</option>
                 <!--TODO: Add Iconic too create Addition button for a new account -->
-                @if (ViewBag.AccountList != null)
+
+                <!--No longer using below. Saving for knowledge.-->
+                @*@if (ViewBag.AccountList != null)
                 {
                     foreach (var item in ViewBag.AccountList)
                     {
                         <option>@item.ToString()</option>
                     }
+                }*@
+
+
+                @try
+                {
+                    var storage = new LocalStorage();
+                    var accountString = storage.Get("accountStorage").ToString();
+                    accountString = accountString.Replace('[', ' ');
+                    accountString = accountString.Replace(']', ' ');
+                    accountString = accountString.Replace('"', ' ');
+
+                    var accountList = accountString.Split(",");
+
+                    foreach(var item in accountList)
+                    {
+                        <option value="@item">@item.Trim()</option>
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    <option>Unable to load Accounts at this time.</option>
                 }
             </select>
             
@@ -93,12 +119,25 @@
             <label for="templateBrand" class="formLabel">Brand:</label>
             <select class="custom-select form-control form-inline" id="templateBrand" name="brandSelect">
                 <option value="" selected disabled>Select Brand</option>
-                @if (ViewBag.BrandList != null)
+                @try
                 {
-                    foreach (var item in ViewBag.BrandList)
+                    var storage = new LocalStorage();
+                    var brandString = storage.Get("brandStorage").ToString();
+                    brandString = brandString.Replace('[', ' ');
+                    brandString = brandString.Replace(']', ' ');
+                    brandString = brandString.Replace('"', ' ');
+
+                    var brandList = brandString.Split(",");
+
+                    foreach (var item in brandList)
                     {
-                        <option value="@item.ToString()">@item.ToString()</option>
+                        <option value="@item">@item</option>
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    <option value="Error">Unable to load Accounts at this time.</option>
                 }
             </select>
         </div>
@@ -126,7 +165,9 @@
                             </button>
                         </div>
                         <div class="modal-body"> <!--TODO: This is where the Template thumbnail gallery will be-->
-                            <div id="dataDiv"><!--Populated with ajax--></div>
+                            <div id="dataDiv"><!--Populated with ajax-->
+                                <select asp-for="Template" class="image-picker" id="templateSelect"></select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -178,5 +219,8 @@
         </div>
     </div>
     <!--TODO: Form refresh button-->
+
+    <!--Hidden Fields for Error Validation-->
+    @*<input type="hidden" value="@ViewBag.AccountList" asp-for="AccountList"  name="AccountList"/>*@
 </form>
 

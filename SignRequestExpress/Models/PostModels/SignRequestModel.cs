@@ -25,6 +25,13 @@ namespace SignRequestExpress.Models.PostModels
 {
     public class SignRequestModel
     {
+        /* // This didn't do a thing
+        public SignRequestModel()
+        {
+            NeededDate = DateTime.Now.AddDays(14);
+        }
+        */
+
         [Required]
         [Display(Name = "Account Name:")]
         public string AccountName { get; set; }
@@ -35,7 +42,7 @@ namespace SignRequestExpress.Models.PostModels
         // TODO: Implement logic, hardcoded as 0 in API controller
         //public int UserNumber { get; set; }
 
-        [Required]
+        //[Required] // Not required because if empty a 2 week default will be applied
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{dd-MM-yyyy}")]
         [Display(Name = "Date Needed:")]
@@ -68,5 +75,8 @@ namespace SignRequestExpress.Models.PostModels
 
         [Display(Name = "Account Logo / Imagery:")]
         public string ImageUri { get; set; } // formatting change?
+
+        // Hidden fields to refill ViewBag items
+        public string Brand { get; set; }
     }
 }
