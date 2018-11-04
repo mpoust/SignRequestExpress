@@ -15,19 +15,20 @@
     <div class="form-row">
         <div class="col-lg-5">
             <label asp-for="AccountName" class="formLabel"></label>
-            <i class="fas fa-plus-square form-inline"></i>
+            <i class="fas fa-plus-square" data-toggle="popover" title="Coming Feature"
+               data-content="The feature for adding a new Account to your list will be available in the future."
+               tabindex="0" data-trigger="focus"></i>            
             <select asp-for="AccountName" class="form-control">
                 <option selected disabled>Select Account</option>
                 <!--TODO: Add Iconic too create Addition button for a new account -->
-
                 <!--No longer using below. Saving for knowledge.-->
                 @*@if (ViewBag.AccountList != null)
+            {
+                foreach (var item in ViewBag.AccountList)
                 {
-                    foreach (var item in ViewBag.AccountList)
-                    {
-                        <option>@item.ToString()</option>
-                    }
-                }*@
+                    <option>@item.ToString()</option>
+                }
+            }*@
 
 
                 @try
@@ -40,7 +41,7 @@
 
                     var accountList = accountString.Split(",");
 
-                    foreach(var item in accountList)
+                    foreach (var item in accountList)
                     {
                         <option value="@item">@item.Trim()</option>
                     }
@@ -55,7 +56,10 @@
         </div>
         <div class="col-md">
             <label asp-for="NeededDate" class="formLabel"></label>
-            <input asp-for="NeededDate" class="form-control" />
+            <i class="fas fa-question-circle" data-toggle="popover" title="Date Needed" data-html="true"
+               data-content="Defaults to two (2) weeks from current date. Use the calendar icon to select a different date. <br/><br/> Note: Requests are not guaranteed to be complete if submitted within the two (2) week default window."
+               tabindex="0" data-trigger="focus"></i>
+            <input asp-for="NeededDate" id="dateneeded" readonly value="@DateTime.Now.AddDays(14).ToShortDateString()" />
             <span asp-validation-for="NeededDate" class="text-danger"></span>
         </div>
         <div class="col-md">
@@ -68,10 +72,16 @@
     <div class="form-row">
         <div class="col-md">
             <label asp-for="Reason" class="formLabel"></label>
+            <i class="fas fa-question-circle" data-toggle="popover" title="Optional" 
+               data-content="Use this to give additional information to help the designer prioritize the order Requests are completed." 
+               tabindex="0" data-trigger="focus"></i>
             <input asp-for="Reason" type="text" class="form-control" placeholder="Reason" />
         </div> 
         <div class="col-md">
             <label asp-for="MediaFK" class="formLabel"></label>
+            <i class="fas fa-question-circle" data-toggle="popover" title="Media Type"
+               data-content="Media Type is the material the sign will be printed on. See the 'Help' page for more information about signs and Media Types."
+               tabindex="0" data-trigger="focus"></i>
             <select asp-for="MediaFK" class="custom-select form-control">
                 <!--TODO: Store on client device - would sqlite work?-->
                 <option value="" selected disabled>Media Type</option>
@@ -138,7 +148,7 @@
                 }
                 catch (Exception ex)
                 {
-                    <option value="Error">Unable to load Accounts at this time.</option>
+                    <option value="Error">Unable to load Brands at this time.</option>
                 }
             </select>
         </div>
@@ -165,7 +175,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body"> <!--TODO: This is where the Template thumbnail gallery will be-->
+                        <div class="modal-body">
                             <div id="dataDiv"><!--Populated with ajax-->
                                 <select asp-for="Template" class="image-picker" id="templateSelect"></select>
                             </div>
@@ -202,8 +212,9 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="Information" class="formLabel"></label>
+                <small id="infoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 <!--TODO: Insert sign request form information, include in help as well. CREATE jump? LINK TO HELP-->
-                <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3"></textarea>
+                <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3" aria-describedby="infoHelp"></textarea>
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@
 
 @section Links{
     <link rel="stylesheet" href="~/css/image-picker.css" />
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 }
 
 <br />
@@ -66,6 +67,7 @@
 
     <script type="text/javascript" src="~/js/image-picker.js"></script>
     <script type="text/javascript" src="~/js/masonry.pkgd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
 
     <script>
         $('select[name="brandSelect"]').change(function () {
@@ -108,7 +110,7 @@
                         // callback functions???
 
                         //limit: 1
-                        
+
                     });
                     // will need to iterate over and determine class to apply for vertical or horizontal images
                 },
@@ -119,14 +121,14 @@
         });
 
         //This doesn't work yet
-        $("#heightInput").change(function () {
-            if ($(this).val() > $("#widthInput").val()) {
-                var $orientationRad = $('input:radio[name=signOrientation]');
-                $orientationRad.filter('[value=vertical]').prop('checked', true);
-                $orientationRad.filter('[value=horizontal]').prop('checked', false);
+        //$("#heightInput").change(function () {
+        //    if ($(this).val() > $("#widthInput").val()) {
+        //        var $orientationRad = $('input:radio[name=signOrientation]');
+        //        $orientationRad.filter('[value=vertical]').prop('checked', true);
+        //        $orientationRad.filter('[value=horizontal]').prop('checked', false);
 
-            }
-        });
+        //    }
+        //});
 
         $('#templateSelect').change(function () {
             var optionSelected = $("option:selected", this);
@@ -138,6 +140,30 @@
             $('#staticTemplate').attr("placeholder", result);
         });
 
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            });
+
+        });
+    </script>
+
+    <script>
+        $('#dateneeded').datepicker({
+            uiLibrary: 'bootstrap4',
+            format: 'mm/dd/yyyy',
+            minDate: function () {
+                var date = new Date();
+                date.setDate(date.getDate() + 1);
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            },
+            footer: true,
+            modal: true,
+            header: true
+            
+        });
     </script>
 
 }

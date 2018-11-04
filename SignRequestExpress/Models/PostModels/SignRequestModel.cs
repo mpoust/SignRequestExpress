@@ -43,10 +43,10 @@ namespace SignRequestExpress.Models.PostModels
         //public int UserNumber { get; set; }
 
         //[Required] // Not required because if empty a 2 week default will be applied
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{dd-MM-yyyy}")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{dd-MM-yyyy}")]
         [Display(Name = "Date Needed:")]
-        public DateTime NeededDate { get; set; }
+        public string NeededDate { get; set; }
 
         [Display(Name = "Proof Before Print?")]
         public bool IsProofNeeded { get; set; }

@@ -100,8 +100,6 @@ body {
     padding: 2%;
     flex-wrap: wrap;
 }
-   
-
 
 .grid-item{
     width: 200px;
@@ -110,3 +108,4 @@ body {
 .grid-item--width2 {
     width: 400px;
 }
+

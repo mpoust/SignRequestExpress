@@ -270,7 +270,7 @@ namespace SignRequestExpress.Controllers
                         
                         UserId = userId,
                         Reason = model.Reason,
-                        NeededDate = model.NeededDate,     // TODO - add when datepicker implemented
+                        NeededDate = Convert.ToDateTime(model.NeededDate),     // TODO - add when datepicker implemented
                         IsProofNeeded = false, // TODO - connect to checkbox
                         MediaFK = model.MediaFK,
                         Quantity = model.Quantity,
