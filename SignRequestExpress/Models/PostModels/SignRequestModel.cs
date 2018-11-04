@@ -32,7 +32,7 @@ namespace SignRequestExpress.Models.PostModels
         }
         */
 
-        [Required]
+        [Required(ErrorMessage = "Please select an Account.")]
         [Display(Name = "Account Name:")]
         public string AccountName { get; set; }
 
@@ -51,22 +51,24 @@ namespace SignRequestExpress.Models.PostModels
         [Display(Name = "Proof Before Print?")]
         public bool IsProofNeeded { get; set; }
 
-        [Required]
-        [Display(Name = "Media Type:")]
+        [Required(ErrorMessage = "Media Type is required")]
+        [Display(Name = "Media Tpe:")]
         public byte MediaFK { get; set; }
 
         [Display(Name = "Quantity:")]
         [Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100")]
         public byte Quantity { get; set; }
 
+        [Required(ErrorMessage = "Please enter the Height.")]
         [Display(Name = "Height (in inches):")]
         public short HeightInch { get; set; }
 
+        [Required(ErrorMessage = "Please enter the Width.")]
         [Display(Name = "Width (in inches):")]
         public short WidthInch { get; set; }
 
         [Display(Name = "Template:")]
-        public Guid Template { get; set; } // will need placeholder - select blob uri then trim to id?
+        public Guid Template { get; set; }
 
         [Display(Name = "Sign Details:")]
         public string Information { get; set; }
@@ -77,7 +79,8 @@ namespace SignRequestExpress.Models.PostModels
         [Display(Name = "Account Logo / Imagery:")]
         public string ImageUri { get; set; } // formatting change?
 
-        // Hidden fields to refill ViewBag items
+        // Only used for user error display
+        [Required(ErrorMessage = "Please select a Brand.")]
         public string Brand { get; set; }
     }
 }

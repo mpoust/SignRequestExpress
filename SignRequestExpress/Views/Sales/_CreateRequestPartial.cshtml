@@ -10,7 +10,7 @@
 
 
 <form asp-controller="Sales" asp-action="SubmitRequest" method="post" novalidate>
-    <div asp-validation-summary="All" class="text-danger"></div>
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
 
     <div class="form-row">
         <div class="col-lg-5">
@@ -60,7 +60,6 @@
                data-content="Defaults to two (2) weeks from current date. Use the calendar icon to select a different date. <br/><br/> Note: Requests are not guaranteed to be complete if submitted within the two (2) week default window."
                tabindex="0" data-trigger="focus"></i>
             <input asp-for="NeededDate" id="dateneeded" readonly value="@DateTime.Now.AddDays(14).ToShortDateString()" />
-            <span asp-validation-for="NeededDate" class="text-danger"></span>
         </div>
         <div class="col-md">
             <label for="dateRequestedStatic" class="formLabel">Date Requested:</label>
@@ -84,7 +83,7 @@
                tabindex="0" data-trigger="focus"></i>
             <select asp-for="MediaFK" class="custom-select form-control">
                 <!--TODO: Store on client device - would sqlite work?-->
-                <option value="" selected disabled>Media Type</option>
+                <option selected disabled>Media Type</option>
                 <option value="1">Adhesive</option>
                 <!--TODO: Option appears if selected for Corr-Plast -- jQeury, Angular?-->
                 <option value="2">Photo Glossy</option>
@@ -106,10 +105,12 @@
         <div class="col-sm-4">
             <label asp-for="HeightInch" class="formLabel"></label>
             <input asp-for="HeightInch" class="form-control" id="heightInput" type="number" placeholder="Height" step="0.05" min="0.25" max="500" />
+            <span asp-validation-for="HeightInch" class="text-danger"></span>
         </div>
         <div class="col-sm-4">
             <label asp-for="WidthInch" class="formLabel"></label>
             <input asp-for="WidthInch" class="form-control" id="heightInput" type="number" placeholder="Width" step="0.05" min="0.25" max="500" />
+            <span asp-validation-for="WidthInch" class="text-danger"></span>
         </div>
         <div class="col-md">
             <!--TODO: orientation auto switch-->
@@ -128,7 +129,7 @@
     <div class="form-row">
         <div class="col-lg-6">
             <label for="templateBrand" class="formLabel">Brand:</label>
-            <select class="custom-select form-control form-inline" id="templateBrand" name="brandSelect">
+            <select asp-for="Brand" class="custom-select form-control form-inline" id="templateBrand" name="brandSelect">
                 <option value="" selected disabled>Select Brand</option>
                 @try
                 {
@@ -151,6 +152,7 @@
                     <option value="Error">Unable to load Brands at this time.</option>
                 }
             </select>
+            <span asp-validation-for="Brand" class="text-danger"></span>
         </div>
         <div class="col-md">
             <label asp-for="Template" class="formLabel"></label>
