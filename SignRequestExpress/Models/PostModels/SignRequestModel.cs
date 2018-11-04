@@ -59,13 +59,15 @@ namespace SignRequestExpress.Models.PostModels
         [Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100")]
         public byte Quantity { get; set; }
 
-        [Required(ErrorMessage = "Please enter the Height.")]
+        [Required(ErrorMessage = "Please enter a Height.")]
+        [Range(0.125, 384, ErrorMessage = "Please enter a valid Height (1/8\" - 384\").")]
         [Display(Name = "Height (in inches):")]
-        public short HeightInch { get; set; }
+        public decimal? HeightInch { get; set; }
 
-        [Required(ErrorMessage = "Please enter the Width.")]
+        [Required(ErrorMessage = "Please enter a Width.")]
+        [Range(0.125, 384, ErrorMessage = "Please enter a valid Width (1/8\" - 384\").")]
         [Display(Name = "Width (in inches):")]
-        public short WidthInch { get; set; }
+        public decimal? WidthInch { get; set; }
 
         [Display(Name = "Template:")]
         public Guid Template { get; set; }
