@@ -67,7 +67,8 @@ body {
 }
 
 .home-image{
-    max-width: 30em;
+    max-width: 50%;
+    height: auto;
 }
 
 .brand-image{
