@@ -37,7 +37,7 @@ namespace SignRequestExpress.Models.PostModels
         
         public bool IsProofNeeded { get; set; }
 
-        public byte MediaFK { get; set; }
+        public byte? MediaFK { get; set; }
 
         public byte Quantity { get; set; }
 
