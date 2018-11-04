@@ -51,7 +51,7 @@
                     <option>Unable to load Accounts at this time.</option>
                 }
             </select>
-            
+            <span asp-validation-for="AccountName" class="text-danger"></span>
         </div>
         <div class="col-md">
             <label asp-for="NeededDate" class="formLabel"></label>
@@ -71,17 +71,18 @@
             <input asp-for="Reason" type="text" class="form-control" placeholder="Reason" />
         </div> 
         <div class="col-md">
-            <label asp-for="MediaString" class="formLabel"></label>
-            <select asp-for="MediaString" class="custom-select form-control">
+            <label asp-for="MediaFK" class="formLabel"></label>
+            <select asp-for="MediaFK" class="custom-select form-control">
                 <!--TODO: Store on client device - would sqlite work?-->
-                <option selected disabled>Media Type</option>
-                <option>Adhesive</option>
+                <option value="" selected disabled>Media Type</option>
+                <option value="1">Adhesive</option>
                 <!--TODO: Option appears if selected for Corr-Plast -- jQeury, Angular?-->
-                <option>Photo Glossy</option>
-                <option>Matte Outdoor</option>
-                <option>Plasticore</option>
+                <option value="2">Photo Glossy</option>
+                <option value="3">Matte Outdoor</option>
+                <option value="4">Plasticore</option>
                 <!--TODO: Option appears if selected for Lighted -- accomplished with jQuery? Angular-->
             </select>
+            <span asp-validation-for="MediaFK" class="text-danger"></span>
         </div>
     </div>
 

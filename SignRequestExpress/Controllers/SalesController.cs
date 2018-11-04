@@ -44,7 +44,9 @@ namespace SignRequestExpress.Controllers
         public const string MatteOutdoorCase = "Matte Outdoor";
         public const string PlasticoreCase = "Plasticore";
 
-        // TODO - add new cases for adhesive w/ and w/o corrplast, and plasticore options
+        // TODO - add new cases for adhesive w/ and w/o corrplast, and plasticore options ---- Could have made option value property... 
+        // I made this more difficult than necessary
+        // no longer used - make sure still works before delete
         public const byte Adhesive = 1;
         public const byte PhotoGlossy = 2;
         public const byte MatteOutdoor = 3;
@@ -221,11 +223,11 @@ namespace SignRequestExpress.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitRequest(SignRequestModel model)
         {
-            // GET UserInfo - UserID to send with Request POST
             SetHeaderWithApiToken(_httpClient);            
 
-            if (ModelState.IsValid) // Model state is clearly not valid.  What is going wrong???
+            if (ModelState.IsValid)
             {
+                /*
                 byte mediaFk;
 
                 switch (model.MediaString)
@@ -246,6 +248,7 @@ namespace SignRequestExpress.Controllers
                         mediaFk = Adhesive;
                         break;
                 }
+                */
 
                 bool isVertical;
                 if (model.HeightInch > model.WidthInch) isVertical = true;
@@ -261,9 +264,6 @@ namespace SignRequestExpress.Controllers
                     UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
                     Guid userId = userInfo.Id;
 
-                    //userId = new Guid("0be59332-bd8f-484d-9f35-0dc17850d23b");
-                    //Guid templateId = new Guid("066f4396-e614-49d2-94f9-57873aafc29b");
-
                     var postRequest = JsonConvert.SerializeObject(new PostSignRequest
                     {
                         // NEED TO GET USER ID FUNCTION WORKING
@@ -272,7 +272,7 @@ namespace SignRequestExpress.Controllers
                         Reason = model.Reason,
                         NeededDate = model.NeededDate,     // TODO - add when datepicker implemented
                         IsProofNeeded = false, // TODO - connect to checkbox
-                        MediaFK = mediaFk,
+                        MediaFK = model.MediaFK,
                         Quantity = model.Quantity,
                         IsVertical = isVertical,
                         HeightInch = model.HeightInch,

@@ -51,8 +51,9 @@ namespace SignRequestExpress.Models.PostModels
         [Display(Name = "Proof Before Print?")]
         public bool IsProofNeeded { get; set; }
 
+        [Required]
         [Display(Name = "Media Type:")]
-        public string MediaString { get; set; }
+        public byte MediaFK { get; set; }
 
         [Display(Name = "Quantity:")]
         [Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100")]
