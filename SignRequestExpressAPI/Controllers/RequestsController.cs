@@ -111,11 +111,9 @@ namespace SignRequestExpressAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
 
             // Business logic for creating a sign request
-            // Get current user ID (TODO)
-            //var userId = Guid.NewGuid(); //testing
 
             // Quick check on needed date
-            if (!requestForm.NeededDate.HasValue) requestForm.NeededDate = DateTime.Now.AddDays(6);
+            if (!requestForm.NeededDate.HasValue) requestForm.NeededDate = DateTime.Now.AddDays(14);
 
             var requestId = await _requestService.CreateRequestAsync(
                     requestForm.UserId, 

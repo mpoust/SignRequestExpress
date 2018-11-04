@@ -158,13 +158,11 @@
             <label asp-for="Template" class="formLabel"></label>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button type="button" id="templateBtn" class="btn btn-secondary" data-toggle="modal"
-                            data-target="#templateModal" disabled>
+                    <button type="button" id="templateBtn" class="btn btn-secondary" data-toggle="modal" data-target="#templateModal" disabled>
                         Choose Template
                     </button>
                 </div>                
-                <input type="text" readonly class="form-control" id="staticTemplate" placeholder="Selected Template"
-                       aria-label="" aria-describedby="basic-addon1"/>
+                <input type="text" readonly class="form-control" id="staticTemplate" placeholder="Selected Template" aria-label="" aria-describedby="basic-addon1"/>
             </div>
 
             <!--May need to change role for the form purpose - returning a select?-->
@@ -178,8 +176,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div id="dataDiv"><!--Populated with ajax-->
-                                <select asp-for="Template" class="image-picker" id="templateSelect"></select>
+                            <div id="dataDiv">
+                                <select asp-for="Template" class="image-picker" id="templateSelect">
+                                    <!--Populated with ajax-->
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -189,9 +189,6 @@
                     </div>
                 </div>
             </div>
-                     
-            <!--<input asp-for="Template" class="form-control" type="text" id="templateInput" name="template" disabled/>-->
-            <!--TODO: Create Modal? image gallery popup with templates from the selected brand-->
         </div>
     </div>
 
@@ -214,7 +211,10 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="Information" class="formLabel"></label>
-                <small id="infoHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <i class="fas fa-question-circle" data-toggle="popover" title="Sign Details"
+                   data-content="Use this area to describe the information that should be included on the sign. "
+                   tabindex="0" data-trigger="focus"></i>
+                <small id="infoHelp" class="form-text text-muted">TODO: Enter the sign disclaimer here.</small>
                 <!--TODO: Insert sign request form information, include in help as well. CREATE jump? LINK TO HELP-->
                 <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3" aria-describedby="infoHelp"></textarea>
             </div>
@@ -234,7 +234,5 @@
     </div>
     <!--TODO: Form refresh button-->
 
-    <!--Hidden Fields for Error Validation-->
-    @*<input type="hidden" value="@ViewBag.AccountList" asp-for="AccountList"  name="AccountList"/>*@
 </form>
 

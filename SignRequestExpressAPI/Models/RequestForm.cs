@@ -81,12 +81,12 @@ namespace SignRequestExpressAPI.Models
         [Required]
         [Display(Name = "heightInch", Description = "Height of sign in inches")]
         [Range(1, 384, ErrorMessage = "Height must be greater than 0 and less than 384 inches. Signs cannot be made larger than 32 feet.")]
-        public short? HeightInch { get; set; }
+        public decimal? HeightInch { get; set; }
 
         [Required]
         [Display(Name = "widthInch", Description = "Width of sign in inches")]
         [Range(1, 384, ErrorMessage = "Width must be greater than 0 and less than 384 inches. Signs cannot be made larger than 32 feet.")]
-        public short? WidthInch { get; set; }
+        public decimal? WidthInch { get; set; }
 
         [Display(Name = "template", Description = "Foreign key of template for the request")]
         public Guid? Template { get; set; }

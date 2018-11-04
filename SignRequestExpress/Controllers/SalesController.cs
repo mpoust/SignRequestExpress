@@ -294,18 +294,11 @@ namespace SignRequestExpress.Controllers
                 }
                 
             }
-
-            //ViewBag.AccountList = model.AccountList;
-            //ViewBag.AccountList = Request.Form["AccountList"];
-
             // NOTE: When submitting the request, a POST needs to also occur to the
             //          Request_Account, User_Request
 
             // If we got this far, something failed, redisplay form            
             return View("Index", model); // If there is an error the Account and Brand dropdowns are not filled
-            //return RedirectToAction("Index");
-            //return PartialView("_CreateRequestPartial", model); // This result was interesting
-
         }
 
         // Used when a brand is selected to populate the template modal
@@ -363,19 +356,6 @@ namespace SignRequestExpress.Controllers
             //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
         }
 
-        // Partial View Helper method
-        [NonAction]
-        public virtual PartialViewResult PartialView(string viewName, object model)
-        {
-            ViewData.Model = model;
-
-            return new PartialViewResult()
-            {
-                ViewName = viewName,
-                ViewData = ViewData,
-                TempData = TempData
-            };
-        }
 
         /*
         // used in posting a request and getting user accounts -- this one doesnt work..?
