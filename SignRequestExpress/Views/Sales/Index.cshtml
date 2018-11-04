@@ -128,6 +128,15 @@
             }
         });
 
+        $('#templateSelect').change(function () {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+
+            var n = valueSelected.lastIndexOf('/');
+            var result = valueSelected.substring(n + 1);
+
+            $('#staticTemplate').attr("placeholder", result);
+        });
 
     </script>
 
