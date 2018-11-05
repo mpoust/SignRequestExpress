@@ -89,7 +89,7 @@ namespace SignRequestExpressAPI.Models
         public decimal? WidthInch { get; set; }
 
         [Display(Name = "template", Description = "Foreign key of template for the request")]
-        public Guid? Template { get; set; }
+        public string Template { get; set; }
 
         [Display(Name = "information", Description = "Information to include on sign")]
         public string Information { get; set; }

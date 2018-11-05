@@ -53,7 +53,7 @@ namespace SignRequestExpressAPI.Services
             bool isVertical,
             decimal heightInch,
             decimal widthInch,
-            Guid template,
+            Guid? template,
             string information,
             string dataFileURI,
             string imageURI,
@@ -62,5 +62,7 @@ namespace SignRequestExpressAPI.Services
             );
 
         Task DeleteRequestAsync(Guid requestId, CancellationToken ct);
+
+        Task<Guid?> GetTemplateIdAsync(string Uri, CancellationToken ct);
     }
 }

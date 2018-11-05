@@ -104,13 +104,15 @@ namespace SignRequestExpressAPI.Controllers
         [Authorize]
         [HttpPost(Name = nameof(SubmitRequestAsync))]
         public async Task<IActionResult> SubmitRequestAsync(
-            string requestNumber,
+            //string requestNumber,
             [FromBody] RequestForm requestForm,
             CancellationToken ct)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
 
             // Business logic for creating a sign request
+            // Get Template GUID from the string here, then pass the guid to create request
+            Guid? templateId = await _requestService.GetTemplateIdAsync(requestForm.Template, ct);
 
             // Quick check on needed date
             if (!requestForm.NeededDate.HasValue) requestForm.NeededDate = DateTime.Now.AddDays(14);
@@ -126,7 +128,7 @@ namespace SignRequestExpressAPI.Controllers
                     requestForm.IsVertical.Value,
                     requestForm.HeightInch.Value,
                     requestForm.WidthInch.Value,
-                    requestForm.Template.Value,
+                    templateId,
                     requestForm.Information, 
                     requestForm.DataFileURI, 
                     requestForm.ImageURI, 

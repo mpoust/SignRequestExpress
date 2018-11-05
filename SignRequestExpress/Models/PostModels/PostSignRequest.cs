@@ -47,7 +47,7 @@ namespace SignRequestExpress.Models.PostModels
 
         public decimal? WidthInch { get; set; }
 
-        public Guid Template { get; set; }
+        public string Template { get; set; }
 
         public string Information { get; set; }
 

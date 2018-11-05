@@ -128,7 +128,7 @@
 
     <div class="form-row">
         <div class="col-lg-6">
-            <label for="templateBrand" class="formLabel">Brand:</label>
+            <label asp-for="Brand" class="formLabel">Brand:</label>
             <select asp-for="Brand" class="custom-select form-control form-inline" id="templateBrand" name="brandSelect">
                 <option value="" selected disabled>Select Brand</option>
                 @try
@@ -161,9 +161,10 @@
                     <button type="button" id="templateBtn" class="btn btn-secondary" data-toggle="modal" data-target="#templateModal" disabled>
                         Choose Template
                     </button>
-                </div>                
-                <input type="text" readonly class="form-control" id="staticTemplate" placeholder="Selected Template" aria-label="" aria-describedby="basic-addon1"/>
+                </div>
+                <input type="text" readonly class="form-control" id="staticTemplate" placeholder="Selected Template" aria-label="" aria-describedby="basic-addon1" />
             </div>
+            <span asp-validation-for="Template" class="text-danger"></span>
 
             <!--May need to change role for the form purpose - returning a select?-->
             <div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="templateModalLabel" aria-hidden="true">

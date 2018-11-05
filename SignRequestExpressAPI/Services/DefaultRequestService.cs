@@ -82,7 +82,7 @@ namespace SignRequestExpressAPI.Services
             bool isVertical,
             decimal heightInch,
             decimal widthInch,
-            Guid template,
+            Guid? template,
             string information,
             string dataFileURI,
             string imageURI,
@@ -102,8 +102,9 @@ namespace SignRequestExpressAPI.Services
             {
                 //TODO generate RequestNumber properly
                 Id = id,
+                Reason = reason,
                 RequestNumber = null,
-                Status = 0,
+                Status = 0, // 0 is 'Submitted, waiting for approval'
                 RequestedDate = DateTime.Now,
                 NeededDate = neededDate,
                 ApprovalFK = Guid.NewGuid(), // TODO add this ID to the Account table to prepare approval
@@ -135,6 +136,16 @@ namespace SignRequestExpressAPI.Services
 
             _context.Request.Remove(request);
             await _context.SaveChangesAsync();
+        }
+
+        // Used to return Template ID from provided Blob URI on Request Submit
+        public async Task<Guid?> GetTemplateIdAsync(string Uri, CancellationToken ct)
+        {
+            var template = await _context.Template
+                .SingleOrDefaultAsync(t => t.ImageURI == Uri, ct);
+            if (template == null) return null;
+
+            return template.Id;
         }
     }
 }

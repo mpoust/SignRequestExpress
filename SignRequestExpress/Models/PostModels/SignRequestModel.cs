@@ -70,7 +70,7 @@ namespace SignRequestExpress.Models.PostModels
         public decimal? WidthInch { get; set; }
 
         [Display(Name = "Template:")]
-        public Guid Template { get; set; }
+        public string Template { get; set; }
 
         [Display(Name = "Sign Details:")]
         public string Information { get; set; }
@@ -82,7 +82,7 @@ namespace SignRequestExpress.Models.PostModels
         public string ImageUri { get; set; } // formatting change?
 
         // Only used for user error display
-        [Required(ErrorMessage = "Please select a Brand.")]
+        //[Required(ErrorMessage = "Please select a Brand.")] // TODO: make required so the request can be submitted w/o template. Needs to be updated in database and api
         public string Brand { get; set; }
     }
 }

@@ -46,9 +46,9 @@ namespace SignRequestExpressAPI.Models
 
         public bool IsVertical { get; set; }
 
-        public short HeightInch { get; set; }
+        public decimal HeightInch { get; set; }
 
-        public short WidthInch { get; set; }
+        public decimal WidthInch { get; set; }
 
         public Guid? TemplateFK { get; set; }
 
