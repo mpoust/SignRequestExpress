@@ -109,18 +109,20 @@
         </div>
         <div class="col-sm-4">
             <label asp-for="WidthInch" class="formLabel"></label>
-            <input asp-for="WidthInch" class="form-control" id="heightInput" type="number" placeholder="Width" step="0.125" min="0.125" max="500" />
+            <input asp-for="WidthInch" class="form-control" id="widthInput" type="number" placeholder="Width" step="0.125" min="0.125" max="500" />
             <span asp-validation-for="WidthInch" class="text-danger"></span>
         </div>
         <div class="col-md">
             <!--TODO: orientation auto switch-->
-            <label for="signOrientation" class="formLabel orientation-label">Orientation: <i class="fas fa-sync" id="orientationSwap"></i></label>
+            <label for="signOrientation" class="formLabel orientation-label">Orientation: 
+                <i class="fas fa-sync" id="orientationSwap"></i>
+            </label>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="signOrientation" id="horizontalCheckbox" value="horizontal" />
+                <input disabled class="form-check-input" type="radio" name="signOrientation" id="horizontalCheckbox" value="horizontal" />
                 <label class="form-check-label" for="horizontalCheckbox"><i class="fas fa-arrows-alt-h"></i></label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="signOrientation" id="verticalCheckbox" value="vertical" />
+                <input disabled class="form-check-input" type="radio" name="signOrientation" id="verticalCheckbox" value="vertical" />
                 <label class="form-check-label" for="verticalCheckbox"><i class="fas fa-arrows-alt-v"></i></label>
             </div>
         </div>
