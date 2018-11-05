@@ -36,7 +36,7 @@
             <div class="container">
                 <div class="dropdown">
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand dropdown-toggle" role="button" id="brandDropdown"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/images/favicon-inverse.svg" class=" brand-image" alt="Logo"/>Sign Request Express</a>
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/images/favicon-inverse.svg" class=" brand-image" alt="Logo" />Sign Request Express</a>
 
                     <div class="dropdown-menu" aria-labelledby="brandDropdown">
                         <a class="dropdown-item nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -132,8 +132,13 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <partial name="_Footer" />
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted"><i class="far fa-copyright"></i> 2018 - Michael Poust</span>
+        </div>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/vendor.min.js"></script>
