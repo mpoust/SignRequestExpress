@@ -71,7 +71,7 @@
                     <label asp-for="AccessCode" class="formLabel"></label>
                     <i class="fas fa-question-circle"  data-toggle="popover" title="Optional" 
                        data-content="Enter an Access Code if you have been provided one. Otherwise, leave the field blank and see the 'Access' page once you create your account." 
-                       tabindex="0" data-trigger="focus"></i>
+                       tabindex="-1" data-trigger="focus"></i>
                     <input type="text" asp-for="AccessCode" class="form-control" />
                     <span asp-validation-for="AccessCode" class="text-danger"></span>
                 </div>                

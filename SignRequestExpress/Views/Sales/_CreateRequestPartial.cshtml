@@ -2,11 +2,8 @@
 @using Hanssens.Net
 @model SignRequestExpress.Models.PostModels.SignRequestModel
 @{
-    //TempData.Keep("TestTemp");
+    
 }
-
-<!--TODO: Add Question Marks for user questions-->
-
 
 
 <form asp-controller="Sales" asp-action="SubmitRequest" method="post" novalidate>
@@ -17,10 +14,9 @@
             <label asp-for="AccountName" class="formLabel"></label>
             <i class="fas fa-plus-square" data-toggle="popover" title="Coming Feature"
                data-content="The feature for adding a new Account to your list will be available in the future."
-               tabindex="0" data-trigger="focus"></i>            
+               tabindex="-1" data-trigger="focus"></i>            
             <select asp-for="AccountName" class="form-control">
                 <option selected disabled>Select Account</option>
-                <!--TODO: Add Iconic too create Addition button for a new account -->
                 <!--No longer using below. Saving for knowledge.-->
                 @*@if (ViewBag.AccountList != null)
             {
@@ -58,7 +54,7 @@
             <label asp-for="NeededDate" class="formLabel"></label>
             <i class="fas fa-question-circle" data-toggle="popover" title="Date Needed" data-html="true"
                data-content="Defaults to two (2) weeks from current date. Use the calendar icon to select a different date. <br/><br/> Note: Requests are not guaranteed to be complete if submitted within the two (2) week default window."
-               tabindex="0" data-trigger="focus"></i>
+               tabindex="-1" data-trigger="focus"></i>
             <input asp-for="NeededDate" id="dateneeded" readonly value="@DateTime.Now.AddDays(14).ToShortDateString()" />
         </div>
         <div class="col-md">
@@ -73,14 +69,14 @@
             <label asp-for="Reason" class="formLabel"></label>
             <i class="fas fa-question-circle" data-toggle="popover" title="Optional" 
                data-content="Use this to give additional information to help the designer prioritize the order Requests are completed." 
-               tabindex="0" data-trigger="focus"></i>
+               tabindex="-1" data-trigger="focus"></i>
             <input asp-for="Reason" type="text" class="form-control" placeholder="Reason" />
         </div> 
         <div class="col-md">
             <label asp-for="MediaFK" class="formLabel"></label>
             <i class="fas fa-question-circle" data-toggle="popover" title="Media Type"
                data-content="Media Type is the material the sign will be printed on. See the 'Help' page for more information about signs and Media Types."
-               tabindex="0" data-trigger="focus"></i>
+               tabindex="-1" data-trigger="focus"></i>
             <select asp-for="MediaFK" class="custom-select form-control">
                 <!--TODO: Store on client device - would sqlite work?-->
                 <option selected disabled>Media Type</option>
@@ -115,7 +111,7 @@
         <div class="col-md">
             <!--TODO: orientation auto switch-->
             <label for="signOrientation" class="formLabel orientation-label">Orientation: 
-                <i class="fas fa-sync" id="orientationSwap"></i>
+                <i class="fas fa-sync" id="orientationSwap" tabindex="-1"></i>
             </label>
             <div class="form-check form-check-inline">
                 <input disabled class="form-check-input" type="radio" name="signOrientation" id="horizontalCheckbox" value="horizontal" />
@@ -131,6 +127,9 @@
     <div class="form-row">
         <div class="col-lg-6">
             <label asp-for="Brand" class="formLabel">Brand:</label>
+            <i class="fas fa-question-circle" data-toggle="popover" title="Brand" data-html="true"
+               data-content="Selecting a brand enables the Template selector with the available templates for the current brand. <br/><br/> Note: Ability to add more than one brand to a request is a feature that will be implemented in the future."
+               tabindex="-1" data-trigger="focus"></i>
             <select asp-for="Brand" class="custom-select form-control form-inline" id="templateBrand" name="brandSelect">
                 <option value="" selected disabled>Select Brand</option>
                 @try
@@ -196,13 +195,16 @@
     </div>
 
     <div class="form-row">
-        <div class="col">
+        <div class="col-md">
             <label asp-for="ImageUri" class="formLabel"></label>
             <p><i>TODO: Account Logo</i></p>
             <!--TODO: Create Yes/No include account logo if there is one on file?-->
         </div>
-        <div class="col">
+        <div class="col-md">
             <label asp-for="DataFileUri" class="formLabel"></label>
+            <i class="fas fa-question-circle" data-toggle="popover" title="Attach File" data-html="true"
+               data-content="Use this to attach a file that contains information to include on the sign. Examples are price lists or an event flyer the Account has provided."
+               tabindex="-1" data-trigger="focus"></i>
             <div class="custom-file" id="customFile">
                 <input type="file" class="custom-file-input"> <!--TODO: make this create a blob on submit to send that URI with the POST-->
                 <label class="custom-file-label" for="customFile">Choose file</label>
@@ -216,7 +218,7 @@
                 <label asp-for="Information" class="formLabel"></label>
                 <i class="fas fa-question-circle" data-toggle="popover" title="Sign Details"
                    data-content="Use this area to describe the information that should be included on the sign. "
-                   tabindex="0" data-trigger="focus"></i>
+                   tabindex="-1" data-trigger="focus"></i>
                 <small id="infoHelp" class="form-text text-muted">TODO: Enter the sign disclaimer here.</small>
                 <!--TODO: Insert sign request form information, include in help as well. CREATE jump? LINK TO HELP-->
                 <textarea asp-for="Information" class="form-control" id="detailsTextarea" rows="3" aria-describedby="infoHelp"></textarea>
