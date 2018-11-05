@@ -124,3 +124,19 @@ body {
 :-ms-input-placeholder {
     font-style: italic;
 }
+
+/*.navbar-collapse .nav-hiding{
+    display: none;
+}
+
+.navbar-collapse.in .nav-hiding{
+    display: inline-block;
+}*/
+
+.nav-hiding{
+    display: none;
+}
+
+.nav-hiding.collapse{
+    display: inline-block;
+}
