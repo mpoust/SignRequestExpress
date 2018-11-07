@@ -46,7 +46,7 @@ namespace SignRequestExpress.Controllers
 
         // Use this to seed an ajax call when the request queue view is opened
         [HttpPost]
-        public async Task<string> GetQueueTemplates()
+        public async Task<List<SignRequest>> GetQueueTemplates()
         {
             SetHeaderWithApiToken(_httpClient);
 
@@ -67,42 +67,27 @@ namespace SignRequestExpress.Controllers
 
                 //List<SignRequest> data = approvedJsonData.ToList<SignRequest>();
                 List<SignRequest> data = new List<SignRequest>();
-                    List<string> keys = new List<string>();
+
                 //approvedJsonData.
                 foreach (var approved in approvedJsonData)
                 {
                     SignRequest request = new SignRequest(approved);
                     data.Add(request);
 
-
-                    //string requestNumber;
-                    //string reason;
-                    //byte status;
-
-                    //var array = approved.ToArray();
-                    //approved.
-
-                    //string value;
-                    //approved.TryGetValue("requestNumber", out value);
-                    keys = approved.Keys.ToList();
-                    //keys.AddRange(approved.Values.ToList());
-                    //approved.val
-                    //data.Add(request);
                 }
 
-                string keystring = "";
-                foreach (var s in keys)
-                {
-                    keystring += s;
-                }
+
 
                 //return keystring;
                 //eturn data.First().RequestNumber;
                 //return approvedInfo;
 
-                return data.FirstOrDefault().RequestNumber;
+                return data;
             }
-            else return "FAIL";
+            else
+            {
+                return null;
+            }
 
         }
 

@@ -43,6 +43,10 @@ namespace SignRequestExpress.Models.ResponseModels
             HeightInch = Convert.ToDecimal(dict["heightInch"]);
             WidthInch = Convert.ToDecimal(dict["widthInch"]);
             TemplateFK = (string)dict["templateFK"];
+            Information = (string)dict["information"];
+            DataFileURI = (string)dict["dataFileURI"];
+            ImageURI = (string)dict["imageURI"];
+            RequestImageURI = (string)dict["requestImageURI"];
         }
 
         public string RequestNumber { get; set; }
