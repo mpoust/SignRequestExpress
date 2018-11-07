@@ -128,7 +128,7 @@ body {
 
 .footer {
     position: absolute;
-    bottom: 0;
+    bottom: 0; /*This has different results left in or removed on my laptop versus desktop?*/
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 60px;

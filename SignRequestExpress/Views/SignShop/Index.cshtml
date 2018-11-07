@@ -83,9 +83,15 @@
                 type: "POST",
                 url: "/SignShop/GetQueueTemplates",
                 contentType: "application/json; charset=utf-8",
-                dataType: "html",
+                dataType: "json",
                 success: function (result, status, xhr) {
-                    
+                    //result = $.parseJSON(result);
+                    //$.each(result, function (i, item) {
+                    //    var $tr = $('<tr>').append(
+                    //        $('<td>').text(item.requestNumber)
+                    //    );
+                    //    tr.appendTo('#requestTable');
+                    //});
                     $("#testDiv").html(result);
                 },
                 error: function (xhr, status, error) {
