@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified: 9/22/2018
+ * Last Modified: 11/07/2018
  * Description: This controller will return data requested for Requests within the database.
  * 
  * Note: CancellationTokens are included because ASP.NET Core automatically sends a cancellation mesage if the browser or client
@@ -61,6 +61,7 @@ namespace SignRequestExpressAPI.Controllers
 
         //TODO: Rescrict who can see requests by role?
         // GET /requests
+        [Authorize]
         [HttpGet(Name = nameof(GetRequestsAsync))]
         [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "offset", "limit", "orderBy", "search" })]
         public async Task<IActionResult> GetRequestsAsync(

@@ -29,6 +29,7 @@ namespace SignRequestExpressAPI.Models
 
         public string Reason { get; set; }
 
+        [SearchableByte]
         public byte Status { get; set; }
 
         [Sortable(Default = true)]
