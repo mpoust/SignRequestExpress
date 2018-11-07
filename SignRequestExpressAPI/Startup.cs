@@ -116,10 +116,10 @@ namespace SignRequestExpressAPI
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("ViewAllUsersPolicy",
-                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+                    p => p.RequireAuthenticatedUser().RequireRole("Administrator"));
 
                 opt.AddPolicy("ViewAllAccountsPolicy",
-                    p => p.RequireAuthenticatedUser().RequireRole("Executive"));
+                    p => p.RequireAuthenticatedUser().RequireRole("Administrator", "SignShop"));
 
                 opt.AddPolicy("ViewSalesAccountsPolicy",
                     p => p.RequireAuthenticatedUser().RequireRole("Sales"));

@@ -77,5 +77,20 @@
 </div>
 
 @section Scripts{
-
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/SignShop/GetQueueTemplates",
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (result, status, xhr) {
+                    $("#testDiv").html(result);
+                },
+                error: function (xhr, status, error) {
+                    $("#testDiv").html(error);
+                }
+            });
+        });
+    </script>
 }

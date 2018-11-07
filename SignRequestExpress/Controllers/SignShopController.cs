@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SignRequestExpress.Models.Azure;
-using SignRequestExpress.Models.SignShopModels;
+using SignRequestExpress.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +45,65 @@ namespace SignRequestExpress.Controllers
         }
 
         // Use this to seed an ajax call when the request queue view is opened
-        public async Task<List<SignRequest>> GetQueueTemplates()
+        [HttpPost]
+        public async Task<string> GetQueueTemplates()
         {
-            throw new NotImplementedException();
+            SetHeaderWithApiToken(_httpClient);
+
+            // Get Requests where Status = 1 (Approved) or 2 (In Queue)
+            var approvedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 1");
+            var approvedResponse = await _httpClient.SendAsync(approvedRequest);
+
+            var queueRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 2");
+            var queueResponse = await _httpClient.SendAsync(queueRequest);
+
+            if (approvedResponse.IsSuccessStatusCode && queueResponse.IsSuccessStatusCode)
+            {
+                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
+
+                var queueInfo = queueResponse.Content.ReadAsStringAsync().Result;
+                var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
+
+                //List<SignRequest> data = approvedJsonData.ToList<SignRequest>();
+                List<SignRequest> data = new List<SignRequest>();
+                    List<string> keys = new List<string>();
+                //approvedJsonData.
+                foreach (var approved in approvedJsonData)
+                {
+                    SignRequest request = new SignRequest(approved);
+                    data.Add(request);
+
+
+                    //string requestNumber;
+                    //string reason;
+                    //byte status;
+
+                    //var array = approved.ToArray();
+                    //approved.
+
+                    //string value;
+                    //approved.TryGetValue("requestNumber", out value);
+                    keys = approved.Keys.ToList();
+                    //keys.AddRange(approved.Values.ToList());
+                    //approved.val
+                    //data.Add(request);
+                }
+
+                string keystring = "";
+                foreach (var s in keys)
+                {
+                    keystring += s;
+                }
+
+                //return keystring;
+                //eturn data.First().RequestNumber;
+                //return approvedInfo;
+
+                return data.FirstOrDefault().RequestNumber;
+            }
+            else return "FAIL";
+
         }
 
         // Helper Methods -- TODO: Fix other methods, make private static void
