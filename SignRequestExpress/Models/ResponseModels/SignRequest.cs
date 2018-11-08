@@ -31,6 +31,10 @@ namespace SignRequestExpress.Models.ResponseModels
 
         public SignRequest(Dictionary<string,object> dict)
         {
+            string s = (string)dict["href"];
+            int pos = s.LastIndexOf("/") + 1;
+
+            Id = s.Substring(pos, s.Length - pos);
             RequestNumber = (string)dict["requestNumber"];
             Reason = (string)dict["reason"];
             Status = Convert.ToByte(dict["status"]);
@@ -48,6 +52,8 @@ namespace SignRequestExpress.Models.ResponseModels
             ImageURI = (string)dict["imageURI"];
             RequestImageURI = (string)dict["requestImageURI"];
         }
+
+        public string Id { get; set; }
 
         public string RequestNumber { get; set; }
 
