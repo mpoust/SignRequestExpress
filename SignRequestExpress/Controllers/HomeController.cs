@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpress.Models;
@@ -22,10 +23,33 @@ namespace SignRequestExpress.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Contact()
         {
             //ViewData["Message"] = "Your contact page.";
 
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contact(ContactModel model)
+        {
+            // Compose Email
+            //using(var message = new MailMessage(model.Email, "michael.poust221@gmail.com"))
+            //{
+            //    message.To.Add(new MailAddress("michael.poust221@gmail.com"));
+            //    message.From = new MailAddress(model.Email);
+            //    message.Subject = model.Subject;
+            //    message.Body = model.Message;
+
+            //    using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+            //    {
+            //        smtpClient.Send(message);
+            //    }
+            //}
+
+           
+            // If we got this far something went wrong, redisplay form
             return View();
         }
 

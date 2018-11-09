@@ -1,11 +1,14 @@
-﻿@{
+﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
+@model SignRequestExpress.Models.ContactModel
+
+@{
     ViewData["Title"] = "Contact us";
 }
 
 <br />
 
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+
 
 <!--
     <address>
@@ -15,12 +18,55 @@
     425.555.0100
 </address>
 -->
-
 <!-- TODO: Add Contact form - use Lynda as inspiration -->
-
 <!--
     <address>
     <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
     <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
 </address>
 -->
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Send us an email with your question</h5>
+    </div>
+    <div class="card-body local-card-body">
+        <form asp-controller="Home" asp-action="Contact" method="post" novalidate class="needs-validation">
+            <br />
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-6">
+                    <input type="text" asp-for="Name" class="form-control" placeholder="Your Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-6">
+                    <input type="email" asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Subject" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-6">
+                    <input type="text" asp-for="Subject" class="form-control" placeholder="Subject"/>
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Message" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-6">
+                    <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary" type="submit">Send Message</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
