@@ -281,6 +281,16 @@ namespace SignRequestExpress.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetRequestStatus()
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            // TODO: write method where sales gets their requests
+
+            throw new NotImplementedException();
+        }
+
         
         // Helper Methods -- TODO: Fix other methods, make private static void
         private static void SetHeaderWithApiToken(HttpClient httpClient)

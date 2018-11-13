@@ -46,7 +46,7 @@ namespace SignRequestExpress.Controllers
 
         // Use this to seed an ajax call when the request queue view is opened
         [HttpPost]
-        public async Task<IActionResult> GetQueueTemplates()
+        public async Task<IActionResult> GetQueueRequests()
         {
             SetHeaderWithApiToken(_httpClient);
 

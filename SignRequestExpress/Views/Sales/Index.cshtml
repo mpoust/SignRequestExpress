@@ -210,6 +210,30 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+            var table = new Tabulator("#status-table", {
+                height: 250,
+                columns: [
+                    { title: "Request Num", field: "requestNumber" },
+                    { title: "Status", field: "status" },
+                    //{ title: "Associate", field: } //TODO: need to get associate mapped
+                    { title: "Media", field: "mediaFK" },
+                    { title: "Quantity", field: "quantity" },
+                    //{ title: "Dimensions", field: ""} //TODO: map dimensions
+                    //{ title: "Brand", } // TODO: map brand
+                    { title: "Width (inch)", field: "widthInch" },
+                    { title: "Height (inch)", field: "heightInch" },
+                    { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                    { title: "Date Submitted", field: "requestedDate" },
+                    //{ title: "Date Updated", field: ""} //TODO: send updated date
+                    //{title: }
+                ],
+                ajaxConfig: "POST",
+                ajaxURL: "/Sales/GetQueueTemplates",
+            });
+        });
+    </script>
 }
 
 
