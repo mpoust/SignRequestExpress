@@ -287,6 +287,9 @@ namespace SignRequestExpress.Controllers
             SetHeaderWithApiToken(_httpClient);
 
             // TODO: write method where sales gets their requests except those completed
+            //var salesRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests");
+            //var salesResponse = await _httpClient.SendAsync(salesRequest);
+
             var submittedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 0");
             var submittedResponse = await _httpClient.SendAsync(submittedRequest);
 
@@ -298,41 +301,63 @@ namespace SignRequestExpress.Controllers
 
             List<SignRequest> data = new List<SignRequest>();
 
-            if(submittedResponse.IsSuccessStatusCode && approvedResponse.IsSuccessStatusCode && queueResponse.IsSuccessStatusCode)
+            if (submittedResponse.IsSuccessStatusCode)
             {
                 var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
                 var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
 
-                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
-                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
-
-                var queueInfo = queueResponse.Content.ReadAsStringAsync().Result;
-                var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
-
-                foreach(var submitted in submittedJsonData)
+                foreach (var submitted in submittedJsonData)
                 {
                     SignRequest request = new SignRequest(submitted);
                     data.Add(request);
                 }
+            }
+
+            if (approvedResponse.IsSuccessStatusCode)
+            {
+                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
 
                 foreach (var approved in approvedJsonData)
                 {
                     SignRequest request = new SignRequest(approved);
                     data.Add(request);
                 }
+            }
+
+            if (queueResponse.IsSuccessStatusCode)
+            {
+                var queueInfo = queueResponse.Content.ReadAsStringAsync().Result;
+                var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
 
                 foreach (var queue in queueJsonData)
                 {
                     SignRequest request = new SignRequest(queue);
                     data.Add(request);
                 }
-
-                return Json(data);
             }
-            else
-            {
-                return null;
-            }            
+
+            //if (salesResponse.IsSuccessStatusCode)
+            //{
+            //    List<SignRequest> test = new List<SignRequest>();
+
+            //    var salesInfo = salesResponse.Content.ReadAsStringAsync().Result;
+            //    var salesJsonData = JsonConvert.DeserializeObject<CollectionResponse>(salesInfo).Value;
+
+            //    foreach(var sale in salesJsonData)
+            //    {
+            //        SignRequest request = new SignRequest(sale);
+            //        test.Add(request);
+            //    }
+            //    //return Json(test);
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+
+            return Json(data);
+                  
         }
 
         

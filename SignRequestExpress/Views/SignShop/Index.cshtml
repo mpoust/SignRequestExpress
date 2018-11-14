@@ -86,20 +86,6 @@
 
     <script>
         $(document).ready(function () {
-            //var table = new Tabulator("#example-table", {
-            //    height: 205, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
-            //    data: tabledata, //assign data to table
-            //    layout: "fitColumns", //fit columns to width of table (optional)
-            //    columns: [ //Define Table Columns
-            //        { title: "Name", field: "name", width: 150 },
-            //        { title: "Age", field: "age", align: "left", formatter: "progress" },
-            //        { title: "Favourite Color", field: "col" },
-            //        { title: "Date Of Birth", field: "dob", sorter: "date", align: "center" },
-            //    ],
-            //    rowClick: function (e, row) { //trigger an alert message when the row is clicked
-            //        alert("Row " + row.getData().id + " Clicked!!!!");
-            //    },
-            //});
 
             var table = new Tabulator("#queue-table", {
                 height: 250,
@@ -121,6 +107,39 @@
                 ajaxConfig: "POST",
                 ajaxURL: "/SignShop/GetQueueRequests",
             });
+
+            //$('#prev-tab').click(function () {
+            //    table.tabulator("redraw", true);
+            //});
+
+            
+
+            $('#prev-tab').on('click', function () {
+                var table2 = new Tabulator("#archive-table", {
+                    height: 250,
+                    columns: [
+                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Status", field: "status" },
+                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Media", field: "mediaFK" },
+                        { title: "Quantity", field: "quantity" },
+                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
+                        //{ title: "Brand", } // TODO: map brand
+                        { title: "Width (inch)", field: "widthInch" },
+                        { title: "Height (inch)", field: "heightInch" },
+                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                        { title: "Date Submitted", field: "requestedDate" },
+                        //{ title: "Date Updated", field: ""} //TODO: send updated date
+                        //{title: }
+                    ],
+                    ajaxConfig: "POST",
+                    ajaxURL: "/SignShop/GetQueueRequests",
+                });
+            });
+            
         });
+
+        
+        
     </script>
 }

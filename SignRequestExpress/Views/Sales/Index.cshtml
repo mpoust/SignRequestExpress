@@ -8,6 +8,7 @@
 @section Links{
     <link rel="stylesheet" href="~/css/image-picker.css" />
     <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/lib/tabulator.css" />
 }
 
 <br />
@@ -68,13 +69,38 @@
     <script type="text/javascript" src="~/js/image-picker.js"></script>
     <script type="text/javascript" src="~/js/masonry.pkgd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/lib/tabulator.js"></script>
+    <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function () {           
             $('[data-toggle="popover"]').popover();
 
             $('.popover-dismiss').popover({
                 trigger: 'focus'
+            });
+
+            $('#check-tab').on('click', function () {
+                var status = new Tabulator("#status-table", {
+                    height: 250,
+                    columns: [
+                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Status", field: "status" },
+                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Media", field: "mediaFK" },
+                        { title: "Quantity", field: "quantity" },
+                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
+                        //{ title: "Brand", } // TODO: map brand
+                        { title: "Width (inch)", field: "widthInch" },
+                        { title: "Height (inch)", field: "heightInch" },
+                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                        { title: "Date Submitted", field: "requestedDate" },
+                        //{ title: "Date Updated", field: ""} //TODO: send updated date
+                        //{title: }
+                    ],
+                    ajaxConfig: "POST",
+                    ajaxURL: "/Sales/GetRequestStatus",
+                });
             });
 
         });
@@ -123,7 +149,7 @@
                     $("#dataDiv").html(error);
                 }
             });
-        });        
+        });
 
         $('#templateSelect').change(function () {
             var optionSelected = $("option:selected", this);
@@ -148,7 +174,7 @@
             footer: true,
             modal: true,
             header: true
-            
+
         });
     </script>
 
@@ -172,11 +198,11 @@
 
         $('#heightInput').change(function () {
             var $orientationRad = $('input:radio[name=signOrientation]');
-            
+
             var h = parseFloat($('#heightInput').val());
             var w = parseFloat($('#widthInput').val());
 
-            if (h > w) {                
+            if (h > w) {
                 $orientationRad.filter('[value=vertical]').prop('checked', true);
                 $orientationRad.filter('[value=horizontal]').prop('checked', false);
             }
@@ -203,37 +229,13 @@
         });
     </script>
 
-    <script> 
+    <script>
         $('#customFile').on('change', function () {
             var fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         });
     </script>
 
-    <script>
-        $(document).ready(function () {
-            var table = new Tabulator("#status-table", {
-                height: 250,
-                columns: [
-                    { title: "Request Num", field: "requestNumber" },
-                    { title: "Status", field: "status" },
-                    //{ title: "Associate", field: } //TODO: need to get associate mapped
-                    { title: "Media", field: "mediaFK" },
-                    { title: "Quantity", field: "quantity" },
-                    //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                    //{ title: "Brand", } // TODO: map brand
-                    { title: "Width (inch)", field: "widthInch" },
-                    { title: "Height (inch)", field: "heightInch" },
-                    { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
-                    { title: "Date Submitted", field: "requestedDate" },
-                    //{ title: "Date Updated", field: ""} //TODO: send updated date
-                    //{title: }
-                ],
-                ajaxConfig: "POST",
-                ajaxURL: "/Sales/GetRequestStatus",
-            });
-        });
-    </script>
 }
 
 
