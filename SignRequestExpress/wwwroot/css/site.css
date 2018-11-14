@@ -154,4 +154,15 @@ body {
 }*/
 
 
+.table-container{
+    margin: 0;
+    padding: 0;
+}
 
+.tabulator-header {
+    background-color: #343A40;
+}
+
+.tabulator-headers {
+    background-color: #343A40;
+}
