@@ -130,6 +130,7 @@ namespace SignRequestExpressAPI.Services
 
             // Create the RequestEntity and add to context
             var requestId = Guid.NewGuid(); // This is the RequestID
+            var approvalId = Guid.NewGuid();
 
             // TODO: Generate entries for other tables associated with the request - tie to user and account
 
@@ -142,7 +143,7 @@ namespace SignRequestExpressAPI.Services
                 Status = 0, // 0 is 'Submitted, waiting for approval'
                 RequestedDate = DateTime.Now,
                 NeededDate = neededDate,
-                ApprovalFK = Guid.NewGuid(), // TODO add this ID to the Account table to prepare approval
+                ApprovalFK = approvalId, // TODO add this ID to the Account table to prepare approval
                 IsProofNeeded = isProofNeeded,
                 MediaFK = mediaFK,
                 Quantity = quantity,
@@ -162,6 +163,15 @@ namespace SignRequestExpressAPI.Services
             {
                 UserFK = userId,
                 RequestFK = requestId
+            });
+
+            // Add entry to Approval
+            var newApproval = _context.Approval.Add(new Approval
+            {
+                Id = approvalId,
+                ModifiedDateTime = DateTime.Now,
+                ApprovalStatus = 0,
+                ApproverID = Guid.Parse("E7FA1C5A-347A-4BA6-9797-A4DD716011D2")
             });
 
             var created = await _context.SaveChangesAsync(ct);

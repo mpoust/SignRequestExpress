@@ -56,5 +56,7 @@ namespace SignRequestExpressAPI
         public DbSet<RequestEntity> Request { get; set; }
 
         public DbSet<User_RequestEntity> User_Request { get; set; }
+
+        public DbSet<Approval> Approval { get; set; }
     }
 }
