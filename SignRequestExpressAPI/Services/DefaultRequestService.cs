@@ -143,7 +143,7 @@ namespace SignRequestExpressAPI.Services
                 Status = 0, // 0 is 'Submitted, waiting for approval'
                 RequestedDate = DateTime.Now,
                 NeededDate = neededDate,
-                ApprovalFK = approvalId, // TODO add this ID to the Account table to prepare approval
+                ApprovalFK = approvalId,
                 IsProofNeeded = isProofNeeded,
                 MediaFK = mediaFK,
                 Quantity = quantity,
@@ -171,7 +171,7 @@ namespace SignRequestExpressAPI.Services
                 Id = approvalId,
                 ModifiedDateTime = DateTime.Now,
                 ApprovalStatus = 0,
-                ApproverID = Guid.Parse("E7FA1C5A-347A-4BA6-9797-A4DD716011D2")
+                ApproverID = Guid.Parse("E7FA1C5A-347A-4BA6-9797-A4DD716011D2") // Paul
             });
 
             var created = await _context.SaveChangesAsync(ct);
