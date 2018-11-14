@@ -76,15 +76,7 @@ namespace SignRequestExpressAPI.Services
             SearchOptions<Request, RequestEntity> searchOptions,
             CancellationToken ct)
         {
-            // Get Requests where Request.ID IN User_Request where userFK is userId
             if (userId == null) return null;
-
-            //IQueryable<RequestEntity> query = from r in _context.Request
-            //                                  where r.Id ;
-            //query.FromSql($"SELECT * FROM Request AS r WHERE r.ID IN(SELECT ur.requestFK FROM User_Request AS ur WHERE ur.userFK = {userId})");
-            // TODO: limit the requests to those that are the userID
-
-            //query.
 
             IQueryable<RequestEntity> query = from r in _context.Request //where r.Status == 1 select r;
                                               join ur in _context.User_Request
@@ -137,14 +129,14 @@ namespace SignRequestExpressAPI.Services
             // calling services from those ones
 
             // Create the RequestEntity and add to context
-            var id = Guid.NewGuid(); // This is the RequestID
+            var requestId = Guid.NewGuid(); // This is the RequestID
 
             // TODO: Generate entries for other tables associated with the request - tie to user and account
 
             var newRequest = _context.Request.Add(new RequestEntity
             {
                 //TODO generate RequestNumber properly
-                Id = id,
+                Id = requestId,
                 Reason = reason,
                 RequestNumber = null,
                 Status = 0, // 0 is 'Submitted, waiting for approval'
@@ -165,10 +157,17 @@ namespace SignRequestExpressAPI.Services
                 ModifiedDateTime = DateTime.Now
             });
 
+            // Add entry into User_Request
+            var newUserRequest = _context.User_Request.Add(new User_RequestEntity
+            {
+                UserFK = userId,
+                RequestFK = requestId
+            });
+
             var created = await _context.SaveChangesAsync(ct);
             if (created < 1) throw new InvalidOperationException("Could not create the request");
 
-            return id;
+            return requestId;
         }
 
         public async Task DeleteRequestAsync(Guid requestId, CancellationToken ct)
