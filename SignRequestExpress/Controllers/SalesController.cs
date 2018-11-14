@@ -286,9 +286,53 @@ namespace SignRequestExpress.Controllers
         {
             SetHeaderWithApiToken(_httpClient);
 
-            // TODO: write method where sales gets their requests
+            // TODO: write method where sales gets their requests except those completed
+            var submittedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 0");
+            var submittedResponse = await _httpClient.SendAsync(submittedRequest);
 
-            throw new NotImplementedException();
+            var approvedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 1");
+            var approvedResponse = await _httpClient.SendAsync(approvedRequest);
+
+            var queueRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 2");
+            var queueResponse = await _httpClient.SendAsync(queueRequest);
+
+            List<SignRequest> data = new List<SignRequest>();
+
+            if(submittedResponse.IsSuccessStatusCode && approvedResponse.IsSuccessStatusCode && queueResponse.IsSuccessStatusCode)
+            {
+                var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
+                var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
+
+                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
+
+                var queueInfo = queueResponse.Content.ReadAsStringAsync().Result;
+                var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
+
+                foreach(var submitted in submittedJsonData)
+                {
+                    SignRequest request = new SignRequest(submitted);
+                    data.Add(request);
+                }
+
+                foreach (var approved in approvedJsonData)
+                {
+                    SignRequest request = new SignRequest(approved);
+                    data.Add(request);
+                }
+
+                foreach (var queue in queueJsonData)
+                {
+                    SignRequest request = new SignRequest(queue);
+                    data.Add(request);
+                }
+
+                return Json(data);
+            }
+            else
+            {
+                return null;
+            }            
         }
 
         

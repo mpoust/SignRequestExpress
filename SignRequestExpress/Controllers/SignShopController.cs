@@ -80,12 +80,7 @@ namespace SignRequestExpress.Controllers
                     data.Add(request);
                 }
 
-                //return keystring;
-                //eturn data.First().RequestNumber;
-                //return approvedInfo;
-
                 return Json(data);
-                //return data;
             }
             else
             {
