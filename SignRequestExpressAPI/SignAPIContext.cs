@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 9/20/2018
+ * Last Modified: 11/14/2018
  * Description: DBContext class for the SignRequestExpress database. This will house all of the DB sets, or tables, that we will track
  *  on this context. This will be achieved using Entity Framework Core.
  * References:
@@ -30,6 +30,16 @@ namespace SignRequestExpressAPI
         public SignAPIContext(DbContextOptions options)
             : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<User_RequestEntity>().HasKey(t => new
+            {
+                t.UserFK,
+                t.RequestFK
+            });
+        }
+
         // All of the DBSets (tables) that will be tracked on the context
         public DbSet<AccountEntity> Account { get; set; }
 
@@ -44,5 +54,7 @@ namespace SignRequestExpressAPI
         public DbSet<BrandStandardsEntity> BrandStandards { get; set; }
 
         public DbSet<RequestEntity> Request { get; set; }
+
+        public DbSet<User_RequestEntity> User_Request { get; set; }
     }
 }

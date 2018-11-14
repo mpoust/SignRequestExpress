@@ -79,11 +79,19 @@ namespace SignRequestExpressAPI.Services
             // Get Requests where Request.ID IN User_Request where userFK is userId
             if (userId == null) return null;
 
-            IQueryable<RequestEntity> query = _context.Request;
-            query.FromSql($"SELECT * FROM Request AS r WHERE r.ID IN(SELECT ur.requestFK FROM User_Request AS ur WHERE ur.userFK = {userId})");
+            //IQueryable<RequestEntity> query = from r in _context.Request
+            //                                  where r.Id ;
+            //query.FromSql($"SELECT * FROM Request AS r WHERE r.ID IN(SELECT ur.requestFK FROM User_Request AS ur WHERE ur.userFK = {userId})");
             // TODO: limit the requests to those that are the userID
 
             //query.
+
+            IQueryable<RequestEntity> query = from r in _context.Request //where r.Status == 1 select r;
+                                              join ur in _context.User_Request
+                                              on r.Id equals
+                                              ur.RequestFK
+                                              where ur.UserFK == userId
+                                              select r;
 
             query = searchOptions.Apply(query);
             query = sortOptions.Apply(query);
