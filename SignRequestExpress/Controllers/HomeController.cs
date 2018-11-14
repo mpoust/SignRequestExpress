@@ -35,21 +35,40 @@ namespace SignRequestExpress.Controllers
         public async Task<IActionResult> Contact(ContactModel model)
         {
             // Compose Email
-            //using(var message = new MailMessage(model.Email, "michael.poust221@gmail.com"))
-            //{
-            //    message.To.Add(new MailAddress("michael.poust221@gmail.com"));
-            //    message.From = new MailAddress(model.Email);
-            //    message.Subject = model.Subject;
-            //    message.Body = model.Message;
+            using(var message = new MailMessage(model.Email, "michael.poust221@gmail.com"))
+            {
+                message.To.Add(new MailAddress("michael.poust221@gmail.com"));
+                message.From = new MailAddress(model.Email);
+                message.Subject = model.Subject;
+                message.Body = model.Message;
+                
 
-            //    using (var smtpClient = new SmtpClient("smtp.gmail.com"))
-            //    {
-            //        smtpClient.Send(message);
-            //    }
-            //}
-
-           
+                using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    try
+                    {
+                        smtpClient.EnableSsl = true;
+                        smtpClient.Send(message);
+                        return RedirectToAction(nameof(HomeController.EmailSent), "Home");
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewData["email"] = ex.ToString();
+                        //return RedirectToAction(nameof(HomeController.EmailSentError), "Home");
+                    }
+                }
+            }
             // If we got this far something went wrong, redisplay form
+            return View();
+        }
+
+        public IActionResult EmailSent()
+        {
+            return View();
+        }
+
+        public IActionResult EmailSentError()
+        {
             return View();
         }
 

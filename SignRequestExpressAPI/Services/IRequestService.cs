@@ -39,6 +39,12 @@ namespace SignRequestExpressAPI.Services
             SearchOptions<Request, RequestEntity> searchOptions,
             CancellationToken ct);
 
+        Task<PagedResults<Request>> GetUserRequestsAsync(
+            Guid? userId,
+            PagingOptions pagingOptions,
+            SortOptions<Request, RequestEntity> sortOptions,
+            SearchOptions<Request, RequestEntity> searchOptions,
+            CancellationToken ct);
 
         Task<Guid> CreateRequestAsync(
             Guid userId,

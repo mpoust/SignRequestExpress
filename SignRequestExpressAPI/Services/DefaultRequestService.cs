@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified: 9/21/2018
+ * Last Modified: 11/13/2018
  * Description: This class implements IRequestService
  *  
  * References:
@@ -68,6 +68,41 @@ namespace SignRequestExpressAPI.Services
                 TotalSize = allRequests.Count
             };
         }
+
+        public async Task<PagedResults<Request>> GetUserRequestsAsync(
+            Guid? userId,
+            PagingOptions pagingOptions,
+            SortOptions<Request, RequestEntity> sortOptions,
+            SearchOptions<Request, RequestEntity> searchOptions,
+            CancellationToken ct)
+        {
+            // Get Requests where Request.ID IN User_Request where userFK is userId
+            if (userId == null) return null;
+
+            IQueryable<RequestEntity> query = _context.Request;
+            query.FromSql($"SELECT * FROM Request AS r WHERE r.ID IN(SELECT ur.requestFK FROM User_Request AS ur WHERE ur.userFK = {userId})");
+            // TODO: limit the requests to those that are the userID
+
+            //query.
+
+            query = searchOptions.Apply(query);
+            query = sortOptions.Apply(query);
+
+            var allRequests = await query
+                .ProjectTo<Request>()
+                .ToListAsync();
+
+            var pagedRequests = allRequests
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value);
+
+            return new PagedResults<Request>
+            {
+                Items = pagedRequests,
+                TotalSize = allRequests.Count
+            };
+        }
+
 
         public async Task<Guid> CreateRequestAsync(
             Guid userId, // Will use for validation later
@@ -147,5 +182,7 @@ namespace SignRequestExpressAPI.Services
 
             return template.Id;
         }
+
+        
     }
 }

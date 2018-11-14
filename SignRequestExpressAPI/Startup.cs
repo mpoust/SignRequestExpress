@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/15/2018
- * Last Modified: 10/28/2018
+ * Last Modified: 11/13/2018
  * Description: 
  * References: Structure of this project was created using guidance provided from the lynda.com class
  *   "Building and Securing RESTful APIs in ASP.NET Core" by Nate Barbettini.
@@ -117,6 +117,9 @@ namespace SignRequestExpressAPI
             {
                 opt.AddPolicy("ViewAllUsersPolicy",
                     p => p.RequireAuthenticatedUser().RequireRole("Administrator"));
+
+                opt.AddPolicy("ViewAllRequestsPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Administrator", "SignShop"));
 
                 opt.AddPolicy("ViewAllAccountsPolicy",
                     p => p.RequireAuthenticatedUser().RequireRole("Administrator", "SignShop"));
