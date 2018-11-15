@@ -163,7 +163,7 @@ namespace SignRequestExpressAPI.Services
             var requestNumber = userNum + "-" + year + "-" + reqNum.ToString("0000");
 
             // Create the RequestEntity and add to context
-            var newRequest = _context.Request.Add(new RequestEntity
+            var newRequest = await _context.Request.AddAsync(new RequestEntity
             {
                 //TODO generate RequestNumber properly
                 Id = requestId,
