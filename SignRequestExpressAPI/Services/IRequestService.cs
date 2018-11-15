@@ -50,9 +50,7 @@ namespace SignRequestExpressAPI.Services
             Guid userId,
             string reason,
             byte status,
-            //DateTime requestedDate,
             DateTime neededDate,
-            //Guid approval,
             bool isProofNeeded,
             byte mediaFK,
             byte quantity,
@@ -63,7 +61,6 @@ namespace SignRequestExpressAPI.Services
             string information,
             string dataFileURI,
             string imageURI,
-            //DateTime ModifiedDateTime,
             CancellationToken ct
             );
 

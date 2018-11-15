@@ -98,7 +98,7 @@ namespace SignRequestExpressAPI.Services
         {
             if (userId == null) return null;
 
-            IQueryable<RequestEntity> query = from r in _context.Request //where r.Status == 1 select r;
+            IQueryable<RequestEntity> query = from r in _context.Request 
                                               join ur in _context.User_Request
                                               on r.Id equals
                                               ur.RequestFK
@@ -125,12 +125,10 @@ namespace SignRequestExpressAPI.Services
 
 
         public async Task<Guid> CreateRequestAsync(
-            Guid userId, // Will use for validation later
+            Guid userId,
             string reason,
             byte status,
-            //DateTime requestedDate, // Can probably remove
             DateTime neededDate,
-            //Guid approval,
             bool isProofNeeded,
             byte mediaFK,
             byte quantity,
@@ -141,25 +139,36 @@ namespace SignRequestExpressAPI.Services
             string information,
             string dataFileURI,
             string imageURI,
-            //DateTime ModifiedDateTime,
             CancellationToken ct
             )
-        {
-            // TODO - probably create the logic of adding entities to other tables here too -- create stored procedure instead
-            // calling services from those ones
-
-            // Create the RequestEntity and add to context
-            var requestId = Guid.NewGuid(); // This is the RequestID
+        {           
+            var requestId = Guid.NewGuid(); 
             var approvalId = Guid.NewGuid();
 
-            // TODO: Generate entries for other tables associated with the request - tie to user and account
+            // Get all Request Numbers for user
+            IQueryable<string> query = from r in _context.Request 
+                                              join ur in _context.User_Request
+                                              on r.Id equals
+                                              ur.RequestFK
+                                              where ur.UserFK == userId
+                                              select r.RequestNumber;
 
+            // Creating and formatting RequestNumber for submission
+            var requestNums = query.ToList();
+            requestNums.Sort();
+            var last = requestNums.Last();
+            var userNum = last.Substring(0, last.IndexOf('-'));
+            var reqNum = int.Parse(last.Substring(last.LastIndexOf('-') + 1)) + 1;
+            var year = DateTime.Now.ToString("yy");
+            var requestNumber = userNum + "-" + year + "-" + reqNum.ToString("0000");
+
+            // Create the RequestEntity and add to context
             var newRequest = _context.Request.Add(new RequestEntity
             {
                 //TODO generate RequestNumber properly
                 Id = requestId,
                 Reason = reason,
-                RequestNumber = null,
+                RequestNumber = requestNumber,
                 Status = 0, // 0 is 'Submitted, waiting for approval'
                 RequestedDate = DateTime.Now,
                 NeededDate = neededDate,

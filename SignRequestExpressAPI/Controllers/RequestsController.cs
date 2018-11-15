@@ -194,7 +194,7 @@ namespace SignRequestExpressAPI.Controllers
             var requestId = await _requestService.CreateRequestAsync(
                     requestForm.UserId, 
                     requestForm.Reason, 
-                    0, // User Number TODO: Increment - this number is used for user visual and seeing sign requests
+                    0, 
                     requestForm.NeededDate.Value,
                     requestForm.IsProofNeeded.Value,
                     requestForm.MediaFK.Value,
