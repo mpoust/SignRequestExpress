@@ -286,7 +286,7 @@ namespace SignRequestExpress.Controllers
         {
             SetHeaderWithApiToken(_httpClient);
 
-            var finishedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 4");
+            var finishedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 3");
             var finishedResponse = await _httpClient.SendAsync(finishedRequest);
 
             List<SignRequest> data = new List<SignRequest>();
@@ -326,29 +326,29 @@ namespace SignRequestExpress.Controllers
 
             List<SignRequest> data = new List<SignRequest>();
 
-            //if (submittedResponse.IsSuccessStatusCode)
-            //{
-            //    var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
-            //    var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
+            if (submittedResponse.IsSuccessStatusCode)
+            {
+                var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
+                var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
 
-            //    foreach (var submitted in submittedJsonData)
-            //    {
-            //        SignRequest request = new SignRequest(submitted);
-            //        data.Add(request);
-            //    }
-            //}
+                foreach (var submitted in submittedJsonData)
+                {
+                    SignRequest request = new SignRequest(submitted);
+                    data.Add(request);
+                }
+            }
 
-            //if (approvedResponse.IsSuccessStatusCode)
-            //{
-            //    var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
-            //    var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
+            if (approvedResponse.IsSuccessStatusCode)
+            {
+                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
 
-            //    foreach (var approved in approvedJsonData)
-            //    {
-            //        SignRequest request = new SignRequest(approved);
-            //        data.Add(request);
-            //    }
-            //}
+                foreach (var approved in approvedJsonData)
+                {
+                    SignRequest request = new SignRequest(approved);
+                    data.Add(request);
+                }
+            }
 
             if (queueResponse.IsSuccessStatusCode)
             {
