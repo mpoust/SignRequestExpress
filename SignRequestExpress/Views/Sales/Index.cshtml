@@ -71,9 +71,10 @@
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="~/lib/tabulator.js"></script>
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
+    <script src="~/lib/tabulator-module/mutator.js"></script>
 
     <script>
-        $(document).ready(function () {           
+        $(document).ready(function () {
             $('[data-toggle="popover"]').popover();
 
             $('.popover-dismiss').popover({
@@ -81,13 +82,48 @@
             });
 
             $('#check-tab').on('click', function () {
+
+                Tabulator.prototype.extendModule("mutator", "mutators", {
+                    statusMutator: function (value, data, type, mutatorParams) {
+                        if (value == 0) {
+                            return "Submitted";
+                        }
+                        else if (value == 1) {
+                            return "Approved";
+                        }
+                        else if (value == 2) {
+                            return "In Queue";
+                        }
+                        else if (value == 3) {
+                            return "Printed";
+                        } // TODO: Add more values for "Ready (once it is cut, after printed)"
+                        else return "ERROR";
+                    },
+
+                    mediaMutator: function (value, data, type, mutatorParams) {
+                        if (value == 1) {
+                            return "Adhesive";
+                        }
+                        else if (value == 2) {
+                            return "Photo Glossy";
+                        }
+                        else if (value == 3) {
+                            return "Matte Outdoor";
+                        }
+                        else if (value == 4) {
+                            return "Plasticore";
+                        }
+                        else return "ERROR: S1";
+                    },
+                });
+
                 var status = new Tabulator("#status-table", {
                     height: 250,
                     columns: [
-                        { title: "Request Num", field: "requestNumber" },
-                        { title: "Status", field: "status" },
+                        { title: "Request Num", field: "requestNumber" },                        
+                        { title: "Status", field: "status", mutator: "statusMutator" },
                         //{ title: "Associate", field: } //TODO: need to get associate mapped
-                        { title: "Media", field: "mediaFK" },
+                        { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
@@ -99,18 +135,52 @@
                         //{title: }
                     ],
                     ajaxConfig: "POST",
-                    ajaxURL: "/Sales/GetRequestStatus",
+                    ajaxURL: "/Sales/GetRequestStatus",                    
                 });
             });
 
             $('#prev-tab').on('click', function () {
+                Tabulator.prototype.extendModule("mutator", "mutators", {
+                    statusMutator: function (value, data, type, mutatorParams) {
+                        if (value == 0) {
+                            return "Submitted";
+                        }
+                        else if (value == 1) {
+                            return "Approved";
+                        }
+                        else if (value == 2) {
+                            return "In Queue";
+                        }
+                        else if (value == 3) {
+                            return "Printed";
+                        } // TODO: Add more values for "Ready (once it is cut, after printed)"
+                        else return "ERROR: S1";
+                    },
+
+                    mediaMutator: function (value, data, type, mutatorParams) {
+                        if (value == 1) {
+                            return "Adhesive";
+                        }
+                        else if (value == 2) {
+                            return "Photo Glossy";
+                        }
+                        else if (value == 3) {
+                            return "Matte Outdoor";
+                        }
+                        else if (value == 4) {
+                            return "Plasticore";
+                        }
+                        else return "ERROR: S1";
+                    },
+                });              
+
                 var status = new Tabulator("#previous-table", {
                     height: 250,
                     columns: [
                         { title: "Request Num", field: "requestNumber" },
-                        { title: "Status", field: "status" },
+                        { title: "Status", field: "status", mutator: "statusMutator"},
                         //{ title: "Associate", field: } //TODO: need to get associate mapped
-                        { title: "Media", field: "mediaFK" },
+                        { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
