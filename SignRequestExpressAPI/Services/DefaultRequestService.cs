@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/20/2018
- * Last Modified: 11/13/2018
+ * Last Modified: 11/15/2018
  * Description: This class implements IRequestService
  *  
  * References:
@@ -35,6 +35,26 @@ namespace SignRequestExpressAPI.Services
         public DefaultRequestService(SignAPIContext context)
         {
             _context = context;
+        }
+
+        public async Task UpdateRequestAsync(Request request, Guid id, CancellationToken ct)
+        {
+            var entity = await _context.Request.SingleOrDefaultAsync(r => r.Id == id, ct);
+
+            // Copy over values from modified request - will allow for PATCH to work on all properties of request
+            entity.Reason = request.Reason;
+            entity.Status = request.Status;
+            entity.IsProofNeeded = request.IsProofNeeded;
+            entity.MediaFK = request.MediaFK;
+            entity.Quantity = request.Quantity;
+            entity.HeightInch = request.HeightInch;
+            entity.WidthInch = request.WidthInch;
+            entity.TemplateFK = request.TemplateFK;
+            entity.Information = request.Information;
+            entity.ModifiedDateTime = DateTime.Now;
+
+            _context.Request.Update(entity);
+            await _context.SaveChangesAsync(ct);
         }
 
         public async Task<Request> GetRequestAsync(Guid id, CancellationToken ct)
@@ -199,7 +219,5 @@ namespace SignRequestExpressAPI.Services
 
             return template.Id;
         }
-
-        
     }
 }

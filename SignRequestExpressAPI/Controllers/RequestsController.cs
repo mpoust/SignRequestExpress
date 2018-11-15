@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Entities;
@@ -53,6 +54,33 @@ namespace SignRequestExpressAPI.Controllers
             _authzService = authorizationService;
             _requestService = requestService;
             _defaultPagingOptions = defaultPagingOptions.Value;
+        }
+
+        // Used for updating the status of the sign request
+        [Authorize]
+        [HttpPatch("{requestId}")]
+        public async Task<IActionResult> PatchRequestStatus(
+            [FromBody] JsonPatchDocument<Request> patchDocument,
+            Guid requestId,
+            CancellationToken ct)
+        {
+            // TODO: Add Admin or SignShop authorization only
+
+            if(patchDocument == null)
+            {
+                return BadRequest();
+            }
+
+            // Get Request object from database based on ID
+            var request = await _requestService.GetRequestAsync(requestId, ct);
+            if (request == null) return NotFound();
+
+            // Apply changes to Request object
+            patchDocument.ApplyTo(request);
+            
+            await _requestService.UpdateRequestAsync(request, requestId, ct);
+
+            return Ok(request);
         }
 
         // GET /requests/{requestId}

@@ -120,6 +120,7 @@
                 var status = new Tabulator("#status-table", {
                     height: 250,
                     columns: [
+                        //{ title: "ID", field: "id"}, // Checking that the ID is still tied to each request.
                         { title: "Request Num", field: "requestNumber" },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
                         //{ title: "Associate", field: } //TODO: need to get associate mapped

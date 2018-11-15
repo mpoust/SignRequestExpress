@@ -61,6 +61,8 @@ namespace SignRequestExpressAPI.Models
 
         public string RequestImageURI { get; set; }
 
+        public DateTime ModifiedDateTime { get; set; }
+
         public Form Submit { get; set; }
     }
 }
