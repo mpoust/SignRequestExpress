@@ -45,12 +45,6 @@ namespace SignRequestExpress.Controllers
         public const string PlasticoreCase = "Plasticore";
 
         // TODO - add new cases for adhesive w/ and w/o corrplast, and plasticore options ---- Could have made option value property... 
-        // I made this more difficult than necessary
-        // no longer used - make sure still works before delete
-        public const byte Adhesive = 1;
-        public const byte PhotoGlossy = 2;
-        public const byte MatteOutdoor = 3;
-        public const byte Plasticore = 4;
 
         public SalesController(
             SignInManager<IdentityUser> signInManager,
@@ -168,29 +162,6 @@ namespace SignRequestExpress.Controllers
 
             if (ModelState.IsValid)
             {
-                /*
-                byte mediaFk;
-
-                switch (model.MediaString)
-                {
-                    case AdhesiveCase:
-                        mediaFk = Adhesive;
-                        break;
-                    case PhotoGlossyCase:
-                        mediaFk = PhotoGlossy;
-                        break;
-                    case MatteOutdoorCase:
-                        mediaFk = MatteOutdoor;
-                        break;
-                    case PlasticoreCase:
-                        mediaFk = Plasticore;
-                        break;
-                    default:
-                        mediaFk = Adhesive;
-                        break;
-                }
-                */
-
                 bool isVertical;
                 if (model.HeightInch > model.WidthInch) isVertical = true;
                 else isVertical = false;
@@ -212,7 +183,7 @@ namespace SignRequestExpress.Controllers
                         UserId = userId,
                         Reason = model.Reason,
                         NeededDate = Convert.ToDateTime(model.NeededDate),     // TODO - add when datepicker implemented
-                        IsProofNeeded = false, // TODO - connect to checkbox
+                        IsProofNeeded = model.IsProofNeeded, // TODO - connect to checkbox
                         MediaFK = model.MediaFK,
                         Quantity = model.Quantity,
                         IsVertical = isVertical,
