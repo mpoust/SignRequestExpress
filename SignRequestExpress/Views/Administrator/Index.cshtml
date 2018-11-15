@@ -79,16 +79,57 @@
 @section Scripts{
     <script type="text/javascript" src="~/lib/tabulator.js"></script>
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
+    <script src="~/lib/tabulator-module/mutator.js"></script>
+    <script src="~/lib/tabulator-module/format.js"></script>
 
     <script>
+        Tabulator.prototype.extendModule("mutator", "mutators", {
+            statusMutator: function (value, data, type, mutatorParams) {
+                if (value == 0) {
+                    return "Submitted";
+                }
+                else if (value == 1) {
+                    return "Approved";
+                }
+                else if (value == 2) {
+                    return "In Queue";
+                }
+                else if (value == 3) {
+                    return "Printed";
+                } // TODO: Add more values for "Ready (once it is cut, after printed)"
+                else return "ERROR";
+            },
+
+            mediaMutator: function (value, data, type, mutatorParams) {
+                if (value == 1) {
+                    return "Adhesive";
+                }
+                else if (value == 2) {
+                    return "Photo Glossy";
+                }
+                else if (value == 3) {
+                    return "Matte Outdoor";
+                }
+                else if (value == 4) {
+                    return "Plasticore";
+                }
+                else return "ERROR: S1";
+            },
+        });
+
+        var approveBtn = function (cell, formatterParams) {
+            return "<button>Approve</button>";
+        }
+
         $(document).ready(function () {
             var table = new Tabulator("#approval-table", {
                 height: 250,
                 columns: [
+                    { formatter: "rownum", align:"center", width:40},
                     { title: "Request Num", field: "requestNumber" },
-                    { title: "Status", field: "status" },
+                    { title: "Status", field: "status", mutator: "statusMutator" },
                     //{ title: "Associate", field: } //TODO: need to get associate mapped
-                    { title: "Media", field: "mediaFK" },
+                    { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                     { title: "Quantity", field: "quantity" },
                     //{ title: "Dimensions", field: ""} //TODO: map dimensions
                     //{ title: "Brand", } // TODO: map brand
@@ -98,9 +139,40 @@
                     { title: "Date Submitted", field: "requestedDate" },
                     //{ title: "Date Updated", field: ""} //TODO: send updated date
                     //{title: }
+                    //{ title: "", sortable: false, formatter: "approveButton" },
+                    //{ formatter: approveButton, width:40, align:"center" },
+                    {
+                        formatter: approveBtn, align: "center", cellClick: function (e, cell) {
+                            alert("test");
+                        }
+                    },
                 ],
                 ajaxConfig: "POST",
                 ajaxURL: "/Administrator/GetRequestsForApproval",
+            });
+
+            $('#archive-tab').on('click', function () {
+                var status = new Tabulator("#archive-table", {
+                    height: 250,
+                    columns: [
+                        { formatter: "rownum", align: "center", width: 40 },
+                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Status", field: "status", mutator: "statusMutator" },
+                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
+                        { title: "Quantity", field: "quantity" },
+                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
+                        //{ title: "Brand", } // TODO: map brand
+                        { title: "Width (inch)", field: "widthInch" },
+                        { title: "Height (inch)", field: "heightInch" },
+                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                        { title: "Date Submitted", field: "requestedDate" },
+                        //{ title: "Date Updated", field: ""} //TODO: send updated date
+                        //{title: }
+                    ],
+                    ajaxConfig: "POST",
+                    ajaxURL: "/Administrator/GetRequestsForApproval", // TODO: Write method for the archive requests
+                });
             });
         });
     </script>

@@ -74,6 +74,40 @@
     <script src="~/lib/tabulator-module/mutator.js"></script>
 
     <script>
+        Tabulator.prototype.extendModule("mutator", "mutators", {
+            statusMutator: function (value, data, type, mutatorParams) {
+                if (value == 0) {
+                    return "Submitted";
+                }
+                else if (value == 1) {
+                    return "Approved";
+                }
+                else if (value == 2) {
+                    return "In Queue";
+                }
+                else if (value == 3) {
+                    return "Printed";
+                } // TODO: Add more values for "Ready (once it is cut, after printed)"
+                else return "ERROR: S1";
+            },
+
+            mediaMutator: function (value, data, type, mutatorParams) {
+                if (value == 1) {
+                    return "Adhesive";
+                }
+                else if (value == 2) {
+                    return "Photo Glossy";
+                }
+                else if (value == 3) {
+                    return "Matte Outdoor";
+                }
+                else if (value == 4) {
+                    return "Plasticore";
+                }
+                else return "ERROR: S1";
+            },
+        }); 
+
         $(document).ready(function () {
             $('[data-toggle="popover"]').popover();
 
@@ -82,41 +116,6 @@
             });
 
             $('#check-tab').on('click', function () {
-
-                Tabulator.prototype.extendModule("mutator", "mutators", {
-                    statusMutator: function (value, data, type, mutatorParams) {
-                        if (value == 0) {
-                            return "Submitted";
-                        }
-                        else if (value == 1) {
-                            return "Approved";
-                        }
-                        else if (value == 2) {
-                            return "In Queue";
-                        }
-                        else if (value == 3) {
-                            return "Printed";
-                        } // TODO: Add more values for "Ready (once it is cut, after printed)"
-                        else return "ERROR";
-                    },
-
-                    mediaMutator: function (value, data, type, mutatorParams) {
-                        if (value == 1) {
-                            return "Adhesive";
-                        }
-                        else if (value == 2) {
-                            return "Photo Glossy";
-                        }
-                        else if (value == 3) {
-                            return "Matte Outdoor";
-                        }
-                        else if (value == 4) {
-                            return "Plasticore";
-                        }
-                        else return "ERROR: S1";
-                    },
-                });
-
                 var status = new Tabulator("#status-table", {
                     height: 250,
                     columns: [
@@ -140,41 +139,7 @@
                 });
             });
 
-            $('#prev-tab').on('click', function () {
-                Tabulator.prototype.extendModule("mutator", "mutators", {
-                    statusMutator: function (value, data, type, mutatorParams) {
-                        if (value == 0) {
-                            return "Submitted";
-                        }
-                        else if (value == 1) {
-                            return "Approved";
-                        }
-                        else if (value == 2) {
-                            return "In Queue";
-                        }
-                        else if (value == 3) {
-                            return "Printed";
-                        } // TODO: Add more values for "Ready (once it is cut, after printed)"
-                        else return "ERROR: S1";
-                    },
-
-                    mediaMutator: function (value, data, type, mutatorParams) {
-                        if (value == 1) {
-                            return "Adhesive";
-                        }
-                        else if (value == 2) {
-                            return "Photo Glossy";
-                        }
-                        else if (value == 3) {
-                            return "Matte Outdoor";
-                        }
-                        else if (value == 4) {
-                            return "Plasticore";
-                        }
-                        else return "ERROR: S1";
-                    },
-                });              
-
+            $('#prev-tab').on('click', function () {                            
                 var status = new Tabulator("#previous-table", {
                     height: 250,
                     columns: [
