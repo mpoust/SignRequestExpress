@@ -282,6 +282,31 @@ namespace SignRequestExpress.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> GetOldRequests()
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var finishedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 4");
+            var finishedResponse = await _httpClient.SendAsync(finishedRequest);
+
+            List<SignRequest> data = new List<SignRequest>();
+
+            if (finishedResponse.IsSuccessStatusCode)
+            {
+                var finishedInfo = finishedResponse.Content.ReadAsStringAsync().Result;
+                var finishedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(finishedInfo).Value;
+
+                foreach(var finished in finishedJsonData)
+                {
+                    SignRequest request = new SignRequest(finished);
+                    data.Add(request);
+                }
+            }
+
+            return Json(data);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> GetRequestStatus()
         {
             SetHeaderWithApiToken(_httpClient);
@@ -301,29 +326,29 @@ namespace SignRequestExpress.Controllers
 
             List<SignRequest> data = new List<SignRequest>();
 
-            if (submittedResponse.IsSuccessStatusCode)
-            {
-                var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
-                var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
+            //if (submittedResponse.IsSuccessStatusCode)
+            //{
+            //    var submittedInfo = submittedResponse.Content.ReadAsStringAsync().Result;
+            //    var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(submittedInfo).Value;
 
-                foreach (var submitted in submittedJsonData)
-                {
-                    SignRequest request = new SignRequest(submitted);
-                    data.Add(request);
-                }
-            }
+            //    foreach (var submitted in submittedJsonData)
+            //    {
+            //        SignRequest request = new SignRequest(submitted);
+            //        data.Add(request);
+            //    }
+            //}
 
-            if (approvedResponse.IsSuccessStatusCode)
-            {
-                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
-                var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
+            //if (approvedResponse.IsSuccessStatusCode)
+            //{
+            //    var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+            //    var approvedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;
 
-                foreach (var approved in approvedJsonData)
-                {
-                    SignRequest request = new SignRequest(approved);
-                    data.Add(request);
-                }
-            }
+            //    foreach (var approved in approvedJsonData)
+            //    {
+            //        SignRequest request = new SignRequest(approved);
+            //        data.Add(request);
+            //    }
+            //}
 
             if (queueResponse.IsSuccessStatusCode)
             {
@@ -336,25 +361,6 @@ namespace SignRequestExpress.Controllers
                     data.Add(request);
                 }
             }
-
-            //if (salesResponse.IsSuccessStatusCode)
-            //{
-            //    List<SignRequest> test = new List<SignRequest>();
-
-            //    var salesInfo = salesResponse.Content.ReadAsStringAsync().Result;
-            //    var salesJsonData = JsonConvert.DeserializeObject<CollectionResponse>(salesInfo).Value;
-
-            //    foreach(var sale in salesJsonData)
-            //    {
-            //        SignRequest request = new SignRequest(sale);
-            //        test.Add(request);
-            //    }
-            //    //return Json(test);
-            //}
-            //else
-            //{
-            //    return null;
-            //}
 
             return Json(data);
                   
