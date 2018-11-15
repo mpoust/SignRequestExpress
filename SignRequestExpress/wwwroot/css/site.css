@@ -164,5 +164,15 @@ body {
 }
 
 .tabulator-headers {
+
+}
+
+/*Changes the font color*/
+.tabulator-col {
+    
+    color: #F7941E;
+}
+
+.tabulator-col-content {
     background-color: #343A40;
 }
