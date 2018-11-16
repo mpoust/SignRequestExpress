@@ -82,8 +82,12 @@ body {
 }
 
 .home-image{
-    max-width: 50%;
+    max-width: 75%;
+    max-height: 50%;
     height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: -2em;
 }
 
 .brand-image{
@@ -159,20 +163,57 @@ body {
     padding: 0;
 }
 
-.tabulator-header {
+.tabulator-headers {
     background-color: #343A40;
 }
 
-.tabulator-headers {
-
-}
-
-/*Changes the font color*/
+/*Changes the font color - top header row only*/
 .tabulator-col {
-    
-    color: #F7941E;
+    border-bottom-style: solid;
+    border-bottom-color: #F7931D;
 }
 
+/*Column header background color*/
 .tabulator-col-content {
     background-color: #343A40;
 }
+
+/*Changed font color*/
+.tabulator-col-title {
+    color: white;
+}
+
+.dark-links{
+    font-weight: 700;
+    color: #343A40;
+}
+
+.btn-orange {
+    font-weight: 600;
+    color: #343A40;
+    background-color: #F7931D;
+    border-color: #F7931D;
+    min-width: 5.5em;
+}
+
+.btn-orange:hover{
+    font-weight: 600;
+    color: #343A40;
+    background-color: #d57e18;
+    border-color: #d57e18;
+}
+
+.btn-orange:active{
+    font-weight: 600;
+    color: #343A40;
+    background-color: #d57e18;
+    border-color: #d57e18;
+}
+
+.btn-orange:focus{
+    font-weight: 600;
+    color: #343A40;
+    background-color: #d57e18;
+    border-color: #d57e18;
+}
+    

@@ -1,4 +1,10 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -59,15 +65,87 @@
 
 <div class="jumbotron">
     <div class="container">
-            <img src="~/images/logo.svg" class="image-fluid home-image" alt="image test" />
-        <div class="row">
-            <h1 class="display-4">Temporary Home Page</h1>
-            <p class="lead">This is a temporary home page for SRE. Project is currently in development.</p>
-            <hr class="my-4" />
-            <p>The application is for Michael Poust's Fall 2018 Senior Project. See 'About' page for more.</p>
-        </div>
+        <img src="~/images/logo.svg" class="image-fluid home-image" alt="image test" />
+
+        <hr class="my-4" />
+        <p>This application is created by Michael Poust for his Software Development senior project, during the Fall 2018 semester. See the <a asp-area="" asp-controller="Home" asp-action="About" class="dark-links">'About'</a> page to learn more.</p>
     </div>
 
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Dashboard</h5>
+                        <p class="card-text">Return to your dashboard to continue optimizing your Sign Request workflow.</p>
+                        @if (User.IsInRole("Sales"))
+                        {
+                            <a asp-controller="Sales" asp-action="Index" class="btn btn-orange">Dashboard</a>
+                        }
+                        else if (User.IsInRole("Executive"))
+                        {
+                            <a asp-controller="Executive" asp-action="Index" class="btn btn-orange">Dashboard</a>
+
+                        }
+                        else if (User.IsInRole("Administrator"))
+                        {
+                            <a asp-controller="Administrator" asp-action="Index" class="btn btn-orange">Dashboard</a>
+                        }
+                        else if (User.IsInRole("SignShop"))
+                        {
+                            <a asp-controller="SignShop" asp-action="Index" class="btn btn-orange">Dashboard</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Default" asp-action="Index" class="btn btn-orange">Dashboard</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Have a problem?</h5>
+                        <p class="card-text">Visit the <a asp-area="" asp-controller="Home" asp-action="Help" class="dark-links">'Help'</a> page for common issues or fill out the contact form with your problem.</p>
+                        <a asp-controller="Home" asp-action="Contact" class="btn btn-orange">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Get started</h5>
+                        <p class="card-text">Register an account to start optimizing your Sign Request workflow.</p>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-orange">Register</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Have an account?</h5>
+                        <p class="card-text">Login to access your dashboard and explore the many features of your account.</p>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-orange">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <br />
+            <!--TODO: Make subject auto fill when accessed from this link-->
+            <p>Want SRE at your organization? Fill out the <a asp-controller="Home" asp-action="Contact" class="dark-links">'Contact'</a> form to receive more information.</p>
+        </div>
+
+
+        
+    }
 </div>
 
 
