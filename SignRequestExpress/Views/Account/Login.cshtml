@@ -16,28 +16,32 @@
         <h5 class="card-title">Enter login credentials for access</h5>
     </div>
     <div class="card-body local-card-body">
+
+        
+
         <form asp-controller="Account" asp-action="Login">
             <div asp-validation-summary="All" class="text-danger"></div>
-
+            <div id="capsLockWarning" style="font-weight: bold; color: maroon; margin: 0 0 10px 0; display: none;">Caps Lock is on.</div>
             <div class="form-row">
                 <div class="col-md-6">
                     <label asp-for="Username" class="formLabel">Username</label>
                     <input type="text" asp-for="Username" class="form-control" />
                     <span asp-validation-for="Username" class="text-danger"></span>
-                </div>                
-            </div>            
+                </div>
+            </div>
 
             <div class="form-row">
                 <div class="col-md-6">
                     <label asp-for="Password" class="formLabel">Password</label>
-                    <input type="password" asp-for="Password" class="form-control" />
+                    <input id="passwordInput" type="password" asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
-                </div>                
+                    <p id="passwordWarning" style="display:none;">Caps lock is ON</p>
+                </div>
             </div>
 
             <div class="form-group">
                 <label asp-for="RememberMe" class="formLabel">Remember Me</label>
-                <input type="checkbox" asp-for="RememberMe"/>
+                <input type="checkbox" asp-for="RememberMe" />
                 <span asp-validation-for="RememberMe" class="field-validation-error"></span>
             </div>
 
@@ -49,6 +53,27 @@
             <p>
                 <a asp-action="Register" class="dark-links">Register as a new user?</a>
             </p>
-        </form>        
+        </form>
     </div>
-</div>           
+</div> 
+
+@section Scripts{
+    <script language="javascript">
+        function isCapsLockOn(e) {
+            var keyCode = e.keyCode ? e.keyCode : e.which;
+            var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+            return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+        }
+        function showCapsLockMsg(e) {
+            var warningElement = document.getElementById('capsLockWarning');
+            if (isCapsLockOn(e))
+                warningElement.style.display = 'block';
+            else
+                warningElement.style.display = 'none';
+        }
+        document.onkeypress = function (e) {
+            e = e || window.event;
+            showCapsLockMsg(e);
+        }
+    </script>
+}          

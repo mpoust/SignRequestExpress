@@ -113,12 +113,22 @@
                 else if (value == 4) {
                     return "Plasticore";
                 }
-                else return "ERROR: S1";
+                else return "ERROR: A1";
+            },
+
+            proofMutator: function (value, data, type, mutatorPrams) {
+                if (value == false) {
+                    return "No";
+                }
+                else if (value == true) {
+                    return "Yes";
+                }
+                else return "ERROR: A1";
             },
         });
 
         var approveBtn = function (cell, formatterParams) {
-            return "<button>Approve</button>";
+            return "<button class=\"btn-orange\">Approve</button>";
         }
 
         $(document).ready(function () {
@@ -135,15 +145,31 @@
                     //{ title: "Brand", } // TODO: map brand
                     { title: "Width (inch)", field: "widthInch" },
                     { title: "Height (inch)", field: "heightInch" },
-                    { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                    { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
                     { title: "Date Submitted", field: "requestedDate" },
                     //{ title: "Date Updated", field: ""} //TODO: send updated date
                     //{title: }
                     //{ title: "", sortable: false, formatter: "approveButton" },
                     //{ formatter: approveButton, width:40, align:"center" },
                     {
-                        formatter: approveBtn, align: "center", cellClick: function (e, cell) {
-                            alert("test");
+                        formatter: approveBtn, align: "center", cellClick: function (e, cell) {                
+                            var row = cell.getRow();
+                            var rowIndex = row.getIndex();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Administrator/ApproveRequest",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "html",
+                                data: JSON.stringify(rowIndex),
+                               // data: JSON.stringify(brand),
+                                success: function (result, status, xhr) {
+                                    row.update({ "status": "1" });
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Unable to Approve at this time.");                                    
+                                }
+                            });
                         }
                     },
                 ],
@@ -165,7 +191,7 @@
                         //{ title: "Brand", } // TODO: map brand
                         { title: "Width (inch)", field: "widthInch" },
                         { title: "Height (inch)", field: "heightInch" },
-                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
+                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, //TODO: mutate to yes/no // TODO: add a proof status
                         { title: "Date Submitted", field: "requestedDate" },
                         //{ title: "Date Updated", field: ""} //TODO: send updated date
                         //{title: }

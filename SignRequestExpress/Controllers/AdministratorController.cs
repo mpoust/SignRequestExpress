@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SignRequestExpress.Models.PatchModels;
 using SignRequestExpress.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SignRequestExpress.Controllers
@@ -59,6 +61,38 @@ namespace SignRequestExpress.Controllers
             {
                 return null;
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveRequest([FromBody] string requestId)
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var patchRequest = JsonConvert.SerializeObject(new StatusPatch
+            {
+                Op = "replace",
+                Path = "/status",
+                Value = "1" // This means Approved
+            });
+
+            var testPatch = "[{\"op\":\"replace\", \"path\":\"/status\",\"value\":1}]"; // This approves
+
+            //requestId = "FCD66A9C-BEE6-43B5-A3D1-104DD87DFFC4";
+
+            var uri = "https://signrequestexpressapi.azurewebsites.net/requests/" + requestId.ToLower() + "/";
+
+            var patchResponse = await _httpClient.PatchAsync(uri,
+                                    new StringContent(testPatch, Encoding.UTF8, "application/json"));
+
+            if (patchResponse.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(AdministratorController.Index), "Administrator");
+            }
+            else
+            {
+                throw new Exception();
+            }
+            
         }
 
         // Helper Methods -- TODO: Fix other methods, make private static void

@@ -191,8 +191,8 @@ namespace SignRequestExpress.Controllers
                         WidthInch = model.WidthInch,
                         Template = model.Template,    // TODO - add when template selected implemented
                         Information = model.Information,
-                        DataFileUri = model.DataFileUri,
-                        ImageUri = model.ImageUri 
+                        //DataFileUri = model.DataFileUri,
+                        //ImageUri = model.ImageUri 
                     });
 
                     var responseRequest = await _httpClient.PostAsync("https://signrequestexpressapi.azurewebsites.net/requests",
