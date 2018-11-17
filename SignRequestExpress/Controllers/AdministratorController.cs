@@ -63,6 +63,60 @@ namespace SignRequestExpress.Controllers
             }
         }
 
+        public async Task<IActionResult> GetArchiveRequests()
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var approvedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 1");
+            var approvedResponse = await _httpClient.SendAsync(approvedRequest);
+
+            var queueRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 2");
+            var queueResponse = await _httpClient.SendAsync(queueRequest);
+
+            var printedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 3");
+            var printedResponse = await _httpClient.SendAsync(printedRequest);
+
+            List<SignRequest> data = new List<SignRequest>();
+
+            if (approvedResponse.IsSuccessStatusCode)
+            {
+                var approvedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var submittedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(approvedInfo).Value;                
+
+                foreach (var approved in submittedJsonData)
+                {
+                    SignRequest request = new SignRequest(approved);
+                    data.Add(request);
+                }                
+            }
+
+            if (queueResponse.IsSuccessStatusCode)
+            {
+                var queueInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
+
+                foreach (var queue in queueJsonData)
+                {
+                    SignRequest request = new SignRequest(queue);
+                    data.Add(request);
+                }
+            }
+
+            if (printedResponse.IsSuccessStatusCode)
+            {
+                var printedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var printedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(printedInfo).Value;
+
+                foreach (var printed in printedJsonData)
+                {
+                    SignRequest request = new SignRequest(printed);
+                    data.Add(request);
+                }
+            }
+
+            return Json(data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> ApproveRequest([FromBody] string requestId)
         {
@@ -76,8 +130,6 @@ namespace SignRequestExpress.Controllers
             });
 
             var testPatch = "[{\"op\":\"replace\", \"path\":\"/status\",\"value\":1}]"; // This approves
-
-            //requestId = "FCD66A9C-BEE6-43B5-A3D1-104DD87DFFC4";
 
             var uri = "https://signrequestexpressapi.azurewebsites.net/requests/" + requestId.ToLower() + "/";
 
