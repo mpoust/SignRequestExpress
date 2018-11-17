@@ -81,6 +81,7 @@
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
     <script src="~/lib/tabulator-module/mutator.js"></script>
     <script src="~/lib/tabulator-module/format.js"></script>
+    <script src="~/lib/moment.js"></script>
 
     <script>
         Tabulator.prototype.extendModule("mutator", "mutators", {
@@ -146,7 +147,13 @@
                     { title: "Width (inch)", field: "widthInch" },
                     { title: "Height (inch)", field: "heightInch" },
                     { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
-                    { title: "Date Submitted", field: "requestedDate" },
+                    {
+                        title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                            inputFormat: "YYYY-MM-DD hh:mm:ss",
+                            outputFormat: "MM/DD/YYYY",
+                            invalidPlaceholder: "(invalid date)",
+                        },
+                    },
                     //{ title: "Date Updated", field: ""} //TODO: send updated date
                     //{title: }
                     //{ title: "", sortable: false, formatter: "approveButton" },
@@ -192,7 +199,13 @@
                         { title: "Width (inch)", field: "widthInch" },
                         { title: "Height (inch)", field: "heightInch" },
                         { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, //TODO: mutate to yes/no // TODO: add a proof status
-                        { title: "Date Submitted", field: "requestedDate" },
+                        {
+                            title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YYYY",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                         //{ title: "Date Updated", field: ""} //TODO: send updated date
                         //{title: }
                     ],

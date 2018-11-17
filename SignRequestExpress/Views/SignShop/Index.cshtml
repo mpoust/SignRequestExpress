@@ -83,24 +83,77 @@
 @section Scripts{
     <script type="text/javascript" src="~/lib/tabulator.js"></script>
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
+    <script src="~/lib/tabulator-module/format.js"></script>
+    <script src="~/lib/tabulator-module/mutator.js"></script>
+    <script src="~/lib/moment.js"></script>
 
     <script>
+        Tabulator.prototype.extendModule("mutator", "mutators", {
+            statusMutator: function (value, data, type, mutatorParams) {
+                if (value == 0) {
+                    return "Submitted";
+                }
+                else if (value == 1) {
+                    return "Approved";
+                }
+                else if (value == 2) {
+                    return "In Queue";
+                }
+                else if (value == 3) {
+                    return "Printed";
+                } // TODO: Add more values for "Ready (once it is cut, after printed)"
+                else return "ERROR: S1";
+            },
+
+            mediaMutator: function (value, data, type, mutatorParams) {
+                if (value == 1) {
+                    return "Adhesive";
+                }
+                else if (value == 2) {
+                    return "Photo Glossy";
+                }
+                else if (value == 3) {
+                    return "Matte Outdoor";
+                }
+                else if (value == 4) {
+                    return "Plasticore";
+                }
+                else return "ERROR: S1";
+            },
+
+            proofMutator: function (value, data, type, mutatorPrams) {
+                if (value == false) {
+                    return "No";
+                }
+                else if (value == true) {
+                    return "Yes";
+                }
+                else return "ERROR: A1";
+            },
+        }); 
+
         $(document).ready(function () {
 
             var table = new Tabulator("#queue-table", {
                 height: 250,
                 columns: [
                     { title: "Request Num", field: "requestNumber" },
-                    { title: "Status", field: "status" },
+                    { title: "Status", field: "status", mutator: "statusMutator" },
                     //{ title: "Associate", field: } //TODO: need to get associate mapped
-                    { title: "Media", field: "mediaFK" },
+                    { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                     { title: "Quantity", field: "quantity" },
                     //{ title: "Dimensions", field: ""} //TODO: map dimensions
                     //{ title: "Brand", } // TODO: map brand
                     { title: "Width (inch)", field: "widthInch" },
                     { title: "Height (inch)", field: "heightInch" },
-                    { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
-                    { title: "Date Submitted", field: "requestedDate" },
+                    { title: "Proof Required", field: "isProofNeeded", mutator: "proofMutator" },
+                    {
+                        title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                            inputFormat: "YYYY-MM-DD hh:mm:ss",
+                            outputFormat: "MM/DD/YYYY",
+                            invalidPlaceholder: "(invalid date)",
+                        },
+                    },
                     //{ title: "Date Updated", field: ""} //TODO: send updated date
                     //{title: }
                 ],
@@ -119,16 +172,22 @@
                     height: 250,
                     columns: [
                         { title: "Request Num", field: "requestNumber" },
-                        { title: "Status", field: "status" },
+                        { title: "Status", field: "status", mutator: "statusMutator" },
                         //{ title: "Associate", field: } //TODO: need to get associate mapped
-                        { title: "Media", field: "mediaFK" },
+                        { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
                         { title: "Width (inch)", field: "widthInch" },
                         { title: "Height (inch)", field: "heightInch" },
-                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
-                        { title: "Date Submitted", field: "requestedDate" },
+                        { title: "Proof Required", field: "isProofNeeded", mutator: "proofMutator" },
+                        {
+                            title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YYYY",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                         //{ title: "Date Updated", field: ""} //TODO: send updated date
                         //{title: }
                     ],
