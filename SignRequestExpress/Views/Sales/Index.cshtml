@@ -117,6 +117,10 @@
                 }
                 else return "ERROR: A1";
             },
+
+            dimensionMutator: function (value, data, type, mutatorParams) {
+                return value + " in.";
+            },
         }); 
 
         $(document).ready(function () {
@@ -128,17 +132,16 @@
 
             $('#check-tab').on('click', function () {
                 var status = new Tabulator("#status-table", {
-                    height: 250,
+                    height: 350,
                     columns: [
-                        { title: "Num", field: "requestNumber" },                        
+                        { title: "Num.", field: "requestNumber" },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
                         { title: "Account", field: "accountName" },
+                        { title: "Brand", field: "brandName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
-                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                        //{ title: "Brand", } // TODO: map brand
-                        { title: "Width", field: "widthInch" },
-                        { title: "Height", field: "heightInch" },
+                        { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                        { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
                         { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, // TODO: add a proof status
                         {
                             title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
@@ -147,8 +150,13 @@
                                 invalidPlaceholder: "(invalid date)",
                             },
                         },
-                        { title: "Updated", field: ""} //TODO: send updated date
-                        //{title: }
+                        {
+                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YY h:mm a",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                     ],
                     ajaxConfig: "POST",
                     ajaxURL: "/Sales/GetRequestStatus",                    
@@ -157,26 +165,31 @@
 
             $('#prev-tab').on('click', function () {                            
                 var status = new Tabulator("#previous-table", {
-                    height: 250,
+                    height: 350,
                     columns: [
-                        { title: "Num", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber" },
                         { title: "Status", field: "status", mutator: "statusMutator"},
                         { title: "Account", field: "accountName" }, 
+                        { title: "Brand", field: "brandName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
-                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                        //{ title: "Brand", } // TODO: map brand
-                        { title: "Width", field: "widthInch" },
-                        { title: "Height", field: "heightInch" },
+                        { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                        { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
                         { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },// TODO: add a proof status
                         {
                             title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
                                 inputFormat: "YYYY-MM-DD hh:mm:ss",
                                 outputFormat: "MM/DD/YYYY",
                                 invalidPlaceholder: "(invalid date)",
-                            }, },
-                        //{ title: "Date Updated", field: ""} //TODO: send updated date
-                        //{title: }
+                            },
+                        },
+                        {
+                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YY h:mm a",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                     ],
                     ajaxConfig: "POST",
                     ajaxURL: "/Sales/GetOldRequests",

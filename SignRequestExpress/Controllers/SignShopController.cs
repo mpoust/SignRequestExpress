@@ -89,6 +89,30 @@ namespace SignRequestExpress.Controllers
 
         }
 
+        public async Task<IActionResult> GetArchiveRequests()
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var printedRequest = new HttpRequestMessage(HttpMethod.Get, $"/requests?search=status eq 3");
+            var printedResponse = await _httpClient.SendAsync(printedRequest);
+
+            List<SignRequest> data = new List<SignRequest>();
+
+            if (printedResponse.IsSuccessStatusCode)
+            {
+                var printedInfo = printedResponse.Content.ReadAsStringAsync().Result;
+                var printedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(printedInfo).Value;
+
+                foreach (var printed in printedJsonData)
+                {
+                    SignRequest request = new SignRequest(printed);
+                    data.Add(request);
+                }
+            }
+
+            return Json(data);
+        }
+
         // Helper Methods -- TODO: Fix other methods, make private static void
         private static void SetHeaderWithApiToken(HttpClient httpClient)
         {

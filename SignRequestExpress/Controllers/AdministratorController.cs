@@ -92,7 +92,7 @@ namespace SignRequestExpress.Controllers
 
             if (queueResponse.IsSuccessStatusCode)
             {
-                var queueInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var queueInfo = queueResponse.Content.ReadAsStringAsync().Result;
                 var queueJsonData = JsonConvert.DeserializeObject<CollectionResponse>(queueInfo).Value;
 
                 foreach (var queue in queueJsonData)
@@ -104,7 +104,7 @@ namespace SignRequestExpress.Controllers
 
             if (printedResponse.IsSuccessStatusCode)
             {
-                var printedInfo = approvedResponse.Content.ReadAsStringAsync().Result;
+                var printedInfo = printedResponse.Content.ReadAsStringAsync().Result;
                 var printedJsonData = JsonConvert.DeserializeObject<CollectionResponse>(printedInfo).Value;
 
                 foreach (var printed in printedJsonData)

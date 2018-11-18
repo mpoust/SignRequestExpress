@@ -142,11 +142,11 @@
                 columns: [
                     { title: "Num.", field: "requestNumber" },
                     { title: "Status", field: "status", mutator: "statusMutator" },
+                    { title: "Associate", field: "associateName" },
                     { title: "Account", field: "accountName" },
+                    { title: "Brand", field: "brandName" },
                     { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                     { title: "Quantity", field: "quantity" },
-                    //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                    //{ title: "Brand", } // TODO: map brand
                     { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
                     { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
                     { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
@@ -192,12 +192,13 @@
 
             $('#archive-tab').on('click', function () {
                 var status = new Tabulator("#archive-table", {
-                    height: 250,
+                    height: 350,
                     columns: [
-                        { title: "Num.", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber" },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
+                        { title: "Associate", field: "associateName" },
                         { title: "Account", field: "accountName" },
-                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Brand", field: "brandName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions

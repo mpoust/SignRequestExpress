@@ -130,32 +130,41 @@
                 }
                 else return "ERROR: A1";
             },
+
+            dimensionMutator: function (value, data, type, mutatorParams) {
+                return value + " in.";
+            },
         }); 
 
         $(document).ready(function () {
 
             var table = new Tabulator("#queue-table", {
-                height: 250,
+                height: 350,
                 columns: [
-                    { title: "Request Num", field: "requestNumber" },
+                    { title: "Num. ", field: "requestNumber" },
                     { title: "Status", field: "status", mutator: "statusMutator" },
-                    //{ title: "Associate", field: } //TODO: need to get associate mapped
+                    { title: "Associate", field: "associateName" },
+                    { title: "Account", field: "accountName" },
+                    { title: "Brand", field: "brandName" },
                     { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                     { title: "Quantity", field: "quantity" },
-                    //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                    //{ title: "Brand", } // TODO: map brand
-                    { title: "Width (inch)", field: "widthInch" },
-                    { title: "Height (inch)", field: "heightInch" },
-                    { title: "Proof Required", field: "isProofNeeded", mutator: "proofMutator" },
+                    { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                    { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
+                    { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
                     {
-                        title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                        title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
                             inputFormat: "YYYY-MM-DD hh:mm:ss",
                             outputFormat: "MM/DD/YYYY",
                             invalidPlaceholder: "(invalid date)",
                         },
                     },
-                    //{ title: "Date Updated", field: ""} //TODO: send updated date
-                    //{title: }
+                    {
+                        title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                            inputFormat: "YYYY-MM-DD hh:mm:ss",
+                            outputFormat: "MM/DD/YY h:mm a",
+                            invalidPlaceholder: "(invalid date)",
+                        },
+                    },
                 ],
                 ajaxConfig: "POST",
                 ajaxURL: "/SignShop/GetQueueRequests",
@@ -169,30 +178,35 @@
 
             $('#prev-tab').on('click', function () {
                 var table2 = new Tabulator("#archive-table", {
-                    height: 250,
+                    height: 350,
                     columns: [
-                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber" },
                         { title: "Status", field: "status", mutator: "statusMutator" },
-                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Associate", field: "associateName" },
+                        { title: "Account", field: "accountName" },
+                        { title: "Brand", field: "brandName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
-                        //{ title: "Dimensions", field: ""} //TODO: map dimensions
-                        //{ title: "Brand", } // TODO: map brand
-                        { title: "Width (inch)", field: "widthInch" },
-                        { title: "Height (inch)", field: "heightInch" },
-                        { title: "Proof Required", field: "isProofNeeded", mutator: "proofMutator" },
+                        { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                        { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
+                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
                         {
-                            title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
-                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                            title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD h:mm:ss",
                                 outputFormat: "MM/DD/YYYY",
                                 invalidPlaceholder: "(invalid date)",
                             },
                         },
-                        //{ title: "Date Updated", field: ""} //TODO: send updated date
-                        //{title: }
+                        {
+                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YY h:mm a",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                     ],
                     ajaxConfig: "POST",
-                    ajaxURL: "/SignShop/GetQueueRequests",
+                    ajaxURL: "/SignShop/GetArchiveRequests",
                 });
             });
             

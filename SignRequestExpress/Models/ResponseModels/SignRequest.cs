@@ -36,6 +36,7 @@ namespace SignRequestExpress.Models.ResponseModels
 
             Id = s.Substring(pos, s.Length - pos);
             AccountName = (string)dict["accountName"];
+            AssociateName = (string)dict["associateName"];
             RequestNumber = (string)dict["requestNumber"];
             Reason = (string)dict["reason"];
             Status = Convert.ToByte(dict["status"]);
@@ -47,6 +48,7 @@ namespace SignRequestExpress.Models.ResponseModels
             HeightInch = Convert.ToDecimal(dict["heightInch"]);
             WidthInch = Convert.ToDecimal(dict["widthInch"]);
             TemplateFK = (string)dict["templateFK"];
+            BrandName = (string)dict["brandName"];
             Information = (string)dict["information"];
             DataFileURI = (string)dict["dataFileURI"];
             ImageURI = (string)dict["imageURI"];
@@ -57,6 +59,8 @@ namespace SignRequestExpress.Models.ResponseModels
         public string Id { get; set; }
 
         public string AccountName { get; set; }
+
+        public string AssociateName { get; set; }
 
         public string RequestNumber { get; set; }
 
@@ -81,6 +85,8 @@ namespace SignRequestExpress.Models.ResponseModels
         public decimal WidthInch { get; set; }
 
         public string TemplateFK { get; set; }
+
+        public string BrandName { get; set; }
 
         public string Information { get; set; }
 
