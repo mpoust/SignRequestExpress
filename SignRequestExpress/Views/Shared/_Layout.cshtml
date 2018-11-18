@@ -73,25 +73,25 @@
                     else if (User.IsInRole("Executive"))
                     {
                         <ul class="nav navbar-nav mr-auto">
-                            <li><a asp-controller="Executive" asp-action="Index" class="nav-link">Executive Dashboard</a></li>
+                            <li><a asp-controller="Executive" asp-action="Index" class="nav-link">Your Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("Administrator"))
                     {
                         <ul class="nav navbar-nav mr-auto">
-                            <li><a asp-controller="Administrator" asp-action="Index" class="nav-link">Admin Dashboard</a></li>
+                            <li><a asp-controller="Administrator" asp-action="Index" class="nav-link">Your Dashboard</a></li>
                         </ul>
                     }
                     else if (User.IsInRole("SignShop"))
                     {
                         <ul class="nav navbar-nav mr-auto">
-                            <li><a asp-controller="SignShop" asp-action="Index" class="nav-link">SignShop Dashboard</a></li>
+                            <li><a asp-controller="SignShop" asp-action="Index" class="nav-link">Your Dashboard</a></li>
                         </ul>
                     }
                     else
                     {
                         <ul class="nav navbar-nav mr-auto">
-                            <li><a asp-controller="Default" asp-action="Index" class="nav-link">Access</a></li>
+                            <li><a asp-controller="Default" asp-action="Index" class="nav-link">Gain Access</a></li>
                         </ul>
                     }
 
