@@ -107,12 +107,27 @@ namespace SignRequestExpressAPI.Services
                                               where ur.UserFK == userId
                                               select r;
 
+            var accounts = from ra in _context.Request_Account
+                       join a in _context.Account on ra.AccountFK equals a.Id
+                       select new { RequestFK = ra.RequestFK, AccountName = a.AccountName };
+
             query = searchOptions.Apply(query);
             query = sortOptions.Apply(query);
 
             var allRequests = await query
                 .ProjectTo<Request>()
                 .ToListAsync();
+
+            foreach(var request in allRequests)
+            {
+                foreach(var account in accounts)
+                {
+                    if(request.Id == account.RequestFK)
+                    {
+                        request.AccountName = account.AccountName;
+                    }
+                }
+            }
 
             var pagedRequests = allRequests
                 .Skip(pagingOptions.Offset.Value)

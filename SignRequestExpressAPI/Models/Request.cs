@@ -25,6 +25,8 @@ namespace SignRequestExpressAPI.Models
 {
     public class Request : Resource
     {
+        public Guid Id { get; set; }
+
         public string RequestNumber { get; set; }
 
         public string Reason { get; set; }
@@ -62,6 +64,8 @@ namespace SignRequestExpressAPI.Models
         public string RequestImageURI { get; set; }
 
         public DateTime ModifiedDateTime { get; set; }
+
+        public string AccountName { get; set; }
 
         public Form Submit { get; set; }
     }
