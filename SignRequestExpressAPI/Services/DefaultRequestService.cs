@@ -81,13 +81,19 @@ namespace SignRequestExpressAPI.Services
             query = searchOptions.Apply(query);
             query = sortOptions.Apply(query);
 
+            // TODO: rewrite queries and foreach to be more efficient.
+
             var accounts = from ra in _context.Request_Account
                            join a in _context.Account on ra.AccountFK equals a.Id
-                           select new { RequestFK = ra.RequestFK, AccountName = a.AccountName };
+                           select new { RequestFK = ra.RequestFK, AccountName = a.AccountName};
 
             var associates = from ur in _context.User_Request
                              join u in _context.Users on ur.UserFK equals u.Id
                              select new { RequestFK = ur.RequestFK, FirstName = u.FirstName, LastName = u.LastName };
+
+            var brands = from rb in _context.Request_Brand
+                         join b in _context.Brand on rb.BrandFK equals b.Id
+                         select new { RequestFK = rb.RequestFK, BrandName = b.BrandName };
 
             var allRequests = await query
                 .ProjectTo<Request>()
@@ -107,7 +113,15 @@ namespace SignRequestExpressAPI.Services
                 {
                     if(request.Id == associate.RequestFK)
                     {
-                        request.AssociateName = associate.FirstName + " " + associate.LastName;
+                        request.AssociateName = associate.FirstName + " " + associate.LastName;                        
+                    }
+                }
+
+                foreach(var brand in brands)
+                {
+                    if(request.Id == brand.RequestFK)
+                    {
+                        request.BrandName = brand.BrandName;
                     }
                 }
             }
@@ -143,6 +157,10 @@ namespace SignRequestExpressAPI.Services
                        join a in _context.Account on ra.AccountFK equals a.Id
                        select new { RequestFK = ra.RequestFK, AccountName = a.AccountName };
 
+            var brands = from rb in _context.Request_Brand
+                         join b in _context.Brand on rb.BrandFK equals b.Id
+                         select new { RequestFK = rb.RequestFK, BrandName = b.BrandName };
+
             query = searchOptions.Apply(query);
             query = sortOptions.Apply(query);
 
@@ -157,6 +175,14 @@ namespace SignRequestExpressAPI.Services
                     if(request.Id == account.RequestFK)
                     {
                         request.AccountName = account.AccountName;
+                    }
+                }
+
+                foreach(var brand in brands)
+                {
+                    if(request.Id == brand.RequestFK)
+                    {
+                        request.BrandName = brand.BrandName;
                     }
                 }
             }
