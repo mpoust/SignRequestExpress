@@ -193,6 +193,7 @@ namespace SignRequestExpressAPI.Controllers
 
             var requestId = await _requestService.CreateRequestAsync(
                     requestForm.UserId, 
+                    requestForm.Account,
                     requestForm.Reason, 
                     0, 
                     requestForm.NeededDate.Value,

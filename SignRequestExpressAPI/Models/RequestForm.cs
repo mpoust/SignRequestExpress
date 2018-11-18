@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/21/2018
- * Last Modified: 10/26/2018
+ * Last Modified: 11/18/2018
  * Description: This class represents the JSON data that a client needs to POST to the /requests/{requestNumber} route.
  *      Contains all relevant request data.
  * 
@@ -31,6 +31,9 @@ namespace SignRequestExpressAPI.Models
 
         [Required]
         public Guid UserId { get; set; }
+
+        [Required]
+        public string Account { get; set; }
 
         [Display(Name ="reason", Description ="Reason for request")]
         public string Reason { get; set; }

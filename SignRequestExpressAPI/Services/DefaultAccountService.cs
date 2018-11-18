@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/16/2018
- * Last Modified:
+ * Last Modified: 11/18/2018
  * Description: This class implements IAccountService.
  *  
  * References:
@@ -42,6 +42,13 @@ namespace SignRequestExpressAPI.Services
             if (entity == null) return null;
             // if found, map entity properties into the account resource
             return Mapper.Map<Account>(entity);
+        }
+
+        public async Task<Guid> GetAccountIdAsync(string accountName, CancellationToken ct)
+        {
+            var entity = await _context.Account.SingleOrDefaultAsync(a => a.AccountName == accountName, ct);
+            
+            return entity.Id;
         }
 
         public async Task<IEnumerable<Account>> GetAccountsAsync(CancellationToken ct)

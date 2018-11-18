@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/16/2018
- * Last Modified: 10/23/2018
+ * Last Modified: 11/18/2018
  * Description: This service wraps Account data access to keep the AccountController as thin as possible. This way we rely on a service to 
  *  interact with the DB context and separate the data access concerns from the controller. This has the added benefit of making the controller
  *  easier to test because we can inject a mock service instead of having to mock the entire database context. 
@@ -30,6 +30,10 @@ namespace SignRequestExpressAPI.Services
     {
         Task<Account> GetAccountAsync(
             Guid id,
+            CancellationToken ct);
+
+        Task<Guid> GetAccountIdAsync(
+            string accountName,
             CancellationToken ct);
 
         Task<IEnumerable<Account>> GetAccountsAsync(

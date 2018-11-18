@@ -197,8 +197,11 @@
     <div class="form-row">
         <div class="col-md">
             <label asp-for="ImageUri" class="formLabel"></label>
-            <p><i>TODO: Account Logo</i></p>
-            <!--TODO: Create Yes/No include account logo if there is one on file?-->
+            <div class="custom-file" id="customFile">
+                <input type="file" asp-for="ImageUri" class="custom-file-input"> <!--TODO: make this create a blob on submit to send that URI with the POST-->
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <!--TODO: Create Yes/No include account logo if there is one on file?-->
+            </div>
         </div>
         <div class="col-md">
             <label asp-for="DataFileUri" class="formLabel"></label>
@@ -206,7 +209,7 @@
                data-content="Use this to attach a file that contains information to include on the sign. Examples are price lists or an event flyer the Account has provided."
                tabindex="-1" data-trigger="focus"></i>
             <div class="custom-file" id="customFile">
-                <input type="file" class="custom-file-input"> <!--TODO: make this create a blob on submit to send that URI with the POST-->
+                <input type="file" asp-for="DataFileUri" class="custom-file-input"> <!--TODO: make this create a blob on submit to send that URI with the POST-->
                 <label class="custom-file-label" for="customFile">Choose file</label>
             </div>
         </div>
@@ -227,14 +230,12 @@
     </div>
 
     <div class="form-row">
+        <div class="form-check-inline">
+            <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
+            <label class="form-check-label dark-links" for="proofCheck">Proof Needed Before Print</label>
+        </div>
         <div class="col">
             <button class="btn btn-orange" type="submit">Submit Request</button>
-        </div>
-        <div class="col form-inline">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="proofCheck" />
-                <label class="form-check-label dark-links" for="proofCheck">Proof Needed Before Print</label>
-            </div>
         </div>
     </div>
     <!--TODO: Form refresh button-->

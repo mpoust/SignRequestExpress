@@ -31,10 +31,12 @@ namespace SignRequestExpressAPI.Services
     public class DefaultRequestService : IRequestService
     {
         private readonly SignAPIContext _context;
+        private readonly IAccountService _accountService;
 
-        public DefaultRequestService(SignAPIContext context)
+        public DefaultRequestService(SignAPIContext context, IAccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task UpdateRequestAsync(Request request, Guid id, CancellationToken ct)
@@ -126,6 +128,7 @@ namespace SignRequestExpressAPI.Services
 
         public async Task<Guid> CreateRequestAsync(
             Guid userId,
+            string account,
             string reason,
             byte status,
             DateTime neededDate,
@@ -203,6 +206,14 @@ namespace SignRequestExpressAPI.Services
                 ApproverID = Guid.Parse("E7FA1C5A-347A-4BA6-9797-A4DD716011D2") // Paul
             });
 
+            // Add entry to Request_Account
+            var accountId = await _accountService.GetAccountIdAsync(account, ct);
+            var newRequestAccount = _context.Request_Account.Add(new Request_AccountEntity
+            {
+                RequestFK = requestId,
+                AccountFK = accountId
+            });
+
             var created = await _context.SaveChangesAsync(ct);
             if (created < 1) throw new InvalidOperationException("Could not create the request");
 
@@ -214,6 +225,8 @@ namespace SignRequestExpressAPI.Services
             var request = await _context.Request
                 .SingleOrDefaultAsync(r => r.Id == requestId, ct);
             if (request == null) return;
+
+            // TODO: Will need to delete records in other tables first then delete the request
 
             _context.Request.Remove(request);
             await _context.SaveChangesAsync();

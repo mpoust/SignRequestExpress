@@ -130,19 +130,17 @@
                 var status = new Tabulator("#status-table", {
                     height: 250,
                     columns: [
-                        //{ title: "ID", field: "id"}, // Checking that the ID is still tied to each request.
-                        { title: "Request Num", field: "requestNumber" },                        
+                        { title: "Num", field: "requestNumber" },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
-                        //{ title: "Associate", field: } //TODO: need to get associate mapped
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
-                        { title: "Width (inch)", field: "widthInch" },
-                        { title: "Height (inch)", field: "heightInch" },
-                        { title: "Proof Required", field: "isProofNeeded", mutator: "proofMutator" }, //TODO: mutate to yes/no // TODO: add a proof status
+                        { title: "Width", field: "widthInch" },
+                        { title: "Height", field: "heightInch" },
+                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, // TODO: add a proof status
                         {
-                            title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                            title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
                                 inputFormat: "YYYY-MM-DD hh:mm:ss",
                                 outputFormat: "MM/DD/YYYY",
                                 invalidPlaceholder: "(invalid date)",
@@ -160,17 +158,22 @@
                 var status = new Tabulator("#previous-table", {
                     height: 250,
                     columns: [
-                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Num", field: "requestNumber" },
                         { title: "Status", field: "status", mutator: "statusMutator"},
                         //{ title: "Associate", field: } //TODO: need to get associate mapped
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
-                        { title: "Width (inch)", field: "widthInch" },
-                        { title: "Height (inch)", field: "heightInch" },
-                        { title: "Proof Required", field: "isProofNeeded" }, //TODO: mutate to yes/no // TODO: add a proof status
-                        { title: "Date Submitted", field: "requestedDate" },
+                        { title: "Width", field: "widthInch" },
+                        { title: "Height", field: "heightInch" },
+                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },// TODO: add a proof status
+                        {
+                            title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YYYY",
+                                invalidPlaceholder: "(invalid date)",
+                            }, },
                         //{ title: "Date Updated", field: ""} //TODO: send updated date
                         //{title: }
                     ],
