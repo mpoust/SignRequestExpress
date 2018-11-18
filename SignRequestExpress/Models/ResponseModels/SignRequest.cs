@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 11/07/2018
- * Last Modified: 
+ * Last Modified: 11/18/2018
  * Description: Model for Sign Requests collected to populate Admin and Sign Shop views
  * 
  * References:
@@ -35,12 +35,12 @@ namespace SignRequestExpress.Models.ResponseModels
             int pos = s.LastIndexOf("/") + 1;
 
             Id = s.Substring(pos, s.Length - pos);
+            AccountName = (string)dict["accountName"];
             RequestNumber = (string)dict["requestNumber"];
             Reason = (string)dict["reason"];
             Status = Convert.ToByte(dict["status"]);
             RequestedDate = Convert.ToDateTime(dict["requestedDate"]);
             NeededDate = Convert.ToDateTime(dict["neededDate"]);
-            // Not including ApprovalFK at this time - handle as a string?
             IsProofNeeded = (bool)dict["isProofNeeded"];
             MediaFK = Convert.ToByte(dict["mediaFK"]);
             Quantity = Convert.ToByte(dict["quantity"]);
@@ -51,9 +51,12 @@ namespace SignRequestExpress.Models.ResponseModels
             DataFileURI = (string)dict["dataFileURI"];
             ImageURI = (string)dict["imageURI"];
             RequestImageURI = (string)dict["requestImageURI"];
+            ModifiedDateTime = Convert.ToDateTime(dict["modifiedDateTime"]);
         }
 
         public string Id { get; set; }
+
+        public string AccountName { get; set; }
 
         public string RequestNumber { get; set; }
 
@@ -86,5 +89,7 @@ namespace SignRequestExpress.Models.ResponseModels
         public string ImageURI { get; set; }
 
         public string RequestImageURI { get; set; }
+
+        public DateTime ModifiedDateTime { get; set; }
     }
 }

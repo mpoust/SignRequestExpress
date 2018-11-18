@@ -37,10 +37,17 @@ namespace SignRequestExpressAPI.Services
             _context = context;
         }
 
+        public async Task<Guid> GetTemplateBrandKeyAsync(Guid? templateId, CancellationToken ct)
+        {
+            var entity = await _context.Template.SingleOrDefaultAsync(t => t.Id == templateId, ct);
+
+            return entity.BrandFK;
+        }
+
         
         public async Task<Template> GetTemplateAsync(Guid id, CancellationToken ct)
         {
-            var entity = await _context.Account.SingleOrDefaultAsync(t => t.Id == id, ct);
+            var entity = await _context.Template.SingleOrDefaultAsync(t => t.Id == id, ct);
             if (entity == null) return null;
             return Mapper.Map<Template>(entity);
         }

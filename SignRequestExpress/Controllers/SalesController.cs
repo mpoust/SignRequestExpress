@@ -232,14 +232,6 @@ namespace SignRequestExpress.Controllers
             return UriList;
         }
 
-        [HttpPost]
-        public string TestPost([FromBody] Brand brand)
-        {
-            string response = "Brand is " + brand.BrandName + "!";
-
-            return response;
-        }
-
         public IActionResult RequestSubmitted()
         {
             // TODO: Make so redirect only can be viewed from submit button

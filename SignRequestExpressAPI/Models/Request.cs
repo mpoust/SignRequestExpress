@@ -67,6 +67,10 @@ namespace SignRequestExpressAPI.Models
 
         public string AccountName { get; set; }
 
+        public string AssociateName { get; set; }
+
+        public string BrandName { get; set; }
+
         public Form Submit { get; set; }
     }
 }

@@ -132,6 +132,7 @@
                     columns: [
                         { title: "Num", field: "requestNumber" },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
+                        { title: "Account", field: "accountName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
@@ -146,7 +147,7 @@
                                 invalidPlaceholder: "(invalid date)",
                             },
                         },
-                        //{ title: "Date Updated", field: ""} //TODO: send updated date
+                        { title: "Updated", field: ""} //TODO: send updated date
                         //{title: }
                     ],
                     ajaxConfig: "POST",
@@ -160,7 +161,7 @@
                     columns: [
                         { title: "Num", field: "requestNumber" },
                         { title: "Status", field: "status", mutator: "statusMutator"},
-                        //{ title: "Associate", field: } //TODO: need to get associate mapped
+                        { title: "Account", field: "accountName" }, 
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions

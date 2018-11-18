@@ -11,7 +11,7 @@
 
 <br />
 
-<h1>Administrator Dashboard <small>- Sign Shop Operations</small></h1>
+<h1> Dashboard <small>- Sign Shop Operations</small></h1>
 
 <br />
 
@@ -126,6 +126,10 @@
                 }
                 else return "ERROR: A1";
             },
+
+            dimensionMutator: function (value, data, type, mutatorParams) {
+                return value + " in.";
+            },
         });
 
         var approveBtn = function (cell, formatterParams) {
@@ -134,30 +138,33 @@
 
         $(document).ready(function () {
             var table = new Tabulator("#approval-table", {
-                height: 250,
+                height: 350,
                 columns: [
-                    { formatter: "rownum", align:"center", width:40},
-                    { title: "Request Num", field: "requestNumber" },
+                    { title: "Num.", field: "requestNumber" },
                     { title: "Status", field: "status", mutator: "statusMutator" },
-                    //{ title: "Associate", field: } //TODO: need to get associate mapped
+                    { title: "Account", field: "accountName" },
                     { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                     { title: "Quantity", field: "quantity" },
                     //{ title: "Dimensions", field: ""} //TODO: map dimensions
                     //{ title: "Brand", } // TODO: map brand
-                    { title: "Width (inch)", field: "widthInch" },
-                    { title: "Height (inch)", field: "heightInch" },
+                    { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                    { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
                     { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" },
                     {
-                        title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                        title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
                             inputFormat: "YYYY-MM-DD hh:mm:ss",
                             outputFormat: "MM/DD/YYYY",
                             invalidPlaceholder: "(invalid date)",
                         },
                     },
-                    //{ title: "Date Updated", field: ""} //TODO: send updated date
+                    {
+                        title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                            inputFormat: "YYYY-MM-DD hh:mm:ss",
+                            outputFormat: "MM/DD/YY h:mm a",
+                            invalidPlaceholder: "(invalid date)",
+                        },
+                    },
                     //{title: }
-                    //{ title: "", sortable: false, formatter: "approveButton" },
-                    //{ formatter: approveButton, width:40, align:"center" },
                     {
                         formatter: approveBtn, align: "center", cellClick: function (e, cell) {                
                             var row = cell.getRow();
@@ -169,7 +176,6 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "html",
                                 data: JSON.stringify(rowIndex),
-                               // data: JSON.stringify(brand),
                                 success: function (result, status, xhr) {
                                     row.update({ "status": "1" });
                                 },
@@ -188,25 +194,31 @@
                 var status = new Tabulator("#archive-table", {
                     height: 250,
                     columns: [
-                        { formatter: "rownum", align: "center", width: 40 },
-                        { title: "Request Num", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber" },
                         { title: "Status", field: "status", mutator: "statusMutator" },
+                        { title: "Account", field: "accountName" },
                         //{ title: "Associate", field: } //TODO: need to get associate mapped
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
                         { title: "Quantity", field: "quantity" },
                         //{ title: "Dimensions", field: ""} //TODO: map dimensions
                         //{ title: "Brand", } // TODO: map brand
-                        { title: "Width (inch)", field: "widthInch" },
-                        { title: "Height (inch)", field: "heightInch" },
+                        { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
+                        { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
                         { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, //TODO: mutate to yes/no // TODO: add a proof status
                         {
-                            title: "Date Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                            title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
                                 inputFormat: "YYYY-MM-DD hh:mm:ss",
                                 outputFormat: "MM/DD/YYYY",
                                 invalidPlaceholder: "(invalid date)",
                             },
                         },
-                        //{ title: "Date Updated", field: ""} //TODO: send updated date
+                        {
+                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                                inputFormat: "YYYY-MM-DD hh:mm:ss",
+                                outputFormat: "MM/DD/YY h:mm a",
+                                invalidPlaceholder: "(invalid date)",
+                            },
+                        },
                         //{title: }
                     ],
                     ajaxConfig: "POST",

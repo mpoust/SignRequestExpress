@@ -6,7 +6,7 @@
  * Author: Michael Poust
 		   mbp3@pct.edu
  * Created On: 9/18/2018
- * Last Modified:
+ * Last Modified: 11/18/2018
  * Description: This class implements IBrandService.
  *  
  * References:
@@ -34,6 +34,13 @@ namespace SignRequestExpressAPI.Services
         public DefaultBrandService(SignAPIContext context)
         {
             _context = context;
+        }
+
+        public async Task<string> GetBrandNameAsync(Guid id, CancellationToken ct)
+        {
+            var entity = await _context.Brand.SingleOrDefaultAsync(b => b.Id == id, ct);
+            if (entity == null) return null;
+            return entity.BrandName;
         }
 
         public async Task<Brand> GetBrandAsyc(Guid id, CancellationToken ct)

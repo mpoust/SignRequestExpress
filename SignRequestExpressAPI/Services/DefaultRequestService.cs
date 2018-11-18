@@ -32,11 +32,16 @@ namespace SignRequestExpressAPI.Services
     {
         private readonly SignAPIContext _context;
         private readonly IAccountService _accountService;
+        private readonly ITemplateService _templateService;
 
-        public DefaultRequestService(SignAPIContext context, IAccountService accountService)
+        public DefaultRequestService(
+            SignAPIContext context,
+            IAccountService accountService,
+            ITemplateService templateService)
         {
             _context = context;
             _accountService = accountService;
+            _templateService = templateService;
         }
 
         public async Task UpdateRequestAsync(Request request, Guid id, CancellationToken ct)
@@ -80,6 +85,10 @@ namespace SignRequestExpressAPI.Services
                            join a in _context.Account on ra.AccountFK equals a.Id
                            select new { RequestFK = ra.RequestFK, AccountName = a.AccountName };
 
+            var associates = from ur in _context.User_Request
+                             join u in _context.Users on ur.UserFK equals u.Id
+                             select new { RequestFK = ur.RequestFK, FirstName = u.FirstName, LastName = u.LastName };
+
             var allRequests = await query
                 .ProjectTo<Request>()
                 .ToListAsync();
@@ -91,6 +100,14 @@ namespace SignRequestExpressAPI.Services
                     if (request.Id == account.RequestFK)
                     {
                         request.AccountName = account.AccountName;
+                    }
+                }
+
+                foreach(var associate in associates)
+                {
+                    if(request.Id == associate.RequestFK)
+                    {
+                        request.AssociateName = associate.FirstName + " " + associate.LastName;
                     }
                 }
             }
@@ -221,7 +238,7 @@ namespace SignRequestExpressAPI.Services
             });
 
             // Add entry into User_Request
-            var newUserRequest = _context.User_Request.Add(new User_RequestEntity
+            var newUserRequest =  _context.User_Request.Add(new User_RequestEntity
             {
                 UserFK = userId,
                 RequestFK = requestId
@@ -242,6 +259,14 @@ namespace SignRequestExpressAPI.Services
             {
                 RequestFK = requestId,
                 AccountFK = accountId
+            });
+
+            // Add entry to Request_Brand
+            var brandId = await _templateService.GetTemplateBrandKeyAsync(template, ct);
+            var newRequestBrand = _context.Request_Brand.Add(new Request_BrandEntity
+            {
+                RequestFK = requestId,
+                BrandFK = brandId
             });
 
             var created = await _context.SaveChangesAsync(ct);

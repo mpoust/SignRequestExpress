@@ -38,5 +38,9 @@ namespace SignRequestExpressAPI.Services
             SortOptions<Template, TemplateEntity> sortOptions,
             SearchOptions<Template, TemplateEntity> searchOptions,
             CancellationToken ct);
+
+        Task<Guid> GetTemplateBrandKeyAsync(
+            Guid? templateId,
+            CancellationToken ct);
     }
 }

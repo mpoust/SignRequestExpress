@@ -44,6 +44,12 @@ namespace SignRequestExpressAPI
                 t.RequestFK,
                 t.AccountFK
             });
+
+            builder.Entity<Request_BrandEntity>().HasKey(t => new
+            {
+                t.RequestFK,
+                t.BrandFK
+            });
         }
 
         // All of the DBSets (tables) that will be tracked on the context
@@ -66,5 +72,7 @@ namespace SignRequestExpressAPI
         public DbSet<Approval> Approval { get; set; }
 
         public DbSet<Request_AccountEntity> Request_Account { get; set; }
+
+        public DbSet<Request_BrandEntity> Request_Brand { get; set; }
     }
 }
