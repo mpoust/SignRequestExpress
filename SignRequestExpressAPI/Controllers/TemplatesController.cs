@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Entities;
@@ -47,6 +48,7 @@ namespace SignRequestExpressAPI.Controllers
             _defaultPagingOptions = defaultPagingOptions.Value;
         }
 
+        [Authorize]
         [HttpGet("{templateId}", Name = nameof(GetTemplateByIdAsync))]
         public async Task<IActionResult> GetTemplateByIdAsync(Guid templateId, CancellationToken ct)
         {
@@ -55,6 +57,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(template);
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetTemplatesAsync))]
         public async Task<IActionResult> GetTemplatesAsync(
             [FromQuery] PagingOptions pagingOptions,

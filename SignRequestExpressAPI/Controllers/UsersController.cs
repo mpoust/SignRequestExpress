@@ -52,6 +52,7 @@ namespace SignRequestExpressAPI.Controllers
             _authzService = authorizationService;
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetVisibleUsers))]
         public async Task<ActionResult<PagedCollection<User>>> GetVisibleUsers(
             [FromQuery] PagingOptions pagingOptions,
@@ -127,7 +128,7 @@ namespace SignRequestExpressAPI.Controllers
             return user;
         }
 
-        
+
         // POST /users
         [HttpPost(Name = nameof(RegisterUser))]
         [ProducesResponseType(400)]

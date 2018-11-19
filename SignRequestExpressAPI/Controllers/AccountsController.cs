@@ -100,6 +100,7 @@ namespace SignRequestExpressAPI.Controllers
         }
 
         // /accounts/{accountId}
+        [Authorize]
         [HttpGet("{accountId}", Name = nameof(GetAccountByIdAsync))]
         public async Task<IActionResult> GetAccountByIdAsync(Guid accountId, CancellationToken ct)
         {

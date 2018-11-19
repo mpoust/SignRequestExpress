@@ -15,6 +15,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SignRequestExpressAPI.Infrastructure;
@@ -39,6 +40,7 @@ namespace SignRequestExpressAPI.Controllers
             _companyInfo = companyInfoAccessor.Value;
         }
 
+        [Authorize]
         [HttpGet(Name =nameof(GetInfo))]
         [ResponseCache(CacheProfileName = "Static")] // 1 Day cache
         [Etag]

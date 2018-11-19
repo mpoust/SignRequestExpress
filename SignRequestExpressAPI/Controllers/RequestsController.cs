@@ -84,6 +84,7 @@ namespace SignRequestExpressAPI.Controllers
         }
 
         // GET /requests/{requestId}
+        [Authorize]
         [HttpGet("{requestId}", Name = (nameof(GetRequestByIdAsync)))]
         public async Task<IActionResult> GetRequestByIdAsync(Guid requestId, CancellationToken ct)
         {
@@ -217,6 +218,7 @@ namespace SignRequestExpressAPI.Controllers
 
 
         // Delete Request by ID
+        [Authorize]
         [HttpDelete("{requestId}", Name = nameof(DeleteRequestByIdAsync))]
         public async Task<IActionResult> DeleteRequestByIdAsync(
             Guid requestId,

@@ -69,6 +69,8 @@ namespace SignRequestExpress.Models.Azure
         // Directory is the value from the dropdown list in the UI - mapped to brandname in blob hierarchy
         public async Task<List<IListBlobItem>> GetTemplateBlobsByBrand(string blobDirectory)
         {
+            // TODO: need to dive into directories - i.e. golden/lager (need to figure out a way to sort brand flavors)
+
             CloudBlobContainer container = _blobClient.GetContainerReference(TemplatesScaled);
             await container.CreateIfNotExistsAsync();
 

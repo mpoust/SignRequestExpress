@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
@@ -41,6 +42,7 @@ namespace SignRequestExpressAPI.Controllers
             _accountContactService = accountContactService;
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetAccountContactsAsync))]
         public async Task<IActionResult> GetAccountContactsAsync(CancellationToken ct)
         {
@@ -57,6 +59,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(collection);
         }
 
+        [Authorize]
         [HttpGet("{accountContactId}", Name = nameof(GetAccountContactByIdAsync))]
         public async Task<IActionResult> GetAccountContactByIdAsync(int accountContactId, CancellationToken ct)
         {

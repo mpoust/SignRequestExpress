@@ -18,6 +18,7 @@
  */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SignRequestExpressAPI.Models;
 using SignRequestExpressAPI.Services;
@@ -41,6 +42,7 @@ namespace SignRequestExpressAPI.Controllers
             _brandStandardsService = brandStandardsService;
         }
 
+        [Authorize]
         [HttpGet(Name = nameof(GetBrandStandardsAsync))]
         public async Task<IActionResult> GetBrandStandardsAsync(CancellationToken ct)
         {
@@ -57,6 +59,7 @@ namespace SignRequestExpressAPI.Controllers
             return Ok(collection);
         }
 
+        [Authorize]
         [HttpGet("{brandStandardId}", Name = nameof(GetBrandStandardbyIdAsync))]
         public async Task<IActionResult> GetBrandStandardbyIdAsync(int brandStandardId, CancellationToken ct)
         {
