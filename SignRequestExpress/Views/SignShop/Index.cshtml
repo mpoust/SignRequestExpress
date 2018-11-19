@@ -85,6 +85,8 @@
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
     <script src="~/lib/tabulator-module/format.js"></script>
     <script src="~/lib/tabulator-module/mutator.js"></script>
+    <script src="~/lib/tabulator-module/responsive_layout.js"></script>
+    <script src="~/lib/tabulator-module/layout.js"></script>
     <script src="~/lib/moment.js"></script>
 
     <script>
@@ -140,8 +142,9 @@
 
             var table = new Tabulator("#queue-table", {
                 height: 350,
+                layout: "fitColumns",
                 columns: [
-                    { title: "Num. ", field: "requestNumber" },
+                    { title: "Num. ", field: "requestNumber", width: 85 },
                     { title: "Status", field: "status", mutator: "statusMutator" },
                     { title: "Associate", field: "associateName" },
                     { title: "Account", field: "accountName" },
@@ -179,8 +182,9 @@
             $('#prev-tab').on('click', function () {
                 var table2 = new Tabulator("#archive-table", {
                     height: 350,
+                    layout: "fitColumns",
                     columns: [
-                        { title: "Num.", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber", width: 85 },
                         { title: "Status", field: "status", mutator: "statusMutator" },
                         { title: "Associate", field: "associateName" },
                         { title: "Account", field: "accountName" },

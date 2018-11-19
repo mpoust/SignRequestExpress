@@ -72,6 +72,8 @@
     <script type="text/javascript" src="~/lib/tabulator.js"></script>
     <script type="text/javascript" src="~/lib/tabulator-module/ajax.js"></script>
     <script src="~/lib/tabulator-module/mutator.js"></script>
+    <script src="~/lib/tabulator-module/responsive_layout.js"></script>
+    <script src="~/lib/tabulator-module/layout.js"></script>
     <script src="~/lib/moment.js"></script>
 
     <script>
@@ -133,8 +135,9 @@
             $('#check-tab').on('click', function () {
                 var status = new Tabulator("#status-table", {
                     height: 350,
+                    layout: "fitColumns",
                     columns: [
-                        { title: "Num.", field: "requestNumber" },                        
+                        { title: "Num.", field: "requestNumber", width: 85 },                        
                         { title: "Status", field: "status", mutator: "statusMutator" },
                         { title: "Account", field: "accountName" },
                         { title: "Brand", field: "brandName" },
@@ -166,8 +169,9 @@
             $('#prev-tab').on('click', function () {                            
                 var status = new Tabulator("#previous-table", {
                     height: 350,
+                    layout: "fitColumns",
                     columns: [
-                        { title: "Num.", field: "requestNumber" },
+                        { title: "Num.", field: "requestNumber", width: 85 },
                         { title: "Status", field: "status", mutator: "statusMutator"},
                         { title: "Account", field: "accountName" }, 
                         { title: "Brand", field: "brandName" },

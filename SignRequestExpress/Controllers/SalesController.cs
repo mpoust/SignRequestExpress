@@ -175,13 +175,15 @@ namespace SignRequestExpress.Controllers
                     var userinfo = userinfoResponse.Content.ReadAsStringAsync().Result;
                     UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userinfo);
                     Guid userId = userInfo.Id;
+                    var accountName = model.AccountName.Trim();
 
                     var postRequest = JsonConvert.SerializeObject(new PostSignRequest
                     {
                         // NEED TO GET USER ID FUNCTION WORKING
                         
                         UserId = userId,
-                        Reason = model.Reason,
+                        Account = accountName,
+                        Reason = model.Reason,                        
                         NeededDate = Convert.ToDateTime(model.NeededDate),     // TODO - add when datepicker implemented
                         IsProofNeeded = model.IsProofNeeded, // TODO - connect to checkbox
                         MediaFK = model.MediaFK,

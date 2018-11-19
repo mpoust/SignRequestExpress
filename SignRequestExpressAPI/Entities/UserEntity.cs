@@ -26,7 +26,7 @@ namespace SignRequestExpressAPI.Entities
 {
     public class UserEntity : IdentityUser<Guid>
     {
-        public short UserNumber { get; set; }
+        public string UserNumber { get; set; }
 
         public string FirstName { get; set; }
 

@@ -28,6 +28,8 @@ namespace SignRequestExpress.Models.PostModels
     {
         public Guid UserId { get; set; }
 
+        public string Account { get; set; }
+
         public string Reason { get; set; }
 
         // TODO: Implement logic, hardcoded as 0 in API controller

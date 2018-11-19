@@ -221,6 +221,7 @@ namespace SignRequestExpressAPI.Services
             var requestId = Guid.NewGuid(); 
             var approvalId = Guid.NewGuid();
 
+            // TODO: refactor for those that don't have any requests yet
             // Get all Request Numbers for user
             IQueryable<string> query = from r in _context.Request 
                                               join ur in _context.User_Request
@@ -231,12 +232,28 @@ namespace SignRequestExpressAPI.Services
 
             // Creating and formatting RequestNumber for submission
             var requestNums = query.ToList();
-            requestNums.Sort();
-            var last = requestNums.Last();
-            var userNum = last.Substring(0, last.IndexOf('-'));
-            var reqNum = int.Parse(last.Substring(last.LastIndexOf('-') + 1)) + 1;
-            var year = DateTime.Now.ToString("yy");
-            var requestNumber = userNum + "-" + year + "-" + reqNum.ToString("0000");
+            string requestNumber = "";
+            if(requestNums.Count != 0)
+            {
+                requestNums.Sort();
+                var last = requestNums.Last();
+                var userNum = last.Substring(0, last.IndexOf('-'));
+                var reqNum = int.Parse(last.Substring(last.LastIndexOf('-') + 1)) + 1;
+                var year = DateTime.Now.ToString("yy");
+                requestNumber = userNum + "-" + year + "-" + reqNum.ToString("0000");
+            }
+            else
+            {
+                // TODO: THIS NEEDS FIXED
+
+                var userNum =  (from u in _context.Users
+                                        where u.Id == userId
+                                        select u.UserNumber).SingleOrDefault();
+               // userNum = short.Parse(userNum);
+                var year = DateTime.Now.ToString("yy");
+                requestNumber = userNum + "-" + year + "-0001";
+            }
+
 
             // Create the RequestEntity and add to context
             var newRequest = await _context.Request.AddAsync(new RequestEntity
@@ -276,7 +293,7 @@ namespace SignRequestExpressAPI.Services
                 Id = approvalId,
                 ModifiedDateTime = DateTime.Now,
                 ApprovalStatus = 0,
-                ApproverID = Guid.Parse("E7FA1C5A-347A-4BA6-9797-A4DD716011D2") // Paul
+                ApproverID = Guid.Parse("f5c1ef93-e013-4482-9369-0202ffe80c21") // DemoManager
             });
 
             // Add entry to Request_Account
