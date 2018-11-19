@@ -184,14 +184,14 @@ namespace SignRequestExpress.Controllers
                         UserId = userId,
                         Account = accountName,
                         Reason = model.Reason,                        
-                        NeededDate = Convert.ToDateTime(model.NeededDate),     // TODO - add when datepicker implemented
-                        IsProofNeeded = model.IsProofNeeded, // TODO - connect to checkbox
+                        NeededDate = Convert.ToDateTime(model.NeededDate),     
+                        IsProofNeeded = model.IsProofNeeded, 
                         MediaFK = model.MediaFK,
                         Quantity = model.Quantity,
                         IsVertical = isVertical,
                         HeightInch = model.HeightInch,
                         WidthInch = model.WidthInch,
-                        Template = model.Template,    // TODO - add when template selected implemented
+                        Template = model.Template,   
                         Information = model.Information,
                         //DataFileUri = model.DataFileUri,
                         //ImageUri = model.ImageUri 

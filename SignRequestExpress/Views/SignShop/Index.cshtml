@@ -138,6 +138,15 @@
             },
         }); 
 
+        // TODO - add control so sign has to be queued before printed (button changes function based on status)
+        var queueBtn = function (cell, formatterParams) {
+            return "<button class=\"btn-orange\">Queued</button>";
+        }
+
+        var printedBtn = function (cell, formatterParams) {
+            return "<button class=\"btn-orange\">Printed</button>";
+        }
+
         $(document).ready(function () {
 
             var table = new Tabulator("#queue-table", {
@@ -168,16 +177,51 @@
                             invalidPlaceholder: "(invalid date)",
                         },
                     },
+                    {
+                        formatter: queueBtn, align: "center", cellClick: function (e, cell) {
+                            var row = cell.getRow();
+                            var rowIndex = row.getIndex();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/SignShop/QueueRequest",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "html",
+                                data: JSON.stringify(rowIndex),
+                                success: function (result, status, xhr) {
+                                    row.update({ "status": "2" });
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Unable to Queue at this time.");
+                                }
+                            });
+                        }
+                    },
+                    {
+                        formatter: printedBtn, align: "center", cellClick: function (e, cell) {
+                            var row = cell.getRow();
+                            var rowIndex = row.getIndex();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/SignShop/PrintRequest",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "html",
+                                data: JSON.stringify(rowIndex),
+                                success: function (result, status, xhr) {
+                                    row.update({ "status": "3" });
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Unable to set as Printed at this time.");
+                                }
+                            });
+                        }
+                    },
                 ],
                 ajaxConfig: "POST",
                 ajaxURL: "/SignShop/GetQueueRequests",
             });
 
-            //$('#prev-tab').click(function () {
-            //    table.tabulator("redraw", true);
-            //});
-
-            
 
             $('#prev-tab').on('click', function () {
                 var table2 = new Tabulator("#archive-table", {

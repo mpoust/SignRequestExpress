@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SignRequestExpress.Models.Azure;
+using SignRequestExpress.Models.PatchModels;
 using SignRequestExpress.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SignRequestExpress.Controllers
@@ -37,11 +39,69 @@ namespace SignRequestExpress.Controllers
         }
 
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             SetHeaderWithApiToken(_httpClient);
 
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> QueueRequest([FromBody] string requestId)
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var patchRequest = JsonConvert.SerializeObject(new StatusPatch
+            {
+                Op = "replace",
+                Path = "/status",
+                Value = "2" // In Queue
+            });
+
+            var testPatch = "[{\"op\":\"replace\", \"path\":\"/status\",\"value\":2}]"; // This queues
+
+            var uri = "https://signrequestexpressapi.azurewebsites.net/requests/" + requestId.ToLower() + "/";
+
+            var patchResponse = await _httpClient.PatchAsync(uri,
+                                    new StringContent(testPatch, Encoding.UTF8, "application/json"));
+
+            if (patchResponse.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(SignShopController.Index), "SignShop");
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PrintRequest([FromBody] string requestId)
+        {
+            SetHeaderWithApiToken(_httpClient);
+
+            var patchRequest = JsonConvert.SerializeObject(new StatusPatch
+            {
+                Op = "replace",
+                Path = "/status",
+                Value = "3" // Printed
+            });
+
+            var testPatch = "[{\"op\":\"replace\", \"path\":\"/status\",\"value\":3}]"; // This prints
+
+            var uri = "https://signrequestexpressapi.azurewebsites.net/requests/" + requestId.ToLower() + "/";
+
+            var patchResponse = await _httpClient.PatchAsync(uri,
+                                    new StringContent(testPatch, Encoding.UTF8, "application/json"));
+
+            if (patchResponse.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(SignShopController.Index), "SignShop");
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         // Use this to seed an ajax call when the request queue view is opened
