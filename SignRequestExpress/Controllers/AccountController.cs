@@ -225,7 +225,7 @@ namespace SignRequestExpress.Controllers
                         }
                         else
                         {
-                            return RedirectToAction(nameof(DefaultController.Index), "Default");
+                            return RedirectToAction(nameof(HomeController.Index), "Home");
                         }
                     }
                 }
