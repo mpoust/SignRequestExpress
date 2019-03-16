@@ -262,5 +262,5 @@ __pycache__/
 
 
 # JavaScript for Tabulator and other functionality
-**/wwwroot/js
-**/wwwroot/lib
+SignRequestExpress/wwwroot/js
+SignRequestExpress/wwwroot/lib
