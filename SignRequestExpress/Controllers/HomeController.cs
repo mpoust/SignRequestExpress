@@ -53,7 +53,8 @@ namespace SignRequestExpress.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ViewData["email"] = ex.ToString();
+                        //ViewData["email"] = ex.ToString();
+                        ViewData["email"] = "Unable to send email at this time. Please direct any questions to the developer at - michael.poust221@gmail.com";
                         //return RedirectToAction(nameof(HomeController.EmailSentError), "Home");
                     }
                 }

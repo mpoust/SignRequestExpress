@@ -135,26 +135,29 @@
             $('#check-tab').on('click', function () {
                 var status = new Tabulator("#status-table", {
                     height: 350,
-                    layout: "fitColumns",
+                    layout: "fitDataFill",
+                    responsiveLayout: "collapse",
+                    responsiveLayoutCollapseStartOpen: false,
                     columns: [
-                        { title: "Num.", field: "requestNumber", width: 85 },                        
-                        { title: "Status", field: "status", mutator: "statusMutator" },
-                        { title: "Account", field: "accountName" },
+                        { formatter: "responsiveCollapse", width: 30, minWidth: 30, align: "center", resizeable: false, headerSort: false },
+                        { title: "Num.", field: "requestNumber", width: 85, minWidth: 85, resizeable: false },                        
+                        { title: "Status", field: "status", responsive:0, mutator: "statusMutator" },
+                        { title: "Account", field: "accountName", responsive:0 },
                         { title: "Brand", field: "brandName" },
                         { title: "Media", field: "mediaFK", mutator: "mediaMutator" },
-                        { title: "Quantity", field: "quantity" },
-                        { title: "Width", field: "widthInch", mutator: "dimensionMutator" },
-                        { title: "Height", field: "heightInch", mutator: "dimensionMutator" },
-                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator" }, // TODO: add a proof status
+                        { title: "Quantity", field: "quantity", width: 95, minWidth: 90, responsive: 3 },
+                        { title: "Width", field: "widthInch", mutator: "dimensionMutator", width: 80, minWidth: 80, responsive: 3 },
+                        { title: "Height", field: "heightInch", mutator: "dimensionMutator", width: 80, minWidth: 80, responsive: 3 },
+                        { title: "Proof", field: "isProofNeeded", mutator: "proofMutator", midWidth: 110, responsive: 3 }, // TODO: add a proof status
                         {
-                            title: "Submitted", field: "requestedDate", formatter: "datetime", formatterParams: {
+                            title: "Submitted", field: "requestedDate", formatter: "datetime", minWidth: 105, responsive: 1, formatterParams: {
                                 inputFormat: "YYYY-MM-DD hh:mm:ss",
                                 outputFormat: "MM/DD/YYYY",
                                 invalidPlaceholder: "(invalid date)",
                             },
                         },
                         {
-                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", formatterParams: {
+                            title: "Updated", field: "modifiedDateTime", formatter: "datetime", responsive: 1, formatterParams: {
                                 inputFormat: "YYYY-MM-DD hh:mm:ss",
                                 outputFormat: "MM/DD/YY h:mm a",
                                 invalidPlaceholder: "(invalid date)",
